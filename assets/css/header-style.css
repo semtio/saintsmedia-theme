@@ -1,0 +1,285 @@
+html,
+body {
+    overflow-x: hidden;
+}
+
+.burger {
+    display: block;
+    background: transparent;
+    border: none;
+    color: #B8BDC5;
+    padding: 8px 12px;
+    cursor: pointer;
+    margin: 0 auto;
+    /* центрируем */
+}
+
+.burger i {
+    font-size: 22px;
+}
+
+.menu-menu-1-container {
+    display: flex;
+    justify-content: center;
+
+    /* border: 2px solid #27ae60; */
+}
+
+.menu-menu-1-container li {
+    margin-right: 10px;
+    /* border: 2px solid #f1c40f; */
+}
+
+.header-buttons {
+    /* width: 180px; */
+    display: flex;
+}
+
+.header-buttons button {
+    white-space: nowrap;
+    border-radius: 7px;
+    margin: 0 5px;
+}
+
+.header-buttons button:nth-child(1) {
+    background: linear-gradient(90deg, #d5df6c 0%, #ebf85d 100%);
+}
+
+.header-buttons button:nth-child(2) {
+    background: linear-gradient(90deg, #d45858 0%, #f85d5d 100%);
+}
+
+.saintsmedia-theme-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #111315;
+    padding: 0 24px;
+    min-height: 64px;
+    color: #B8BDC5;
+}
+
+.saintsmedia-theme-logo {
+    margin: 1rem 0;
+}
+
+.saintsmedia-theme-logo img {
+    height: 80px;
+}
+
+.saintsmedia-theme-nav {
+    display: flex;
+    flex: 1;
+    margin-left: 32px;
+}
+
+.saintsmedia-theme-menu {
+    display: flex;
+    justify-content: center;
+    /* gap: 24px; */
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+}
+
+.saintsmedia-theme-menu li a {
+    color: #B8BDC5;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: color 0.2s, background 0.2s;
+    outline: none;
+}
+
+.saintsmedia-theme-menu li a:focus {
+    outline: 2px solid #6CA2FF;
+    outline-offset: 2px;
+}
+
+.saintsmedia-theme-menu li a:hover {
+    color: #fff;
+    background: rgba(230, 30, 77, 0.08);
+}
+
+.saintsmedia-theme-menu .badge {
+    background: #E61E4D;
+    color: #fff;
+    font-size: 10px;
+    border-radius: 8px;
+    padding: 2px 6px;
+    margin-left: 4px;
+}
+
+.has-submenu>a:after {
+    content: '▼';
+    font-size: 10px;
+    margin-left: 6px;
+}
+
+.has-submenu {
+    position: relative;
+}
+
+.submenu {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    background: #222;
+    border-radius: 6px;
+    margin-top: 8px;
+    min-width: 120px;
+    z-index: 10;
+
+    list-style: none;
+    padding-left: 0;
+}
+
+.has-submenu:hover .submenu,
+.has-submenu:focus-within .submenu {
+    display: block;
+}
+
+.has-submenu .submenu {
+    display: none;
+}
+
+.has-submenu.submenu-open .submenu {
+    display: block;
+}
+
+.submenu li a {
+    color: #B8BDC5;
+    padding: 8px 16px;
+    display: block;
+}
+
+.submenu li {
+    padding: 5px;
+}
+
+.submenu li a:hover {
+    color: #fff;
+    background: #E61E4D;
+}
+
+.saintsmedia-theme-cta {
+    display: flex;
+    gap: 12px;
+}
+
+.saintsmedia-theme-btn {
+    font-weight: 600;
+    border: none;
+    border-radius: 7px;
+    padding: 0 24px;
+    height: 40px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: box-shadow 0.2s;
+    outline: none;
+}
+
+.saintsmedia-theme-btn:focus {
+    outline: 2px solid #6CA2FF;
+    outline-offset: 2px;
+}
+
+.saintsmedia-theme-btn.play {
+    background: #F0A21A;
+    color: #222;
+}
+
+.saintsmedia-theme-btn.download {
+    background: #FF3156;
+    color: #fff;
+}
+
+/* Адаптив */
+@media (max-width: 1024px) {
+    .saintsmedia-theme-menu {
+        gap: 12px;
+    }
+
+    .saintsmedia-theme-header {
+        padding: 0 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    .saintsmedia-theme-nav {
+        position: relative;
+    }
+
+    .saintsmedia-theme-menu {
+        display: none;
+        /* скрыто по умолчанию */
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        position: absolute;
+        top: 56px;
+        left: 0;
+        background: #111315;
+        width: 100%;
+        padding: 24px 0;
+        z-index: 100;
+    }
+
+    .saintsmedia-theme-nav.open .saintsmedia-theme-menu {
+        display: grid;
+        /* показываем в виде сетки при открытии */
+    }
+
+    .burger {
+        display: block;
+        background: transparent;
+        border: none;
+        color: #B8BDC5;
+        font-weight: 600;
+        font-size: 16px;
+        padding: 12px 16px;
+        cursor: pointer;
+        /* margin: 0 auto; */
+    }
+
+    .burger:focus {
+        outline: 2px solid #6CA2FF;
+        outline-offset: 2px;
+    }
+}
+
+@media (max-width: 426px) {
+    .saintsmedia-theme-logo {
+        display: none;
+    }
+
+    .saintsmedia-theme-nav {
+        flex: 0;
+        margin-left: 0;
+    }
+
+    .saintsmedia-theme-cta {
+        width: 100%;
+    }
+
+    .saintsmedia-theme-cta button {
+        width: 100%;
+    }
+
+}
+
+@media (max-width: 561px) {
+    .saintsmedia-theme-menu {
+        width: 100vw;
+    }
+}
+
+@media (min-width: 769px) {
+    .burger {
+        display: none;
+    }
+}
