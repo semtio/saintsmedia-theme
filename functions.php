@@ -155,7 +155,7 @@ function saintsmedia_scripts()
 	wp_enqueue_script('saintsmedia-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true);
 
 	// 7on подключил собственные CSS стили темы
-	wp_enqueue_style('header-style', get_template_directory_uri() . '/assets/css/header-style.css', array('saintsmedia-style'), _S_VERSION);
+	wp_enqueue_style('menu-style', get_template_directory_uri() . '/assets/css/menu-style.css', array('saintsmedia-style'), _S_VERSION);
 	wp_enqueue_style('footer-style', get_template_directory_uri() . '/assets/css/footer-style.css', array('saintsmedia-style'), _S_VERSION);
 
 	if (is_singular() && comments_open() && get_option('thread_comments')) {

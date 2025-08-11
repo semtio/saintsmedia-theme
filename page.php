@@ -17,7 +17,7 @@
 
 <?php get_header(); ?>
 
-<div id="primary" class="content-area" style="width:100%;max-width:1400px;margin:0 auto;">
+<div id="primary" class="content-area" style="width:100%; margin:0 auto;">
 	<main id="main" class="site-main">
 		<?php
 		while (have_posts()) :

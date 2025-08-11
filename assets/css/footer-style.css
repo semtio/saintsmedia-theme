@@ -22,7 +22,7 @@ body {
     justify-content: center;
     text-align: center;
     gap: 8px;
-    max-width: 1400px;
+    /* max-width: 1400px; */
     margin: 0 auto;
 }
 
