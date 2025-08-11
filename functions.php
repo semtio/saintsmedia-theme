@@ -197,3 +197,10 @@ add_action('wp_enqueue_scripts', function () {
 	wp_dequeue_style('wp-block-library-theme');
 	// Добавьте другие dequeue, если нужно
 }, 100);
+
+// Gutenberg patterns
+add_action('init', function () {
+	register_block_pattern_category('mytheme', [
+		'label' => __('MyTheme', 'mytheme'),
+	]);
+});
