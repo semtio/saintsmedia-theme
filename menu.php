@@ -3,15 +3,17 @@
 
     <header class="saintsmedia-theme-header">
         <div class="saintsmedia-theme-logo" tabindex="0" aria-label="saintsmedia-theme">
-            <?php
-            $custom_logo_id = get_theme_mod('custom_logo');
-            $logo = wp_get_attachment_image_src($custom_logo_id, 'full');
-            if (has_custom_logo()) {
-                echo '<img src="' . esc_url($logo[0]) . '" alt="' . get_bloginfo('name') . ' Logo">';
-            } else {
-                echo '<span class="site-title">' . get_bloginfo('name') . '</span>';
-            }
-            ?>
+            <a href="/">
+                <?php
+                $custom_logo_id = get_theme_mod('custom_logo');
+                $logo = wp_get_attachment_image_src($custom_logo_id, 'full');
+                if (has_custom_logo()) {
+                    echo '<img src="' . esc_url($logo[0]) . '" alt="' . get_bloginfo('name') . ' Logo">';
+                } else {
+                    echo '<span class="site-title">' . get_bloginfo('name') . '</span>';
+                }
+                ?>
+            </a>
         </div>
         <nav class="saintsmedia-theme-nav" aria-label="Main navigation">
             <?php
@@ -22,7 +24,8 @@
                     'container'      => false,
                     'menu_id'        => 'saintsmedia-theme-menu',
                     'menu_class'     => 'saintsmedia-theme-menu',
-                    'depth'          => 2,
+                    // 0 = без ограничения уровней вложенности
+                    'depth'          => 0,
                     'fallback_cb'    => false,
                 ]);
             }

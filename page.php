@@ -17,6 +17,10 @@
 
 <?php get_header(); ?>
 
+<?php if (function_exists('saintsmedia_breadcrumbs')) {
+	saintsmedia_breadcrumbs();
+} ?>
+
 <div id="primary" class="content-area" style="width:100%; margin:0 auto;">
 	<main id="main" class="site-main">
 		<?php

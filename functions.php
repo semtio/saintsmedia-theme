@@ -144,19 +144,13 @@ function saintsmedia_scripts()
 	wp_enqueue_style('saintsmedia-style', get_stylesheet_uri(), array(), _S_VERSION);
 	wp_style_add_data('saintsmedia-style', 'rtl', 'replace');
 
-	// Font Awesome (for burger icon)
-	wp_enqueue_style(
-		'fontawesome',
-		'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css',
-		array(),
-		'6.5.0'
-	);
-
 	wp_enqueue_script('saintsmedia-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true);
 
 	// 7on подключил собственные CSS стили темы
 	wp_enqueue_style('menu-style', get_template_directory_uri() . '/assets/css/menu-style.css', array('saintsmedia-style'), _S_VERSION);
 	wp_enqueue_style('footer-style', get_template_directory_uri() . '/assets/css/footer-style.css', array('saintsmedia-style'), _S_VERSION);
+	// Стили для хлебных крошек
+	wp_enqueue_style('breadcrumbs-style', get_template_directory_uri() . '/assets/css/breadcrumbs.css', array('saintsmedia-style'), _S_VERSION);
 
 	if (is_singular() && comments_open() && get_option('thread_comments')) {
 		wp_enqueue_script('comment-reply');
@@ -263,3 +257,8 @@ add_filter('nav_menu_css_class', function ($classes, $item, $args, $depth) {
 	});
 	return array_values($classes);
 }, 10, 4);
+
+
+// Разгружаем файл: подключаем отдельные модули
+require_once get_template_directory() . '/inc/breadcrumbs.php';
+require_once get_template_directory() . '/inc/schema.php';
