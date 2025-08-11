@@ -95,6 +95,14 @@ body {
     outline: none;
 }
 
+/* Слот под иконку FA слева: фиксированная ширина — текст не смещается без иконки */
+.saintsmedia-theme-menu li a .menu-icon-slot {
+    width: 18px;
+    display: inline-flex;
+    justify-content: center;
+    margin-right: 8px;
+}
+
 .saintsmedia-theme-menu li a:focus {
     outline: 2px solid #6CA2FF;
     outline-offset: 2px;
@@ -114,17 +122,20 @@ body {
     margin-left: 4px;
 }
 
-.has-submenu>a:after {
+.has-submenu>a:after,
+.menu-item-has-children>a:after {
     content: '▼';
     font-size: 10px;
     margin-left: 6px;
 }
 
-.has-submenu {
+.has-submenu,
+.menu-item-has-children {
     position: relative;
 }
 
-.submenu {
+.submenu,
+.sub-menu {
     display: none;
     position: absolute;
     left: 0;
@@ -140,29 +151,40 @@ body {
 }
 
 .has-submenu:hover .submenu,
-.has-submenu:focus-within .submenu {
+.has-submenu:focus-within .submenu,
+.menu-item-has-children:hover>.sub-menu,
+.menu-item-has-children:focus-within>.sub-menu {
     display: block;
 }
 
-.has-submenu .submenu {
+.has-submenu .submenu,
+.menu-item-has-children>.sub-menu {
     display: none;
 }
 
-.has-submenu.submenu-open .submenu {
+.has-submenu.submenu-open .submenu,
+.menu-item-has-children.submenu-open>.sub-menu {
     display: block;
 }
 
-.submenu li a {
+.open.saintsmedia-theme-menu {
+    border: solid 10px #6DA2FE;
+}
+
+.submenu li a,
+.sub-menu li a {
     color: #B8BDC5;
     padding: 8px 16px;
     display: block;
 }
 
-.submenu li {
+.submenu li,
+.sub-menu li {
     padding: 5px;
 }
 
-.submenu li a:hover {
+.submenu li a:hover,
+.sub-menu li a:hover {
     color: #fff;
     background: #E61E4D;
 }
@@ -274,7 +296,7 @@ body {
 
 @media (max-width: 561px) {
     .saintsmedia-theme-menu {
-        width: 100vw;
+        width: 90vw;
     }
 }
 

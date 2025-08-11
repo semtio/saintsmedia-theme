@@ -191,7 +191,6 @@ if (defined('JETPACK__VERSION')) {
 	require get_template_directory() . '/inc/jetpack.php';
 }
 
-
 // Отключение лишних стилей и скриптов
 add_action('wp_enqueue_scripts', function () {
 	wp_dequeue_style('wp-block-library-theme');
@@ -204,3 +203,63 @@ add_action('init', function () {
 		'label' => __('MyTheme', 'mytheme'),
 	]);
 });
+
+/**
+ * Иконки Font Awesome для пунктов меню через админку.
+ * Добавляйте классы FA (например: 'fa-solid fa-house') в поле «CSS классы» пункта меню.
+ * Внутрь <a> добавляется слева слот .menu-icon-slot с <i>, либо пустой слот — текст не смещается.
+ */
+add_filter('walker_nav_menu_start_el', function ($item_output, $item, $depth, $args) {
+	// Применяем только к главной локации меню нашей темы
+	if (!isset($args->theme_location) || $args->theme_location !== 'menu-1') {
+		return $item_output;
+	}
+
+	// Если слот уже добавлен (фильтр вызвался повторно) — ничего не делаем
+	if (strpos($item_output, 'menu-icon-slot') !== false) {
+		return $item_output;
+	}
+
+	$fa_classes = [];
+	if (!empty($item->classes) && is_array($item->classes)) {
+		foreach ($item->classes as $class) {
+			if (!$class) continue;
+			// Разрешаем стили/наборы иконок FA и конкретные иконки 'fa-*'
+			if (
+				strpos($class, 'fa-') === 0 ||
+				in_array($class, ['fa', 'fas', 'far', 'fal', 'fat', 'fad', 'fab', 'fa-solid', 'fa-regular', 'fa-light', 'fa-thin', 'fa-duotone', 'fa-brands'], true)
+			) {
+				$fa_classes[] = sanitize_html_class($class);
+			}
+		}
+	}
+
+	// Иконку добавляем только если действительно есть FA-классы; иначе ничего не вставляем
+	if (!empty($fa_classes)) {
+		$icon_html = '<span class="menu-icon-slot"><i class="' . esc_attr(implode(' ', $fa_classes)) . '" aria-hidden="true"></i></span>';
+		// Вставим сразу после открывающего <a>
+		$item_output = preg_replace('/(<a\b[^>]*>)/i', '$1' . $icon_html, $item_output, 1);
+	}
+	return $item_output;
+}, 10, 4);
+
+/**
+ * Убираем FA-классы с <li>, чтобы Font Awesome не рисовала вторую иконку на элементе списка.
+ * Классы FA задаём в админке, но рендерим их только внутри <a> через <i>, см. фильтр выше.
+ */
+add_filter('nav_menu_css_class', function ($classes, $item, $args, $depth) {
+	if (!isset($args->theme_location) || $args->theme_location !== 'menu-1') {
+		return $classes;
+	}
+	$classes = array_filter((array)$classes, function ($class) {
+		if (!$class) return false;
+		if (
+			strpos($class, 'fa-') === 0 ||
+			in_array($class, ['fa', 'fas', 'far', 'fal', 'fat', 'fad', 'fab', 'fa-solid', 'fa-regular', 'fa-light', 'fa-thin', 'fa-duotone', 'fa-brands'], true)
+		) {
+			return false; // убрать FA-классы с li
+		}
+		return true;
+	});
+	return array_values($classes);
+}, 10, 4);
