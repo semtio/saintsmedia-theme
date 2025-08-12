@@ -38,7 +38,6 @@
         </div>
     </header><!-- #masthead -->
 
-
     <script>
         // меню (ховер/уход курсора для подпунктов)
         document.querySelectorAll('.has-submenu, .menu-item-has-children').forEach(function(item) {
