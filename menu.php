@@ -15,7 +15,7 @@
                 ?>
             </a>
         </div>
-        <nav class="saintsmedia-theme-nav" aria-label="Main navigation">
+        <nav class="saintsmedia-theme-nav semtio" aria-label="Main navigation">
             <?php
             // Выводим меню WordPress с сохранением ваших классов/ID
             if (has_nav_menu('menu-1')) {

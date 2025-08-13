@@ -19,7 +19,7 @@
 			$menu_items = wp_get_nav_menu_items($menu_id);
 
 			if ($menu_items) {
-				echo '<ul id="saintsmedia-theme-menu" class="saintsmedia-theme-menu">';
+				echo '<ul id="saintsmedia-theme-menu" class="saintsmedia-theme-menu semtio">';
 				foreach ($menu_items as $item) {
 					if ($item->menu_item_parent == 0) {
 						echo '<li class="menu-item menu-item-' . esc_attr($item->ID) . '">';
