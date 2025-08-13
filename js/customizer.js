@@ -7,7 +7,9 @@
  * Contains handlers to make Theme Customizer preview reload changes asynchronously.
  */
 
+
 (function ($) {
+	const fields = window.saintsmediaCustomizerFields || [];
 	// Site title and description.
 	wp.customize('blogname', function (value) {
 		value.bind(function (to) {
@@ -40,12 +42,15 @@
 		});
 	});
 
-	// Live preview: цвет фона меню (header)
-	wp.customize('saintsmedia_header_bg', function (value) {
-		value.bind(function (to) {
-			$('.saintsmedia-theme-header').css('background-color', to);
-			// обновляем и CSS переменную
-			document.documentElement.style.setProperty('--sm-header-bg', to);
+	// Dynamic fields via CSS vars
+	fields.forEach(f => {
+		if (!f.id) return;
+		wp.customize(f.id, function (setting) {
+			setting.bind(function (val) {
+				if (f.css_var) {
+					document.documentElement.style.setProperty(f.css_var, val);
+				}
+			});
 		});
 	});
 }(jQuery));

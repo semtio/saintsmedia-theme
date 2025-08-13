@@ -53,10 +53,14 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: var(--sm-header-bg, #111315);
+    background: var(--sm-menu-bg, #111315);
     padding: 0 24px;
     min-height: 64px;
     color: #B8BDC5;
+}
+
+.saintsmedia-theme-nav ul li a{
+    color: var(--sm-header-link);
 }
 
 .saintsmedia-theme-logo {
@@ -214,6 +218,16 @@ body {
     gap: 12px;
 }
 
+.saintsmedia-theme-cta .play{
+    background-color: var(--sm-menu-first-btn-bg);
+    color: var(--sm-menu-first-btn-color);
+}
+
+.saintsmedia-theme-cta .download{
+    background-color: var(--sm-menu-second-btn-bg);
+    color: var(--sm-menu-second-btn-color);
+}
+
 .saintsmedia-theme-btn {
     font-weight: 600;
     border: none;
@@ -229,16 +243,6 @@ body {
 .saintsmedia-theme-btn:focus {
     outline: 2px solid #6CA2FF;
     outline-offset: 2px;
-}
-
-.saintsmedia-theme-btn.play {
-    background: #F0A21A;
-    color: #222;
-}
-
-.saintsmedia-theme-btn.download {
-    background: #FF3156;
-    color: #fff;
 }
 
 /* Адаптив */

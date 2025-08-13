@@ -19,11 +19,14 @@ function saintsmedia_get_customizer_fields(): array
 	$fields = [
 		[
 			'id'        => 'saintsmedia_header_bg',
-			'label'     => __('Фон меню + подвал', 'saintsmedia'),
+			'label'     => __('Фон меню (header)', 'saintsmedia'),
 			'default'   => '#111315',
 			'section'   => 'colors',
 			'type'      => 'color',
-			'css_var'   => '--sm-menu-bg',
+			'css_var'   => '--sm-header-bg',
+			'live'      => [
+				['selector' => '.saintsmedia-theme-header', 'property' => 'background-color']
+			],
 			'sanitize'  => 'sanitize_hex_color',
 			'transport' => 'postMessage',
 		],
@@ -33,49 +36,12 @@ function saintsmedia_get_customizer_fields(): array
 			'default'   => '#ffffff',                                     // дефолт
 			'section'   => 'colors',                                      // куда положить (вкладка "Colors")
 			'type'      => 'color',                                       // тип контрола
-			'css_var'   => '--sm-menu-link',                            // имя CSS-переменной
+			'css_var'   => '--sm-header-link',                            // имя CSS-переменной
+			'live'      => [                                              // мгновенное обновление (опц.)
+				['selector' => '.saintsmedia-theme-header a', 'property' => 'color']
+			],
 			'sanitize'  => 'sanitize_hex_color',                          // санитайзер под тип
 			'transport' => 'postMessage',                                 // live-превью без перезагрузки
-		],
-		[
-			'id'        => 'saintsmedia_header_first_btn_bg',
-			'label'     => __('Фон кнопки #1 (меню)', 'saintsmedia'),
-			'default'   => '#F0A21A',
-			'section'   => 'colors',
-			'type'      => 'color',
-			'css_var'   => '--sm-menu-first-btn-bg',
-			'sanitize'  => 'sanitize_hex_color',
-			'transport' => 'postMessage',
-		],
-		[
-			'id'        => 'saintsmedia_header_first_btn_cl',
-			'label'     => __('Текст кнопки #1 (меню)', 'saintsmedia'),
-			'default'   => '#FFFFFF',
-			'section'   => 'colors',
-			'type'      => 'color',
-			'css_var'   => '--sm-menu-first-btn-color',
-			'sanitize'  => 'sanitize_hex_color',
-			'transport' => 'postMessage',
-		],
-		[
-			'id'        => 'saintsmedia_header_second_btn_bg',
-			'label'     => __('Фон кнопки #2 (меню)', 'saintsmedia'),
-			'default'   => '#FF3156',
-			'section'   => 'colors',
-			'type'      => 'color',
-			'css_var'   => '--sm-menu-second-btn-bg',
-			'sanitize'  => 'sanitize_hex_color',
-			'transport' => 'postMessage',
-		],
-		[
-			'id'        => 'saintsmedia_header_second_btn_cl',
-			'label'     => __('Текст кнопки #2 (меню)', 'saintsmedia'),
-			'default'   => '#FFFFFF',
-			'section'   => 'colors',
-			'type'      => 'color',
-			'css_var'   => '--sm-menu-second-btn-color',
-			'sanitize'  => 'sanitize_hex_color',
-			'transport' => 'postMessage',
 		],
 	];
 	return apply_filters('saintsmedia_customizer_fields', $fields);
@@ -171,6 +137,7 @@ function saintsmedia_customize_preview_assets()
 		$export[] = [
 			'id'      => $field['id'],
 			'css_var' => $field['css_var'] ?? '',
+			'live'    => $field['live'] ?? [],
 		];
 	}
 	wp_add_inline_script('saintsmedia-customizer', 'window.saintsmediaCustomizerFields=' . wp_json_encode($export) . ';', 'before');
