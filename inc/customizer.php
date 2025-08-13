@@ -28,14 +28,105 @@ function saintsmedia_get_customizer_fields(): array
 			'transport' => 'postMessage',
 		],
 		[
+			'id'        => 'saintsmedia_header_bg_sub_menu',
+			'label'     => __('Фон дочерних элем.меню', 'saintsmedia'),
+			'default'   => '#222222',
+			'section'   => 'colors',
+			'type'      => 'color',
+			'css_var'   => '--sm-menu-sub-bg',
+			'sanitize'  => 'sanitize_hex_color',
+			'transport' => 'postMessage',
+		],
+		[
+			'id'        => 'saintsmedia_header_bg_hover_menu',
+			'label'     => __('Фон наводки дочерних элем.меню', 'saintsmedia'),
+			'default'   => '#E61E4D',
+			'section'   => 'colors',
+			'type'      => 'color',
+			'css_var'   => '--sm-menu-hover-bg',
+			'sanitize'  => 'sanitize_hex_color',
+			'transport' => 'postMessage',
+		],
+		[
 			'id'        => 'saintsmedia_header_link_color',               // уникальный ID
 			'label'     => __('Цвет текста меню', 'saintsmedia'),     // подпись в кастомайзере
 			'default'   => '#ffffff',                                     // дефолт
 			'section'   => 'colors',                                      // куда положить (вкладка "Colors")
 			'type'      => 'color',                                       // тип контрола
-			'css_var'   => '--sm-menu-link',                            // имя CSS-переменной
+			'css_var'   => '--sm-menu-link',                              // имя CSS-переменной
 			'sanitize'  => 'sanitize_hex_color',                          // санитайзер под тип
 			'transport' => 'postMessage',                                 // live-превью без перезагрузки
+		],
+		[
+			'id'        => 'saintsmedia_focus_outline',
+			'label'     => __('Цвет фокуса (outline)', 'saintsmedia'),
+			'default'   => '#6CA2FF',
+			'section'   => 'colors',
+			'type'      => 'color',
+			'css_var'   => '--sm-focus-outline',
+			'sanitize'  => 'sanitize_hex_color',
+			'transport' => 'postMessage',
+		],
+		[
+			'id'        => 'saintsmedia_menu_text',
+			'label'     => __('Текст в шапке по умолчанию', 'saintsmedia'),
+			'default'   => '#B8BDC5',
+			'section'   => 'colors',
+			'type'      => 'color',
+			'css_var'   => '--sm-menu-text',
+			'sanitize'  => 'sanitize_hex_color',
+			'transport' => 'postMessage',
+		],
+		[
+			'id'        => 'saintsmedia_burger_color',
+			'label'     => __('Цвет иконки-бургера', 'saintsmedia'),
+			'default'   => '#B8BDC5',
+			'section'   => 'colors',
+			'type'      => 'color',
+			'css_var'   => '--sm-burger-color',
+			'sanitize'  => 'sanitize_hex_color',
+			'transport' => 'postMessage',
+		],
+		[
+			'id'        => 'saintsmedia_menu_badge_bg',
+			'label'     => __('Бейдж: фон', 'saintsmedia'),
+			'default'   => '#E61E4D',
+			'section'   => 'colors',
+			'type'      => 'color',
+			'css_var'   => '--sm-menu-badge-bg',
+			'sanitize'  => 'sanitize_hex_color',
+			'transport' => 'postMessage',
+		],
+		[
+			'id'        => 'saintsmedia_menu_badge_color',
+			'label'     => __('Бейдж: текст', 'saintsmedia'),
+			'default'   => '#FFFFFF',
+			'section'   => 'colors',
+			'type'      => 'color',
+			'css_var'   => '--sm-menu-badge-color',
+			'sanitize'  => 'sanitize_hex_color',
+			'transport' => 'postMessage',
+		],
+		// Footer links
+		[
+			'id'        => 'saintsmedia_footer_link',
+			'label'     => __('Футер: цвет ссылки', 'saintsmedia'),
+			'default'   => '#B8BDC5',
+			'section'   => 'colors',
+			'type'      => 'color',
+			'css_var'   => '--sm-footer-link',
+			'sanitize'  => 'sanitize_hex_color',
+			'transport' => 'postMessage',
+		],
+		[
+			'id'        => 'saintsmedia_footer_link_hover',
+			'label'     => __('Футер: ссылка при наведении', 'saintsmedia'),
+			'default'   => '#FFFFFF',
+			'section'   => 'colors',
+			'type'      => 'color',
+			'css_var'   => '--sm-footer-link-hover',
+			'sanitize'  => 'sanitize_hex_color',
+			'transport' => 'postMessage',
 		],
 		[
 			'id'        => 'saintsmedia_header_first_btn_bg',

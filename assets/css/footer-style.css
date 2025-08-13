@@ -9,14 +9,13 @@ body {
 }
 
 .sm-page .saintsmedia-theme-footer {
-    /* background: var(--sm-menu-bg) !important; */
-    color: #B8BDC5;
+    color: var(--sm-menu-link);
     padding: 24px;
     margin-top: auto;
 }
 
 .saintsmedia-theme-footer{
-    background: var(--sm-menu-bg) ;
+    background: var(--sm-menu-bg);
 }
 
 
@@ -40,16 +39,16 @@ body {
 }
 
 .sm-page .saintsmedia-theme-footer .footer-contact-link {
-    color: #B8BDC5;
+    color: var(--sm-footer-link, #B8BDC5);
     text-decoration: none;
 }
 
 .sm-page .saintsmedia-theme-footer .footer-contact-link:hover {
-    color: #FFFFFF;
+    color: var(--sm-footer-link-hover, #FFFFFF);
 }
 
 .sm-page .saintsmedia-theme-footer a:focus {
-    outline: 2px solid #6CA2FF;
+    outline: 2px solid var(--sm-focus-outline, #6CA2FF);
     outline-offset: 2px;
 }
 
