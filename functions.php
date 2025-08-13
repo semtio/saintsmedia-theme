@@ -152,6 +152,11 @@ function saintsmedia_scripts()
 	// Стили для хлебных крошек
 	wp_enqueue_style('breadcrumbs-style', get_template_directory_uri() . '/assets/css/breadcrumbs.css', array('saintsmedia-style'), _S_VERSION);
 
+	// Инлайн CSS с переменной для цвета фона хедера из кастомайзера
+	$header_bg = get_theme_mod('saintsmedia_header_bg', '#111315');
+	$custom_css = ":root{--sm-header-bg: {$header_bg};}\n.saintsmedia-theme-header{background: var(--sm-header-bg);}";
+	wp_add_inline_style('saintsmedia-style', $custom_css);
+
 	if (is_singular() && comments_open() && get_option('thread_comments')) {
 		wp_enqueue_script('comment-reply');
 	}
