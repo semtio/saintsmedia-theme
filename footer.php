@@ -9,6 +9,31 @@
 ?>
 
 <footer class="saintsmedia-theme-footer" role="contentinfo">
+
+	<nav class="saintsmedia-theme-nav" aria-label="Main navigation">
+		<?php
+		// Выводим только родительские элементы меню (без подменю)
+		if (has_nav_menu('menu-1')) {
+			$locations = get_nav_menu_locations();
+			$menu_id = $locations['menu-1'];
+			$menu_items = wp_get_nav_menu_items($menu_id);
+
+			if ($menu_items) {
+				echo '<ul id="saintsmedia-theme-menu" class="saintsmedia-theme-menu">';
+				foreach ($menu_items as $item) {
+					if ($item->menu_item_parent == 0) {
+						echo '<li class="menu-item menu-item-' . esc_attr($item->ID) . '">';
+						echo '<a href="' . esc_url($item->url) . '">' . esc_html($item->title) . '</a>';
+						echo '</li>';
+					}
+				}
+				echo '</ul>';
+			}
+		}
+		?>
+	</nav>
+
+
 	<div class="footer-inner">
 		<div class="footer-logo" aria-label="Footer logo">
 			<?php

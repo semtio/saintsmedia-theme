@@ -13,8 +13,8 @@ body {
     padding: 24px;
     margin-top: auto;
 }
-
 .saintsmedia-theme-footer{
+    padding-bottom: 4rem !important;
     background: var(--sm-menu-bg);
 }
 
@@ -26,7 +26,6 @@ body {
     justify-content: center;
     text-align: center;
     gap: 8px;
-    /* max-width: 1400px; */
     margin: 0 auto;
 }
 
@@ -50,6 +49,13 @@ body {
 .sm-page .saintsmedia-theme-footer a:focus {
     outline: 2px solid var(--sm-focus-outline, #6CA2FF);
     outline-offset: 2px;
+}
+
+.saintsmedia-theme-footer .saintsmedia-theme-nav{
+    display: flex;
+    justify-content: center;
+    margin:2rem 0 3.5rem 0;
+    padding: 0 20%;
 }
 
 /* already vertical on all sizes */
