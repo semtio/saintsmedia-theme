@@ -269,8 +269,8 @@ body {
         gap: 12px;
         position: absolute;
         top: 56px;
-        left: 0;
-    background: var(--sm-menu-bg, #111315);
+        /* left: 0; */
+        background: var(--sm-menu-bg, #111315);
         width: 100%;
         padding: 24px 0;
         z-index: 100;
@@ -299,7 +299,7 @@ body {
     }
 }
 
-@media (max-width: 426px) {
+@media (max-width: 431px) {
     .saintsmedia-theme-logo {
         display: none;
     }
