@@ -8,17 +8,22 @@
 
 ?>
 
+
+
+
 <footer class="saintsmedia-theme-footer" role="contentinfo">
 
 	<nav class="saintsmedia-theme-nav" aria-label="Main navigation">
 		<?php
+
+		$footer_menu = $is_enabled = get_theme_mod('saintsmedia_enable_footer_menu', false);
 		// Выводим только родительские элементы меню (без подменю)
 		if (has_nav_menu('menu-1')) {
 			$locations = get_nav_menu_locations();
 			$menu_id = $locations['menu-1'];
 			$menu_items = wp_get_nav_menu_items($menu_id);
 
-			if ($menu_items) {
+			if ($menu_items && $footer_menu) {
 				echo '<ul id="saintsmedia-theme-menu" class="saintsmedia-theme-menu semtio">';
 				foreach ($menu_items as $item) {
 					if ($item->menu_item_parent == 0) {
@@ -32,6 +37,10 @@
 		}
 		?>
 	</nav>
+
+
+
+
 
 
 	<div class="footer-inner">

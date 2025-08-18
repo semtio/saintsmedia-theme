@@ -168,6 +168,16 @@ function saintsmedia_get_customizer_fields(): array
 			'sanitize'  => 'sanitize_hex_color',
 			'transport' => 'postMessage',
 		],
+		[
+			'id'        => 'saintsmedia_enable_footer_menu',
+			'label'     => __('Страницы в подвале', 'saintsmedia'),
+			'default'   => false,
+			'section'   => 'custom_homepage_settings',
+			'type'      => 'checkbox',
+			'css_var'   => '',
+			'sanitize'  => 'wp_validate_boolean',
+			'transport' => 'refresh',
+		],
 	];
 	return apply_filters('saintsmedia_customizer_fields', $fields);
 }
@@ -216,6 +226,13 @@ function saintsmedia_customize_register_unified(WP_Customize_Manager $wp_customi
 					'section' => $field['section'],
 				]));
 				break;
+			case 'checkbox':
+				$wp_customize->add_control($field['id'], [
+					'label'   => $field['label'],
+					'section' => $field['section'],
+					'type'    => 'checkbox',
+				]);
+				break;
 			// При необходимости: text, select, etc.
 			default:
 				$wp_customize->add_control($field['id'], [
@@ -225,6 +242,13 @@ function saintsmedia_customize_register_unified(WP_Customize_Manager $wp_customi
 				]);
 		}
 	}
+
+	// Новая секция для дополнительных настроек главной страницы
+	$wp_customize->add_section('custom_homepage_settings', [
+		'title'       => __('Дополнительные настройки главной страницы', 'saintsmedia'),
+		'description' => __('Здесь можно включить дополнительные параметры.', 'saintsmedia'),
+		'priority'    => 30,
+	]);
 }
 add_action('customize_register', 'saintsmedia_customize_register_unified');
 
