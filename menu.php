@@ -18,8 +18,8 @@
 
 
         <div class="saintsmedia-theme-cta menu-nav-buttons--desktop">
-            <button class="saintsmedia-theme-btn play" tabindex="0">Play 111</button>
-            <button class="saintsmedia-theme-btn download" tabindex="0">Download 111</button>
+            <button class="saintsmedia-theme-btn play" tabindex="0">Play</button>
+            <button class="saintsmedia-theme-btn download" tabindex="0">Download</button>
         </div>
 
         <nav class="saintsmedia-theme-nav semtio" aria-label="Main navigation">
