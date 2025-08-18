@@ -8,9 +8,6 @@
 
 ?>
 
-
-
-
 <footer class="saintsmedia-theme-footer" role="contentinfo">
 
 	<nav class="saintsmedia-theme-nav" aria-label="Main navigation">

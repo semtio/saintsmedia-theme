@@ -2,9 +2,6 @@
 
 /**
  * saintsmedia Theme Customizer
- *
-<?php
-/**
  * Unified Customizer configuration (single source of truth)
  *
  * @package saintsmedia
@@ -178,6 +175,46 @@ function saintsmedia_get_customizer_fields(): array
 			'sanitize'  => 'wp_validate_boolean',
 			'transport' => 'refresh',
 		],
+		[
+			'id'        => 'saintsmedia_text_botton_1',
+			'label'     => __('Текст кнопки #1', 'saintsmedia'),
+			'default'   => '',
+			'section'   => 'custom_homepage_settings',
+			'type'      => 'text',
+			'css_var'   => '',
+			'sanitize'  => 'sanitize_text_field',
+			'transport' => 'refresh',
+		],
+		[
+			'id'        => 'saintsmedia_link_botton_1',
+			'label'     => __('Ссылка кнопки #1', 'saintsmedia'),
+			'default'   => '',
+			'section'   => 'custom_homepage_settings',
+			'type'      => 'url',
+			'css_var'   => '',
+			'sanitize'  => 'esc_url_raw',
+			'transport' => 'refresh',
+		],
+		[
+			'id'        => 'saintsmedia_text_botton_2',
+			'label'     => __('Текст кнопки #2', 'saintsmedia'),
+			'default'   => '',
+			'section'   => 'custom_homepage_settings',
+			'type'      => 'text',
+			'css_var'   => '',
+			'sanitize'  => 'sanitize_text_field',
+			'transport' => 'refresh',
+		],
+		[
+			'id'        => 'saintsmedia_link_botton_2',
+			'label'     => __('Ссылка кнопки #2', 'saintsmedia'),
+			'default'   => '',
+			'section'   => 'custom_homepage_settings',
+			'type'      => 'url',
+			'css_var'   => '',
+			'sanitize'  => 'esc_url_raw',
+			'transport' => 'refresh',
+		],
 	];
 	return apply_filters('saintsmedia_customizer_fields', $fields);
 }
@@ -187,6 +224,15 @@ function saintsmedia_get_customizer_fields(): array
  */
 function saintsmedia_customize_register_unified(WP_Customize_Manager $wp_customize)
 {
+	// Новая секция для дополнительных настроек главной страницы (регистрируем заранее)
+	if (!$wp_customize->get_section('custom_homepage_settings')) {
+		$wp_customize->add_section('custom_homepage_settings', [
+			'title'       => __('Дополнительные настройки главной страницы', 'saintsmedia'),
+			'description' => __('Здесь можно включить дополнительные параметры.', 'saintsmedia'),
+			'priority'    => 30,
+		]);
+	}
+
 	// Сохраняем postMessage для базовых полей темы underscores
 	foreach (['blogname', 'blogdescription', 'header_textcolor'] as $core_id) {
 		$setting = $wp_customize->get_setting($core_id);
@@ -233,6 +279,20 @@ function saintsmedia_customize_register_unified(WP_Customize_Manager $wp_customi
 					'type'    => 'checkbox',
 				]);
 				break;
+			case 'text':
+				$wp_customize->add_control($field['id'], [
+					'label'   => $field['label'],
+					'section' => $field['section'],
+					'type'    => 'text',
+				]);
+				break;
+			case 'url':
+				$wp_customize->add_control($field['id'], [
+					'label'   => $field['label'],
+					'section' => $field['section'],
+					'type'    => 'url',
+				]);
+				break;
 			// При необходимости: text, select, etc.
 			default:
 				$wp_customize->add_control($field['id'], [
@@ -243,12 +303,7 @@ function saintsmedia_customize_register_unified(WP_Customize_Manager $wp_customi
 		}
 	}
 
-	// Новая секция для дополнительных настроек главной страницы
-	$wp_customize->add_section('custom_homepage_settings', [
-		'title'       => __('Дополнительные настройки главной страницы', 'saintsmedia'),
-		'description' => __('Здесь можно включить дополнительные параметры.', 'saintsmedia'),
-		'priority'    => 30,
-	]);
+
 }
 add_action('customize_register', 'saintsmedia_customize_register_unified');
 

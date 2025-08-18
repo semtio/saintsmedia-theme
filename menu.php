@@ -16,10 +16,25 @@
             </a>
         </div>
 
+        <?php
+        // переменные для кнопок в меню шапки
+        $btn_menu_1 = get_theme_mod('saintsmedia_text_botton_1', '');
+        $btn_menu_2 = get_theme_mod('saintsmedia_text_botton_2', '');
+
+        $link_btn_menu_1 = get_theme_mod('saintsmedia_link_botton_1', '');
+        $link_btn_menu_2 = get_theme_mod('saintsmedia_link_botton_2', '');
+        ?>
 
         <div class="saintsmedia-theme-cta menu-nav-buttons--desktop">
-            <button class="saintsmedia-theme-btn play" tabindex="0">Play</button>
-            <button class="saintsmedia-theme-btn download" tabindex="0">Download</button>
+            <a target="_blank" href="<?php echo esc_url($link_btn_menu_1); ?>">
+                <button class="saintsmedia-theme-btn play" tabindex="0">
+                    <?php echo esc_html($btn_menu_1); ?>
+                </button>
+            </a>
+
+            <a target="_blank" href="<?php echo esc_url($link_btn_menu_2); ?>">
+                <button class="saintsmedia-theme-btn download" tabindex="0"><?php echo esc_html($btn_menu_2); ?></button>
+            </a>
         </div>
 
         <nav class="saintsmedia-theme-nav semtio" aria-label="Main navigation">
@@ -42,8 +57,16 @@
         </nav>
 
         <div class="saintsmedia-theme-cta menu-nav-buttons--mobile">
-            <button class="saintsmedia-theme-btn play" tabindex="0">Play</button>
-            <button class="saintsmedia-theme-btn download" tabindex="0">Download</button>
+            <a target="_blank" href="<?php echo esc_url($link_btn_menu_1); ?>">
+                <button class="saintsmedia-theme-btn play" tabindex="0">
+                    <?php echo esc_html($btn_menu_1); ?>
+                </button>
+            </a>
+
+            <a target="_blank" href="<?php echo esc_url($link_btn_menu_2); ?>">
+                <button class="saintsmedia-theme-btn download" tabindex="0"><?php echo esc_html($btn_menu_2); ?></button>
+            </a>
+
         </div>
     </header><!-- #masthead -->
 
