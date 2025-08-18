@@ -15,7 +15,15 @@
                 ?>
             </a>
         </div>
+
+
+        <div class="saintsmedia-theme-cta menu-nav-buttons--desktop">
+            <button class="saintsmedia-theme-btn play" tabindex="0">Play 111</button>
+            <button class="saintsmedia-theme-btn download" tabindex="0">Download 111</button>
+        </div>
+
         <nav class="saintsmedia-theme-nav semtio" aria-label="Main navigation">
+
             <?php
             // Выводим меню WordPress с сохранением ваших классов/ID
             if (has_nav_menu('menu-1')) {
@@ -32,7 +40,8 @@
             ?>
             <button class="burger" aria-label="Open menu" aria-controls="saintsmedia-theme-menu" aria-expanded="false"><i class="fa-solid fa-bars" aria-hidden="true"></i><span class="sr-only">Меню</span></button>
         </nav>
-        <div class="saintsmedia-theme-cta">
+
+        <div class="saintsmedia-theme-cta menu-nav-buttons--mobile">
             <button class="saintsmedia-theme-btn play" tabindex="0">Play</button>
             <button class="saintsmedia-theme-btn download" tabindex="0">Download</button>
         </div>
