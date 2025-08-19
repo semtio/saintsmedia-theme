@@ -282,6 +282,10 @@ body {
         z-index: 100;
     }
 
+    .spacer-on-top{
+        background: var(--sm-menu-bg, #111315);
+    }
+
     .saintsmedia-theme-nav.open .saintsmedia-theme-menu {
         display: grid;
         /* показываем в виде сетки при открытии */

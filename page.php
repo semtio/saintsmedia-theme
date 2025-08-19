@@ -37,32 +37,18 @@
 <?php get_footer(); ?>
 
 <script>
-	// Добавляем в шапку высоту менюшки - 2px
-	// Так как меню position:fixed елементы под ним сдвигаются вверх
-	let menuHeight = document.querySelector('.saintsmedia-theme-header');
-	let spacerOnTop = document.querySelector('.spacer-on-top');
-
-	window.addEventListener('DOMContentLoaded', function() {
-		if (menuHeight && spacerOnTop) {
-			spacerOnTop.style.height = (menuHeight.clientHeight - 2) + 'px';
-		}
-	});
-
-	// Добавляем эффект уменьшения логотипа при прокрутке страницы
-	document.addEventListener('scroll', function() {
+	// Обновляем высоту верхнего отступа под фиксированную шапку
+	(function() {
 		const header = document.querySelector('.saintsmedia-theme-header');
-		const logo = document.querySelector('.saintsmedia-theme-logo img');
+		const spacer = document.querySelector('.spacer-on-top');
 
-		if (window.scrollY > 100) {
-			if (logo) {
-				logo.style.transition = 'height 0.3s ease';
-				logo.style.height = '50px';
-			}
-		} else {
-			if (logo) {
-				logo.style.transition = 'height 0.3s ease';
-				logo.style.height = '80px';
+		function updateSpacer() {
+			if (header && spacer) {
+				spacer.style.height = Math.max(0, header.clientHeight - 2) + 'px';
 			}
 		}
-	});
+
+		window.addEventListener('DOMContentLoaded', updateSpacer);
+		window.addEventListener('resize', updateSpacer);
+	})();
 </script>
