@@ -283,7 +283,7 @@ body {
     }
 
     .spacer-on-top{
-        background: var(--sm-menu-bg, #111315);
+        background: var(--sm-menu-bg, #111315) !important;
     }
 
     .saintsmedia-theme-nav.open .saintsmedia-theme-menu {
