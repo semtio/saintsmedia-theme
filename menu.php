@@ -106,7 +106,7 @@
             const header = document.querySelector('.saintsmedia-theme-header');
             const logo = document.querySelector('.saintsmedia-theme-logo img');
 
-            if (window.scrollY > 500) {
+            if (window.scrollY > 300) {
                 if (logo) {
                     logo.style.transition = 'height 0.3s ease';
                     logo.style.height = '50px';
