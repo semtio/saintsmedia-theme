@@ -12,6 +12,4 @@
 <body <?php body_class(); ?>>
 	<?php wp_body_open(); ?>
 
-	<!-- require_once	'menu.php'	 -->
-
 	<?php get_template_part('menu'); ?>

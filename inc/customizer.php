@@ -227,7 +227,7 @@ function saintsmedia_customize_register_unified(WP_Customize_Manager $wp_customi
 	// Новая секция для дополнительных настроек главной страницы (регистрируем заранее)
 	if (!$wp_customize->get_section('custom_homepage_settings')) {
 		$wp_customize->add_section('custom_homepage_settings', [
-			'title'       => __('Дополнительные настройки главной страницы', 'saintsmedia'),
+			'title'       => __('Дополнительные настройки страниц | текста, логика', 'saintsmedia'),
 			'description' => __('Здесь можно включить дополнительные параметры.', 'saintsmedia'),
 			'priority'    => 30,
 		]);

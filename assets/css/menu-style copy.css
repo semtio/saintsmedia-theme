@@ -3,17 +3,6 @@ body {
     overflow-x: hidden;
 }
 
-/*  */
-.saintsmedia-theme-header{
-    position: fixed;
-    z-index: 999;
-    width: 100%;
-}
-.spacer-on-top{
-    /* margin-top: 117px; */
-}
-/*  */
-
 .burger {
     display: block;
     background: transparent;

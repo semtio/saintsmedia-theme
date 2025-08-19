@@ -35,11 +35,6 @@
 		?>
 	</nav>
 
-
-
-
-
-
 	<div class="footer-inner">
 		<div class="footer-logo" aria-label="Footer logo">
 			<?php
