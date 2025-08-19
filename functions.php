@@ -269,3 +269,57 @@ add_filter('nav_menu_css_class', function ($classes, $item, $args, $depth) {
 // Разгружаем файл: подключаем отдельные модули
 require_once get_template_directory() . '/inc/breadcrumbs.php';
 require_once get_template_directory() . '/inc/schema.php';
+
+
+
+
+
+
+
+
+
+
+
+
+// 1. Функция для генерации короткой ссылки
+function tfc_go_link($real_url)
+{
+	// создаём хэш от реальной ссылки (10 символов)
+	$hash = substr(md5($real_url), 0, 10);
+
+	// сохраняем реальный URL во временное хранилище (30 дней)
+	set_transient('tfc_go_' . $hash, esc_url_raw($real_url), DAY_IN_SECONDS * 30);
+
+	// возвращаем короткую ссылку
+	return home_url('/go/' . $hash . '/');
+}
+
+// 2. Добавляем правила для обработки /go/{hash}/
+add_action('init', function () {
+	add_rewrite_rule('^go/([a-zA-Z0-9]+)/?$', 'index.php?tfc_go=$matches[1]', 'top');
+	add_rewrite_tag('%tfc_go%', '([^&]+)');
+});
+
+// 3. Перехватываем запросы на /go/{hash}/ и делаем редирект
+add_action('template_redirect', function () {
+	$hash = get_query_var('tfc_go');
+	if (!$hash) {
+		return; // если это не /go/{hash}/ — выходим
+	}
+
+	// запрещаем индексацию промежуточной страницы
+	header('X-Robots-Tag: noindex, nofollow, noarchive');
+
+	// достаём реальный URL из хранилища
+	$real_url = get_transient('tfc_go_' . $hash);
+
+	if ($real_url) {
+		// делаем временный редирект
+		wp_redirect($real_url, 302, 'GO Redirect');
+		exit;
+	}
+
+	// если хэша нет — 404
+	status_header(404);
+	exit;
+});
