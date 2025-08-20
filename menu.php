@@ -29,12 +29,12 @@
         <div class="saintsmedia-theme-cta menu-nav-buttons--desktop">
             <a target="_blank" href="<?php echo esc_url(tfc_go_link($link_btn_menu_1)); ?>">
                 <button class="saintsmedia-theme-btn play" tabindex="0">
-                    <?php echo esc_html($btn_menu_1); ?> 111
+                    <?php echo esc_html($btn_menu_1); ?>
                 </button>
             </a>
 
             <a target="_blank" href="<?php echo esc_url(tfc_go_link($link_btn_menu_2)); ?>">
-                <button class="saintsmedia-theme-btn download" tabindex="0"><?php echo esc_html($btn_menu_2); ?> 111</button>
+                <button class="saintsmedia-theme-btn download" tabindex="0"><?php echo esc_html($btn_menu_2); ?></button>
             </a>
         </div>
 
@@ -53,8 +53,12 @@
                     'fallback_cb'    => false,
                 ]);
             }
+
+            if (has_nav_menu('menu-1')) {
+                echo '<button class="burger" aria-label="Open menu" aria-controls="saintsmedia-theme-menu" aria-expanded="false"><i class="fa-solid fa-bars" aria-hidden="true"></i><span class="sr-only">Меню</span></button>';
+            };
             ?>
-            <button class="burger" aria-label="Open menu" aria-controls="saintsmedia-theme-menu" aria-expanded="false"><i class="fa-solid fa-bars" aria-hidden="true"></i><span class="sr-only">Меню</span></button>
+
         </nav>
 
         <div class="saintsmedia-theme-cta menu-nav-buttons--mobile">
@@ -114,8 +118,20 @@
             } else {
                 if (logo) {
                     logo.style.transition = 'height 0.3s ease';
-                    logo.style.height = '80px';
+                    if (window.innerWidth < 431) {
+                        logo.style.height = '65px';
+                    }else{
+                        logo.style.height = '80px';
+                    }
                 }
             }
         });
+
+        let burger = document.querySelector('button.burger');
+        let buttonsPosition = document.querySelector('.saintsmedia-theme-cta.menu-nav-buttons--desktop');
+        console.log(burger === null);
+
+        if(burger === null){
+            buttonsPosition.style.justifyContent = "flex-end";
+        }
     </script>

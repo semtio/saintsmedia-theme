@@ -354,8 +354,17 @@ body {
 }
 
 @media (max-width: 431px) {
-    .saintsmedia-theme-logo {
-        display: none;
+    .saintsmedia-theme-cta.menu-nav-buttons--desktop button {
+        font-size: 0.8rem;
+        justify-content: center !important;
+    }
+
+    .saintsmedia-theme-cta {
+        /* width: 100%; */
+    }
+
+    .saintsmedia-theme-logo img {
+        height: 65px;
     }
 
     .saintsmedia-theme-menu {
@@ -367,15 +376,12 @@ body {
         margin-left: 0;
     }
 
-    .saintsmedia-theme-cta {
-        width: 100%;
-    }
-
     .saintsmedia-theme-cta button {
         width: 100%;
     }
 
     .saintsmedia-theme-cta.menu-nav-buttons--desktop {
         display: flex !important;
+        justify-content: center;
     }
 }
