@@ -129,7 +129,6 @@
 
         let burger = document.querySelector('button.burger');
         let buttonsPosition = document.querySelector('.saintsmedia-theme-cta.menu-nav-buttons--desktop');
-        console.log(burger === null);
 
         if(burger === null){
             buttonsPosition.style.justifyContent = "flex-end";
