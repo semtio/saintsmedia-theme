@@ -147,7 +147,7 @@ function saintsmedia_scripts()
 	wp_enqueue_script('saintsmedia-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true);
 
 	// 7on подключил собственные CSS стили темы
-	wp_enqueue_style('menu-style', get_template_directory_uri() . '/assets/css/menu-style.css', array('saintsmedia-style'), _S_VERSION);
+	wp_enqueue_style('menu-style', get_template_directory_uri() . '/assets/css/menu-style.css', array('saintsmedia-style'), date('YmdHis'));
 	wp_enqueue_style('footer-style', get_template_directory_uri() . '/assets/css/footer-style.css', array('saintsmedia-style'), _S_VERSION);
 	// Стили для хлебных крошек
 	wp_enqueue_style('breadcrumbs-style', get_template_directory_uri() . '/assets/css/breadcrumbs.css', array('saintsmedia-style'), _S_VERSION);
