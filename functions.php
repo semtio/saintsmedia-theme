@@ -150,6 +150,10 @@ function saintsmedia_scripts()
 	// 7on подключил собственные CSS стили темы
 	wp_enqueue_style('menu-style', get_template_directory_uri() . '/assets/css/menu-style.css', array('saintsmedia-style'), _S_VERSION);
 	wp_enqueue_style('footer-style', get_template_directory_uri() . '/assets/css/footer-style.css', array('saintsmedia-style'), _S_VERSION);
+
+	// 7on подключил собственные CSS стили для Gutenberg
+	wp_enqueue_style('gutenberg-style', get_template_directory_uri() . '/assets/css/gutenberg-style.css', array('saintsmedia-style'), _S_VERSION);
+
 	// Стили для хлебных крошек
 	wp_enqueue_style('breadcrumbs-style', get_template_directory_uri() . '/assets/css/breadcrumbs.css', array('saintsmedia-style'), _S_VERSION);
 
