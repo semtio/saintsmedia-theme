@@ -74,7 +74,8 @@ body {
 }
 
 .saintsmedia-theme-logo img {
-    height: 80px;
+    transition: .3s !important;
+    width: 80px;
 }
 
 .saintsmedia-theme-nav {
@@ -363,7 +364,7 @@ body {
     }
 
     .saintsmedia-theme-logo img {
-        height: 65px;
+        width: 65px;
     }
 
     .saintsmedia-theme-menu {

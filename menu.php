@@ -6,11 +6,25 @@
             <a href="/">
                 <?php
                 $custom_logo_id = get_theme_mod('custom_logo');
-                $logo = wp_get_attachment_image_src($custom_logo_id, 'full');
-                if (has_custom_logo()) {
-                    echo '<img src="' . esc_url($logo[0]) . '" alt="' . get_bloginfo('name') . ' Logo">';
+
+                if (has_custom_logo() && $custom_logo_id) {
+                    echo wp_get_attachment_image(
+                        $custom_logo_id,
+                        'full',
+                        false,
+                        [
+                            'class'         => 'site-logo',
+                            'alt'           => get_bloginfo('name') . ' Logo',
+                            // не обязательно, но полезно для логотипа:
+                            'loading'       => 'eager',
+                            'decoding'      => 'async',
+                            'fetchpriority' => 'high',
+                            // при желании можно задать sizes:
+                            // 'sizes'      => '(max-width: 600px) 180px, 320px',
+                        ]
+                    );
                 } else {
-                    echo '<span class="site-title">' . get_bloginfo('name') . '</span>';
+                    echo '<span class="site-title">' . esc_html(get_bloginfo('name')) . '</span>';
                 }
                 ?>
             </a>
@@ -112,16 +126,16 @@
 
             if (window.scrollY > 100) {
                 if (logo) {
-                    logo.style.transition = 'height 0.3s ease';
-                    logo.style.height = '50px';
+                    logo.style.transition = 'height 0.9s ease';
+                    logo.style.width = '50px';
                 }
             } else {
                 if (logo) {
                     logo.style.transition = 'height 0.3s ease';
                     if (window.innerWidth < 431) {
-                        logo.style.height = '65px';
-                    }else{
-                        logo.style.height = '80px';
+                        logo.style.width = '65px';
+                    } else {
+                        logo.style.width = '80px';
                     }
                 }
             }
@@ -130,7 +144,7 @@
         let burger = document.querySelector('button.burger');
         let buttonsPosition = document.querySelector('.saintsmedia-theme-cta.menu-nav-buttons--desktop');
 
-        if(burger === null){
+        if (burger === null) {
             buttonsPosition.style.justifyContent = "flex-end";
         }
     </script>
