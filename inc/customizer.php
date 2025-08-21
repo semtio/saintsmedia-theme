@@ -215,6 +215,16 @@ function saintsmedia_get_customizer_fields(): array
 			'sanitize'  => 'esc_url_raw',
 			'transport' => 'refresh',
 		],
+		[
+			'id'        => 'footer_mail_link',
+			'label'     => __('Почта в подвале', 'saintsmedia'),
+			'default'   => '',
+			'section'   => 'custom_homepage_settings',
+			'type'      => 'text',
+			'css_var'   => '',
+			'sanitize'  => 'sanitize_text_field',
+			'transport' => 'refresh',
+		]
 	];
 	return apply_filters('saintsmedia_customizer_fields', $fields);
 }

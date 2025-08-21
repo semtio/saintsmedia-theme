@@ -1,7 +1,12 @@
 /* Own classes for gutenberg */
 
-.gutenberg-main-group p {
+.parent-gutenberg-group p {
     text-align: justify !important;
+}
+
+.parent-gutenberg-group figure,
+.parent-gutenberg-group figure img {
+    width: 100% !important;
 }
 
 /* Устанавливаем размеры кнопок для моб.вер. */
@@ -12,7 +17,9 @@
 }
 
 @media (min-width: 1024px) {
-    .gutenberg-button-mobile {
-        /* width: 80% !important; */
+    .parent-gutenberg-group {
+        width: 80% !important;
+        border: solid rgba(255, 0, 0, 0);
+        margin: auto;
     }
 }
