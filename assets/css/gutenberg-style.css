@@ -1,7 +1,8 @@
 /* Own classes for gutenberg */
 
-.gutenberg-width-group-mobile p{
-    text-align: justify;
+.gutenberg-main-group p{
+    text-align: justify !important;
+    border: solid red;
 }
 
 /* Устанавливаем размеры кнопок для моб.вер. */
@@ -11,6 +12,6 @@
     }
 
     .gutenberg-width-group-mobile {
-        width: 90%;
+        width: 90% !important;
     }
 }
