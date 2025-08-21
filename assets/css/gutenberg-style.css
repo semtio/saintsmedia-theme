@@ -13,6 +13,6 @@
 
 @media (min-width: 1024px) {
     .gutenberg-button-mobile {
-        width: 80% !important;
+        /* width: 80% !important; */
     }
 }
