@@ -253,7 +253,7 @@ body {
 }
 
 .spacer-on-top {
-    background: #111315;
+    background: var(--sm-menu-bg);
 }
 
 /* Адаптив */
