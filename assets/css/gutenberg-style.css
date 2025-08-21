@@ -1,11 +1,17 @@
 /* Own classes for gutenberg */
 
-.gutenberg-main-group p{
+.gutenberg-main-group p {
     text-align: justify !important;
 }
 
 /* Устанавливаем размеры кнопок для моб.вер. */
 @media (max-width: 561px) {
+    .gutenberg-button-mobile {
+        width: 80% !important;
+    }
+}
+
+@media (min-width: 1024px) {
     .gutenberg-button-mobile {
         width: 80% !important;
     }
