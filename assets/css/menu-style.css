@@ -351,6 +351,10 @@ body {
     .saintsmedia-theme-menu {
         width: 90vw;
     }
+
+    .gutenberg-hero-header{
+        line-height:1.25;
+    }
 }
 
 @media (max-width: 431px) {
