@@ -5,26 +5,10 @@
         <div class="saintsmedia-theme-logo" tabindex="0" aria-label="saintsmedia-theme">
             <a href="/">
                 <?php
-                $custom_logo_id = get_theme_mod('custom_logo');
-
-                if (has_custom_logo() && $custom_logo_id) {
-                    echo wp_get_attachment_image(
-                        $custom_logo_id,
-                        'full',
-                        false,
-                        [
-                            'class'         => 'site-logo',
-                            'alt'           => get_bloginfo('name') . ' Logo',
-                            // не обязательно, но полезно для логотипа:
-                            'loading'       => 'eager',
-                            'decoding'      => 'async',
-                            'fetchpriority' => 'high',
-                            // при желании можно задать sizes:
-                            // 'sizes'      => '(max-width: 600px) 180px, 320px',
-                        ]
-                    );
+                if (has_custom_logo()) {
+                    echo get_custom_logo(); // уже со srcset
                 } else {
-                    echo '<span class="site-title">' . esc_html(get_bloginfo('name')) . '</span>';
+                    echo '<a href="' . esc_url(home_url('/')) . '" class="site-title">' . esc_html(get_bloginfo('name')) . '</a>';
                 }
                 ?>
             </a>
@@ -143,8 +127,13 @@
 
         let burger = document.querySelector('button.burger');
         let buttonsPosition = document.querySelector('.saintsmedia-theme-cta.menu-nav-buttons--desktop');
+        let saintsmediaCtaButtons = document.querySelector('.saintsmedia-theme-cta');
 
         if (burger === null) {
             buttonsPosition.style.justifyContent = "flex-end";
+            saintsmediaCtaButtons.style.position = 'fixed';
+            saintsmediaCtaButtons.style.right = '16px';
+        } else {
+            saintsmediaCtaButtons.style.marginLeft = '15px';
         }
     </script>
