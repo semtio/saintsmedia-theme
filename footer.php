@@ -60,7 +60,7 @@
 			<?php
 			$email = get_option('admin_email');
 			?>
-			<a href="mailto:<?php echo esc_html(get_theme_mod('footer_mail_link')); ?>" class="footer-contact-link">Contact Us: <?php  echo esc_html(get_theme_mod('footer_mail_link')); ?></a>
+			<a href="mailto:<?php echo esc_html(get_theme_mod('footer_mail_link')); ?>" class="footer-contact-link"><?php echo esc_html(get_theme_mod('footer_contact_us')); ?>: <?php  echo esc_html(get_theme_mod('footer_mail_link')); ?></a>
 		</div>
 	</div>
 </footer>
@@ -71,3 +71,6 @@
 </body>
 
 </html>
+
+
+

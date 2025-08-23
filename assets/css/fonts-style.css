@@ -1,0 +1,8 @@
+.saintsmedia-theme-nav,
+.saintsmedia-theme-cta a button,
+.gutenberg-hero-header,
+footer,
+.parent-gutenberg-group {
+    color: blueviolet !important;
+    font-family: var(--sm-font-family, inherit);
+}

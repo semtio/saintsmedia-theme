@@ -154,6 +154,9 @@ function saintsmedia_scripts()
 	// 7on подключил собственные CSS стили для Gutenberg
 	wp_enqueue_style('gutenberg-style', get_template_directory_uri() . '/assets/css/gutenberg-style.css', array('saintsmedia-style'), _S_VERSION);
 
+	// 7on подключил собственные CSS стили для Gutenberg
+	wp_enqueue_style('fonts-style', get_template_directory_uri() . '/assets/css/fonts-style.css', array('saintsmedia-style'), _S_VERSION);
+
 	// Стили для хлебных крошек
 	wp_enqueue_style('breadcrumbs-style', get_template_directory_uri() . '/assets/css/breadcrumbs.css', array('saintsmedia-style'), _S_VERSION);
 
@@ -166,6 +169,17 @@ function saintsmedia_scripts()
 }
 add_action('wp_enqueue_scripts', 'saintsmedia_scripts');
 
+
+// Автоматически подставлять title изображения в alt
+add_filter('wp_get_attachment_image_attributes', 'auto_title_to_alt', 10, 2);
+
+function auto_title_to_alt($attr, $attachment) {
+    // если alt пустой
+    if (empty($attr['alt'])) {
+        $attr['alt'] = get_the_title($attachment->ID);
+    }
+    return $attr;
+}
 
 
 

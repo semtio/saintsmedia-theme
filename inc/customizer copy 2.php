@@ -237,7 +237,7 @@ function saintsmedia_get_customizer_fields(): array
 		],
 		[
 			'id'        => 'saintsmedia_font_family',
-			'label'     => __('Семейство шрифта (из /assets/fonts)', 'saintsmedia'),
+			'label'     => __('Шрифт', 'saintsmedia'),
 			'default'   => '',
 			'section'   => 'custom_homepage_settings',
 			'type'      => 'select',
@@ -252,14 +252,14 @@ function saintsmedia_get_customizer_fields(): array
 			'default'   => 'default',
 			'section'   => 'custom_homepage_settings',
 			'type'      => 'select',
-			   'choices'   => [
-				   'key1' => __('По умолчанию', 'saintsmedia'),
-				   'key2' => __('С героем', 'saintsmedia'),
-				   'key3' => __('Карточный', 'saintsmedia'),
-			   ],
-		   'sanitize'  => 'sanitize_text_field',
-		   'transport' => 'refresh',
-	   ],
+			'choices'   => [
+				'key1' => __('По умолчанию', 'saintsmedia'),
+				'key2' => __('С героем', 'saintsmedia'),
+				'key3' => __('Карточный', 'saintsmedia'),
+			],
+			'sanitize'  => 'sanitize_text_field',
+			'transport' => 'refresh',
+		],
 	];
 	return apply_filters('saintsmedia_customizer_fields', $fields);
 }
@@ -369,17 +369,27 @@ function saintsmedia_customizer_output_css()
 		if (!empty($field['css_var'])) {
 			$value = get_theme_mod($field['id'], $field['default']);
 			if ($value !== '') {
-				// Для font-family добавляем кавычки, чтобы значения с пробелами были валидными
-			if (!empty($field['css_var']) && $field['css_var'] === '--sm-font-family') {
-				$value = chr(34) . $value . chr(34);
-			}
-			$vars[] = $field['css_var'] . ':' . $value;
+				// для font-family: превращаем слаг папки в читаемое имя ('Lobster-2' -> 'Lobster 2') и берём в кавычки
+				if ($field['css_var'] === '--sm-font-family') {
+					$value = saintsmedia_pretty_family_label((string) $value);
+					$value = '"' . $value . '"';
+				}
+				$vars[] = $field['css_var'] . ':' . $value;
 			}
 		}
 	}
+	$css_parts = [];
 	if ($vars) {
-		$css = ':root{' . implode(';', $vars) . ';}';
-		// Подключаем к базовой таблице стилей темы
+		$css_parts[] = ':root{' . implode(';', $vars) . ';}';
+	}
+	// Генерируем @font-face для выбранного семейства
+	$__chosen_family = get_theme_mod('saintsmedia_font_family', '');
+	if (!empty($__chosen_family)) {
+		$css_parts[] = saintsmedia_generate_font_face_css($__chosen_family);
+	}
+
+	if (!empty($css_parts)) {
+		$css = implode("\n", $css_parts);
 		wp_add_inline_style('saintsmedia-style', $css);
 	}
 }
@@ -416,12 +426,14 @@ add_action('customize_preview_init', 'saintsmedia_customize_preview_js');
  * ===== Fonts helpers =====
  * Папка по умолчанию: /assets/fonts внутри активной темы (можно переопределить фильтрами).
  */
-function saintsmedia_get_fonts_dir(): string {
+function saintsmedia_get_fonts_dir(): string
+{
 	$dir = get_stylesheet_directory() . '/assets/fonts';
 	return apply_filters('saintsmedia_fonts_dir', $dir);
 }
 
-function saintsmedia_get_fonts_url(): string {
+function saintsmedia_get_fonts_url(): string
+{
 	$url = get_stylesheet_directory_uri() . '/assets/fonts';
 	return apply_filters('saintsmedia_fonts_url', $url);
 }
@@ -430,42 +442,42 @@ function saintsmedia_get_fonts_url(): string {
  * Сканирует папку шрифтов и возвращает список семейств вида ['Inter' => 'Inter'].
  * Предпочитает имена подпапок как название семейства; при их отсутствии пробует вывести семейство из имён файлов.
  */
-function saintsmedia_scan_font_families(): array {
+function saintsmedia_scan_font_families(): array
+{
 	$dir = saintsmedia_get_fonts_dir();
 	$families = [];
 
 	if (is_dir($dir) && is_readable($dir)) {
-		$allowed = ['woff2','woff','ttf','otf'];
-
-		// 1) Сканируем ТОЛЬКО корень папки (файлы шрифтов в assets/fonts)
+		// 1) Подпапки как семейства
 		$it = new DirectoryIterator($dir);
 		foreach ($it as $fi) {
-			if ($fi->isDot() || !$fi->isFile()) continue;
-			$ext = strtolower(pathinfo($fi->getFilename(), PATHINFO_EXTENSION));
-			if (!in_array($ext, $allowed, true)) continue;
-
-			// Выводим читаемое имя семейства из имени файла
-			$base = pathinfo($fi->getFilename(), PATHINFO_FILENAME);
-			$label = str_replace(['_', '-'], ' ', $base);
-			$tokens = '(regular|italic|ital|oblique|variable|wght|opsz|wdth|condensed|cond|extended|ext|compressed|comp|mono|display|text|caption|black|extra black|heavy|extra bold|semibold|demi bold|bold|medium|book|light|extra light|ultra light|thin|hairline|[1-9]00)';
-			$label = preg_replace('/\b' . $tokens . '\b/iu', '', $label);
-			$label = trim(preg_replace('/\s{2,}/', ' ', $label));
-			$family = ucwords(strtolower($label));
-			if ($family !== '') {
-				$families[$family] = $family;
+			if ($fi->isDot()) continue;
+			if ($fi->isDir()) {
+				$family = trim($fi->getFilename());
+				if ($family !== '') {
+					$families[$family] = $family;
+				}
 			}
 		}
 
-		// 2) (Опционально) Если корень пуст и включён фильтр — берём подпапки как семейства
-		if (empty($families) && apply_filters('saintsmedia_fonts_scan_subdirs', false)) {
+		// 2) Если подпапок нет — берём семейство из имён файлов
+		if (empty($families)) {
+			$allowed = ['woff2', 'woff', 'ttf', 'otf'];
 			$it2 = new DirectoryIterator($dir);
 			foreach ($it2 as $fi) {
-				if ($fi->isDot()) continue;
-				if ($fi->isDir()) {
-					$family = trim($fi->getFilename());
-					if ($family !== '') {
-						$families[$family] = $family;
-					}
+				if ($fi->isDot() || !$fi->isFile()) continue;
+				$ext = strtolower(pathinfo($fi->getFilename(), PATHINFO_EXTENSION));
+				if (!in_array($ext, $allowed, true)) continue;
+				$base = pathinfo($fi->getFilename(), PATHINFO_FILENAME);
+				$base = str_replace(['_', '-'], ' ', $base);
+				$first = trim($base);
+				$spacePos = strpos($first, ' ');
+				if ($spacePos !== false) {
+					$first = substr($first, 0, $spacePos);
+				}
+				$family = ucwords(strtolower($first));
+				if ($family !== '') {
+					$families[$family] = $family;
 				}
 			}
 		}
@@ -477,4 +489,112 @@ function saintsmedia_scan_font_families(): array {
 	}
 
 	return apply_filters('saintsmedia_font_family_choices', $families);
+}
+
+
+/**
+ * Превращает имя папки ('Lobster-2') в читаемое название семейства ('Lobster 2').
+ */
+function saintsmedia_pretty_family_label(string $slug): string
+{
+	$label = str_replace(['_', '-'], ' ', trim($slug));
+	$label = preg_replace('/\s{2,}/', ' ', $label);
+	return ucwords(strtolower($label));
+}
+
+/**
+ * Определяет вес шрифта по имени файла.
+ */
+function saintsmedia_map_weight_from_string(string $s): int
+{
+	$s = strtolower($s);
+	if (preg_match('/\b([1-9]00)\b/', $s, $m)) return (int)$m[1];
+	$map = [
+		'thin' => 100,
+		'hairline' => 100,
+		'extra light' => 200,
+		'ultra light' => 200,
+		'extralight' => 200,
+		'ultralight' => 200,
+		'light' => 300,
+		'book' => 400,
+		'normal' => 400,
+		'regular' => 400,
+		'medium' => 500,
+		'semibold' => 600,
+		'semi bold' => 600,
+		'demibold' => 600,
+		'demi bold' => 600,
+		'bold' => 700,
+		'extra bold' => 800,
+		'extrabold' => 800,
+		'ultra bold' => 800,
+		'ultrabold' => 800,
+		'heavy' => 800,
+		'black' => 900,
+		'extra black' => 900,
+		'ultra black' => 900,
+	];
+	foreach ($map as $k => $v) if (strpos($s, $k) !== false) return $v;
+	return 400;
+}
+
+/**
+ * Определяет стиль по имени файла.
+ */
+function saintsmedia_map_style_from_string(string $s): string
+{
+	$s = strtolower($s);
+	if (strpos($s, 'italic') !== false || strpos($s, 'ital') !== false) return 'italic';
+	if (strpos($s, 'oblique') !== false) return 'oblique';
+	return 'normal';
+}
+
+/**
+ * Генерирует @font-face для всех начертаний в подпапке assets/fonts/<семейство>.
+ * Возвращает CSS-строку.
+ */
+function saintsmedia_generate_font_face_css(string $familyFolder): string
+{
+	$dir = saintsmedia_get_fonts_dir() . '/' . $familyFolder;
+	if (!is_dir($dir) || !is_readable($dir)) return '';
+	$urlBase = saintsmedia_get_fonts_url() . '/' . rawurlencode($familyFolder);
+
+	$allowed = ['woff2', 'woff', 'ttf', 'otf'];
+	$groups = []; // key "weight-style" => ['weight'=>..,'style'=>..,'sources'=>['woff2'=>url,..]]
+
+	$it = new DirectoryIterator($dir);
+	foreach ($it as $fi) {
+		if ($fi->isDot() || !$fi->isFile()) continue;
+		$ext = strtolower(pathinfo($fi->getFilename(), PATHINFO_EXTENSION));
+		if (!in_array($ext, $allowed, true)) continue;
+
+		$fn = $fi->getFilename();
+		$lower = strtolower($fn);
+		$weight = saintsmedia_map_weight_from_string($lower);
+		$style  = saintsmedia_map_style_from_string($lower);
+		$key = $weight . '-' . $style;
+
+		if (!isset($groups[$key])) $groups[$key] = ['weight' => $weight, 'style' => $style, 'sources' => []];
+		$groups[$key]['sources'][$ext] = $urlBase . '/' . rawurlencode($fn);
+	}
+
+	if (!$groups) return '';
+	$familyName = saintsmedia_pretty_family_label($familyFolder);
+	$order = ['woff2', 'woff', 'ttf', 'otf'];
+	$css = '';
+
+	foreach ($groups as $g) {
+		$srcParts = [];
+		foreach ($order as $ext) {
+			if (isset($g['sources'][$ext])) {
+				$fmt = ($ext === 'ttf') ? 'truetype' : (($ext === 'otf') ? 'opentype' : $ext);
+				$srcParts[] = "url('{$g['sources'][$ext]}') format('{$fmt}')";
+			}
+		}
+		if (!$srcParts) continue;
+		$styleVal = ($g['style'] === 'oblique') ? 'oblique' : (($g['style'] === 'italic') ? 'italic' : 'normal');
+		$css .= "@font-face{font-family:'{$familyName}';font-style:{$styleVal};font-weight:{$g['weight']};font-display:swap;src:" . implode(',', $srcParts) . ";}\n";
+	}
+	return $css;
 }
