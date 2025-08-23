@@ -5,6 +5,5 @@ footer,
 .parent-gutenberg-group,
 .saintsmedia-author-block,
 .saintsmedia-casino-card.saintsmedia-casino-card--primary {
-    color: blueviolet !important;
     font-family: var(--sm-font-family, inherit);
 }
