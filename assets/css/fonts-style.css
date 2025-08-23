@@ -5,5 +5,5 @@ footer,
 .parent-gutenberg-group,
 .saintsmedia-author-block,
 .saintsmedia-casino-card.saintsmedia-casino-card--primary {
-    font-family: var(--sm-font-family, inherit);
+    font-family: var(--sm-font-family);
 }

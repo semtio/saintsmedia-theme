@@ -238,10 +238,12 @@ function saintsmedia_get_customizer_fields(): array
 		[
 			'id'        => 'saintsmedia_font_file',
 			'label'     => __('Шрифт', 'saintsmedia'),
-			'default'   => '',
+			'default'   => 'system',
 			'section'   => 'custom_homepage_settings',
 			'type'      => 'select',
-			'choices'   => saintsmedia_scan_font_files(),
+			'choices'   => array_merge([
+				'system' => 'System (-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif)'
+			], saintsmedia_scan_font_files()),
 			'css_var'   => '',
 			'sanitize'  => 'sanitize_text_field',
 			'transport' => 'refresh',
@@ -360,10 +362,13 @@ function saintsmedia_customizer_output_css()
 		}
 	}
 
-	// Выбранный конкретный файл шрифта из корня assets/fonts
-	$font_file = get_theme_mod('saintsmedia_font_file', '');
+	// Выбранный файл шрифта или system
+	$font_file = get_theme_mod('saintsmedia_font_file', 'system');
 	$faces_css = '';
-	if (!empty($font_file)) {
+	if ($font_file === 'system' || $font_file === '') {
+		// Системный стек (без внешних кавычек вокруг всего списка)
+		$vars[] = '--sm-font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif';
+	} else {
 		$family = saintsmedia_pretty_family_label_from_filename($font_file);
 		if ($family !== '') {
 			$family_quoted = '"' . str_replace('"', '\"', $family) . '"';
@@ -380,8 +385,7 @@ function saintsmedia_customizer_output_css()
 		$css_parts[] = $faces_css;
 	}
 	if (!empty($css_parts)) {
-		$css = implode("
-", $css_parts);
+		$css = implode("", $css_parts);
 		wp_add_inline_style('saintsmedia-style', $css);
 	}
 }
