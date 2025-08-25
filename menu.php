@@ -85,7 +85,7 @@
 
     <!-- Хлебные крошки только для домашней стр. -->
     <?php if (is_front_page()) { ?>
-        <div id="asdasdasd" style="display: none;" itemscope itemtype="https://schema.org/BreadcrumbList" aria-label="Breadcrumb">
+        <div id="breadСrumbs" style="display: none;" itemscope itemtype="https://schema.org/BreadcrumbList" aria-label="Breadcrumb">
             <ul>
                 <li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
                     <a class="breadcrumbs__link" itemprop="item" href="/"><span itemprop="name">
