@@ -1,8 +1,13 @@
 <div id="page" class="site sm-page">
-    <a class="skip-link screen-reader-text" href="#primary"><?php esc_html_e('Skip to content', 'saintsmedia'); ?></a>
+    <a class="skip-link screen-reader-text" href="#primary">
+        <?php esc_html_e('Skip to content', 'saintsmedia'); ?>
+    </a>
 
     <header class="saintsmedia-theme-header">
-        <div class="saintsmedia-theme-logo" tabindex="0" aria-label="saintsmedia-theme">
+        <div itemscope itemtype="https://schema.org/ImageObject" class="saintsmedia-theme-logo" tabindex="0"
+            aria-label="saintsmedia-theme">
+            <meta itemprop="url" content="<?php echo esc_url(get_home_url()); ?>">
+
             <a href="/">
                 <?php
                 if (has_custom_logo()) {
@@ -32,7 +37,9 @@
             </a>
 
             <a target="_blank" href="<?php echo esc_url(tfc_go_link($link_btn_menu_2)); ?>">
-                <button class="saintsmedia-theme-btn download" tabindex="0"><?php echo esc_html($btn_menu_2); ?></button>
+                <button class="saintsmedia-theme-btn download" tabindex="0">
+                    <?php echo esc_html($btn_menu_2); ?>
+                </button>
             </a>
         </div>
 
@@ -60,18 +67,35 @@
         </nav>
 
         <div class="saintsmedia-theme-cta menu-nav-buttons--mobile">
-            <a rel="sponsored nofollow noopener" target="_blank" href="<?php echo esc_url(tfc_go_link($link_btn_menu_1)); ?>">
+            <a rel="sponsored nofollow noopener" target="_blank"
+                href="<?php echo esc_url(tfc_go_link($link_btn_menu_1)); ?>">
                 <button class="saintsmedia-theme-btn play" tabindex="0">
                     <?php echo esc_html($btn_menu_1); ?>
                 </button>
             </a>
 
             <a target="_blank" href="<?php echo esc_url(tfc_go_link($link_btn_menu_2)); ?>">
-                <button class="saintsmedia-theme-btn download" tabindex="0"><?php echo esc_html($btn_menu_2); ?></button>
+                <button class="saintsmedia-theme-btn download" tabindex="0">
+                    <?php echo esc_html($btn_menu_2); ?>
+                </button>
             </a>
 
         </div>
     </header><!-- #masthead -->
+
+    <!-- Хлебные крошки только для домашней стр. -->
+    <?php if (is_front_page()) { ?>
+        <div id="asdasdasd" style="display: none;" itemscope itemtype="https://schema.org/BreadcrumbList" aria-label="Breadcrumb">
+            <ul>
+                <li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <a class="breadcrumbs__link" itemprop="item" href="/"><span itemprop="name">
+                            <?php echo esc_html(get_the_title()); ?>
+                        </span></a>
+                    <meta itemprop="position" content="1" />
+                </li>
+            </ul>
+        </div>
+    <?php } ?>
 
     <script>
         // меню (ховер/уход курсора для подпунктов)
