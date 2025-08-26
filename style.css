@@ -22,10 +22,6 @@ Normalizing styles have been helped along thanks to the fine work of
 Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 */
 
-/* === Adaptive logo slot (performance) === */
-.custom-logo-link img.custom-logo{height:65px;width:auto;max-width:100%;}
-@media (max-width:480px){.custom-logo-link img.custom-logo{height:48px;}}
-
 /*--------------------------------------------------------------
 >>> TABLE OF CONTENTS:
 ----------------------------------------------------------------
