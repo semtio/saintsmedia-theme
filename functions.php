@@ -112,45 +112,8 @@ function saintsmedia_setup()
 	add_theme_support('custom-spacing');
 	add_theme_support('custom-units');
 	add_editor_style('editor-style.css');
-
-	// Кастомные размеры изображений (адаптив под контейнеры)
-	add_image_size('logo-65', 130, 0, false); // 65px @2x для ретины (шире т.к. flex-width)
-	add_image_size('logo-130', 260, 0, false); // запас для больших экранов
-	add_image_size('content-380', 380, 0, false);
-	add_image_size('content-768', 768, 0, false);
 }
 add_action('after_setup_theme', 'saintsmedia_setup');
-
-// Preload LCP (главная: миниатюра записи или произвольный hero) — аккуратно
-add_action('wp_head', function(){
-	if(!is_front_page()) return;
-	if(is_singular()){
-		$id = get_post_thumbnail_id();
-		if($id){
-			$src = wp_get_attachment_image_url($id,'content-768');
-			if($src){
-				echo '<link rel="preload" as="image" href="'.esc_url($src).'" fetchpriority="high">';
-			}
-		}
-	}
-},5);
-
-// Адаптивный логотип: используем наши размеры logo-65 / logo-130 и генерируем корректный sizes
-add_filter('get_custom_logo', function ($html) {
-	$custom_logo_id = get_theme_mod('custom_logo');
-	if (!$custom_logo_id) return $html;
-	// основное (берём «logo-130» как более детализированный для ретины 65px слота)
-	$img = wp_get_attachment_image($custom_logo_id, 'logo-130', false, [
-		'class' => 'custom-logo',
-		'loading' => 'eager', // логотип влияет на LCP
-		'decoding' => 'async',
-		'sizes' => '(max-width:480px) 96px, 130px', // мобильный ~48-65px => дадим запас 96; десктоп ~130px контейнер
-	]);
-	if (!$img) return $html;
-	// Оборачиваем так же как core, чтобы не ломать стили
-	$home = esc_url(home_url('/'));
-	return '<a href="' . $home . '" class="custom-logo-link" rel="home">' . $img . '</a>';
-});
 
 
 /**
@@ -326,6 +289,26 @@ add_filter('nav_menu_css_class', function ($classes, $item, $args, $depth) {
 // Разгружаем файл: подключаем отдельные модули
 require_once get_template_directory() . '/inc/breadcrumbs.php';
 require_once get_template_directory() . '/inc/schema.php';
+
+
+
+
+
+// 1. Заводим Retina‑дружественные размеры для логотипа
+add_action('after_setup_theme', function () {
+	// Базовый максимум, который реально рендерится в шапке (65px)
+	add_image_size('logo-65', 65, 0, false); // 1x
+	add_image_size('logo-130', 130, 0, false); // 2x (для Retina)
+
+
+	// 2. Поддержка кастом-логотипа (задайте ориентиры под вашу тему)
+	add_theme_support('custom-logo', [
+		'height' => 65,
+		'width' => 65,
+		'flex-height' => true,
+		'flex-width' => true,
+	]);
+});
 
 
 
