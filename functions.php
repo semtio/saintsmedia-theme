@@ -294,26 +294,6 @@ require_once get_template_directory() . '/inc/schema.php';
 
 
 
-// 1. Заводим Retina‑дружественные размеры для логотипа
-add_action('after_setup_theme', function () {
-	// Базовый максимум, который реально рендерится в шапке (65px)
-	add_image_size('logo-65', 65, 0, false); // 1x
-	add_image_size('logo-130', 130, 0, false); // 2x (для Retina)
-
-
-	// 2. Поддержка кастом-логотипа (задайте ориентиры под вашу тему)
-	add_theme_support('custom-logo', [
-		'height' => 65,
-		'width' => 65,
-		'flex-height' => true,
-		'flex-width' => true,
-	]);
-});
-
-
-
-
-
 
 
 
