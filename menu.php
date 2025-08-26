@@ -121,7 +121,7 @@
                 burger.addEventListener('click', function() {
                     const isOpen = nav.classList.toggle('open');
                     burger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-                    saintsmediaThemeMenu.style.border = "solid 10px #6DA2FE";
+                    // Цвет бордера управляется классом .open (место зарезервировано в CSS)
                 });
             }
         });

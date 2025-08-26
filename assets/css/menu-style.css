@@ -93,6 +93,8 @@ body {
     margin: 0;
     padding: 0;
     align-items: center;
+    /* Резервируем место под бордер, чтобы JS изменение цвета не вызывало CLS */
+    border:10px solid transparent;
 }
 
 .saintsmedia-theme-menu li a {
@@ -180,7 +182,7 @@ body {
 }
 
 .open.saintsmedia-theme-menu {
-    border: solid 10px #6DA2FE;
+    border-color:#6DA2FE;
 }
 
 .submenu li a,
