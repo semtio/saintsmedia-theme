@@ -7,7 +7,6 @@
         <div itemscope itemtype="https://schema.org/ImageObject" class="saintsmedia-theme-logo" tabindex="0"
             aria-label="saintsmedia-theme">
             <meta itemprop="url" content="<?php echo esc_url(get_home_url()); ?>">
-
             <a href="/">
                 <?php
                 if (has_custom_logo()) {
