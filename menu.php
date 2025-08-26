@@ -1,9 +1,3 @@
-<?php
-$logo_id = get_theme_mod('custom_logo');
-$home = esc_url(home_url('/'));
-$site_name = esc_attr(get_bloginfo('name'));
-?>
-
 <div id="page" class="site sm-page">
     <a class="skip-link screen-reader-text" href="#primary">
         <?php esc_html_e('Skip to content', 'saintsmedia'); ?>
@@ -13,6 +7,7 @@ $site_name = esc_attr(get_bloginfo('name'));
         <div itemscope itemtype="https://schema.org/ImageObject" class="saintsmedia-theme-logo" tabindex="0"
             aria-label="saintsmedia-theme">
             <meta itemprop="url" content="<?php echo esc_url(get_home_url()); ?>">
+
             <a href="/">
                 <?php
                 if (has_custom_logo()) {
