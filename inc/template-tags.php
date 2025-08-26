@@ -128,23 +128,24 @@ if ( ! function_exists( 'saintsmedia_post_thumbnail' ) ) :
 			?>
 
 			<div class="post-thumbnail">
-				<?php the_post_thumbnail(); ?>
+				<?php echo wp_get_attachment_image(get_post_thumbnail_id(), 'content-768', false, [
+					'sizes' => '(max-width:600px) 380px, (max-width:1024px) 600px, 768px',
+					'loading' => 'lazy',
+					'decoding' => 'async',
+				]); ?>
 			</div><!-- .post-thumbnail -->
 
 		<?php else : ?>
 
 			<a class="post-thumbnail" href="<?php the_permalink(); ?>" aria-hidden="true" tabindex="-1">
 				<?php
-					the_post_thumbnail(
-						'post-thumbnail',
-						array(
-							'alt' => the_title_attribute(
-								array(
-									'echo' => false,
-								)
-							),
-						)
-					);
+					$thumb_id = get_post_thumbnail_id();
+					echo wp_get_attachment_image($thumb_id, 'content-380', false, [
+						'alt' => the_title_attribute(['echo' => false]),
+						'sizes' => '(max-width:600px) 380px, 380px',
+						'loading' => 'lazy',
+						'decoding' => 'async',
+					]);
 				?>
 			</a>
 
