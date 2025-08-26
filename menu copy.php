@@ -1,16 +1,19 @@
 <div id="page" class="site sm-page">
-    <a class="skip-link screen-reader-text" href="#primary"><?php esc_html_e('Skip to content', 'saintsmedia'); ?></a>
+    <a class="skip-link screen-reader-text" href="#primary">
+        <?php esc_html_e('Skip to content', 'saintsmedia'); ?>
+    </a>
 
     <header class="saintsmedia-theme-header">
-        <div class="saintsmedia-theme-logo" tabindex="0" aria-label="saintsmedia-theme">
+        <div itemscope itemtype="https://schema.org/ImageObject" class="saintsmedia-theme-logo" tabindex="0"
+            aria-label="saintsmedia-theme">
+            <meta itemprop="url" content="<?php echo esc_url(get_home_url()); ?>">
+
             <a href="/">
                 <?php
-                $custom_logo_id = get_theme_mod('custom_logo');
-                $logo = wp_get_attachment_image_src($custom_logo_id, 'full');
                 if (has_custom_logo()) {
-                    echo '<img src="' . esc_url($logo[0]) . '" alt="' . get_bloginfo('name') . ' Logo">';
+                    echo get_custom_logo(); // уже со srcset
                 } else {
-                    echo '<span class="site-title">' . get_bloginfo('name') . '</span>';
+                    echo '<a href="' . esc_url(home_url('/')) . '" class="site-title">' . esc_html(get_bloginfo('name')) . '</a>';
                 }
                 ?>
             </a>
@@ -27,14 +30,16 @@
         ?>
 
         <div class="saintsmedia-theme-cta menu-nav-buttons--desktop">
-            <a target="_blank" href="<?php echo esc_url($link_btn_menu_1); ?>">
+            <a target="_blank" href="<?php echo esc_url(tfc_go_link($link_btn_menu_1)); ?>">
                 <button class="saintsmedia-theme-btn play" tabindex="0">
                     <?php echo esc_html($btn_menu_1); ?>
                 </button>
             </a>
 
-            <a target="_blank" href="<?php echo esc_url($link_btn_menu_2); ?>">
-                <button class="saintsmedia-theme-btn download" tabindex="0"><?php echo esc_html($btn_menu_2); ?></button>
+            <a target="_blank" href="<?php echo esc_url(tfc_go_link($link_btn_menu_2)); ?>">
+                <button class="saintsmedia-theme-btn download" tabindex="0">
+                    <?php echo esc_html($btn_menu_2); ?>
+                </button>
             </a>
         </div>
 
@@ -53,23 +58,44 @@
                     'fallback_cb'    => false,
                 ]);
             }
+
+            if (has_nav_menu('menu-1')) {
+                echo '<button class="burger" aria-label="Open menu" aria-controls="saintsmedia-theme-menu" aria-expanded="false"><i class="fa-solid fa-bars" aria-hidden="true"></i><span class="sr-only">Меню</span></button>';
+            };
             ?>
-            <button class="burger" aria-label="Open menu" aria-controls="saintsmedia-theme-menu" aria-expanded="false"><i class="fa-solid fa-bars" aria-hidden="true"></i><span class="sr-only">Меню</span></button>
+
         </nav>
 
         <div class="saintsmedia-theme-cta menu-nav-buttons--mobile">
-            <a target="_blank" href="<?php echo esc_url($link_btn_menu_1); ?>">
+            <a rel="sponsored nofollow noopener" target="_blank"
+                href="<?php echo esc_url(tfc_go_link($link_btn_menu_1)); ?>">
                 <button class="saintsmedia-theme-btn play" tabindex="0">
                     <?php echo esc_html($btn_menu_1); ?>
                 </button>
             </a>
 
-            <a target="_blank" href="<?php echo esc_url($link_btn_menu_2); ?>">
-                <button class="saintsmedia-theme-btn download" tabindex="0"><?php echo esc_html($btn_menu_2); ?></button>
+            <a target="_blank" href="<?php echo esc_url(tfc_go_link($link_btn_menu_2)); ?>">
+                <button class="saintsmedia-theme-btn download" tabindex="0">
+                    <?php echo esc_html($btn_menu_2); ?>
+                </button>
             </a>
 
         </div>
     </header><!-- #masthead -->
+
+    <!-- Хлебные крошки только для домашней стр. -->
+    <?php if (is_front_page()) { ?>
+        <div id="breadСrumbs" style="display: none;" itemscope itemtype="https://schema.org/BreadcrumbList" aria-label="Breadcrumb">
+            <ul>
+                <li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <a class="breadcrumbs__link" itemprop="item" href="/"><span itemprop="name">
+                            <?php echo esc_html(get_the_title()); ?>
+                        </span></a>
+                    <meta itemprop="position" content="1" />
+                </li>
+            </ul>
+        </div>
+    <?php } ?>
 
     <script>
         // меню (ховер/уход курсора для подпунктов)
@@ -100,4 +126,38 @@
                 });
             }
         });
+
+        // Добавляем эффект уменьшения логотипа при прокрутке страницы
+        document.addEventListener('scroll', function() {
+            const header = document.querySelector('.saintsmedia-theme-header');
+            const logo = document.querySelector('.saintsmedia-theme-logo img');
+
+            if (window.scrollY > 100) {
+                if (logo) {
+                    logo.style.transition = 'height 0.9s ease';
+                    logo.style.width = '50px';
+                }
+            } else {
+                if (logo) {
+                    logo.style.transition = 'height 0.3s ease';
+                    if (window.innerWidth < 431) {
+                        logo.style.width = '65px';
+                    } else {
+                        logo.style.width = '80px';
+                    }
+                }
+            }
+        });
+
+        let burger = document.querySelector('button.burger');
+        let buttonsPosition = document.querySelector('.saintsmedia-theme-cta.menu-nav-buttons--desktop');
+        let saintsmediaCtaButtons = document.querySelector('.saintsmedia-theme-cta');
+
+        if (burger === null) {
+            buttonsPosition.style.justifyContent = "flex-end";
+            saintsmediaCtaButtons.style.position = 'fixed';
+            saintsmediaCtaButtons.style.right = '16px';
+        } else {
+            saintsmediaCtaButtons.style.marginLeft = '15px';
+        }
     </script>
