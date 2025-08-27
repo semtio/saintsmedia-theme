@@ -13,11 +13,12 @@
             <a href="/">
                 <?php
                 // if (has_custom_logo()) {
-                    // echo get_custom_logo(); // уже со srcset
-                    // echo saintsmedia_logo_hardcoded();
-                    // echo saintsmedia_logo_responsive();
+                // echo get_custom_logo(); // уже со srcset
+                // echo saintsmedia_logo_hardcoded();
+                // echo saintsmedia_logo_responsive();
 
-                    echo '<img src="https://calendariovip.es/wp-content/uploads/2025/08/logo.webp" alt="asdasd">';
+                echo '<img src="https://calendariovip.es/wp-content/uploads/2025/08/logo-291x300.webp" alt="logo" width="80" height="83" srcset=" https://calendariovip.es/wp-content/uploads/2025/08/logo-150x150.webp 150w, https://calendariovip.es/wp-content/uploads/2025/08/logo-291x300.webp 291w, https://calendariovip.es/wp-content/uploads/2025/08/logo-768x792.webp 768w, https://calendariovip.es/wp-content/uploads/2025/08/logo-993x1024.webp 993w, https://calendariovip.es/wp-content/uploads/2025/08/logo-1489x1536.webp 1489w" sizes="(max-width:431px) 65px, 80px">';
+
                 // } else {
                 //     echo '<a href="' . esc_url(home_url('/')) . '" class="site-title">' . esc_html(get_bloginfo('name')) . '</a>';
                 // }
@@ -91,42 +92,42 @@
 
     <!-- Хлебные крошки только для домашней стр. -->
     <?php if (is_front_page()) { ?>
-    <div id="breadСrumbs" style="display: none;" itemscope itemtype="https://schema.org/BreadcrumbList"
-        aria-label="Breadcrumb">
-        <ul>
-            <li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                <a class="breadcrumbs__link" itemprop="item" href="/"><span itemprop="name">
-                        <?php echo esc_html(get_the_title()); ?>
-                    </span></a>
-                <meta itemprop="position" content="1" />
-            </li>
-        </ul>
-    </div>
+        <div id="breadСrumbs" style="display: none;" itemscope itemtype="https://schema.org/BreadcrumbList"
+            aria-label="Breadcrumb">
+            <ul>
+                <li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <a class="breadcrumbs__link" itemprop="item" href="/"><span itemprop="name">
+                            <?php echo esc_html(get_the_title()); ?>
+                        </span></a>
+                    <meta itemprop="position" content="1" />
+                </li>
+            </ul>
+        </div>
     <?php } ?>
 
     <script>
         // меню (ховер/уход курсора для подпунктов)
-        document.querySelectorAll('.has-submenu, .menu-item-has-children').forEach(function (item) {
+        document.querySelectorAll('.has-submenu, .menu-item-has-children').forEach(function(item) {
             let timer;
-            item.addEventListener('mouseenter', function () {
+            item.addEventListener('mouseenter', function() {
                 clearTimeout(timer);
                 item.classList.add('submenu-open');
             });
-            item.addEventListener('mouseleave', function () {
-                timer = setTimeout(function () {
+            item.addEventListener('mouseleave', function() {
+                timer = setTimeout(function() {
                     item.classList.remove('submenu-open');
                 }, 250); // задержка 250 мс
             });
         });
 
         // гамбургер
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             let saintsmediaThemeMenu = document.querySelector('.saintsmedia-theme-menu');
             const burger = document.querySelector('.burger');
             const nav = document.querySelector('.saintsmedia-theme-nav');
             const menu = document.getElementById('saintsmedia-theme-menu');
             if (burger && nav && menu) {
-                burger.addEventListener('click', function () {
+                burger.addEventListener('click', function() {
                     const isOpen = nav.classList.toggle('open');
                     burger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
                     // Цвет бордера управляется классом .open (место зарезервировано в CSS)
