@@ -12,16 +12,16 @@
 
             <a href="/">
                 <?php
-                // if (has_custom_logo()) {
-                // echo get_custom_logo(); // уже со srcset
-                // echo saintsmedia_logo_hardcoded();
-                // echo saintsmedia_logo_responsive();
+                if (has_custom_logo()) {
+                    echo get_custom_logo(); // уже со srcset
+                    // echo saintsmedia_logo_hardcoded();
+                    // echo saintsmedia_logo_responsive();
 
-                echo '<img src="https://calendariovip.es/wp-content/uploads/2025/08/logo-291x300.webp" alt="logo" width="80" height="83" srcset=" https://calendariovip.es/wp-content/uploads/2025/08/logo-150x150.webp 150w, https://calendariovip.es/wp-content/uploads/2025/08/logo-291x300.webp 291w, https://calendariovip.es/wp-content/uploads/2025/08/logo-768x792.webp 768w, https://calendariovip.es/wp-content/uploads/2025/08/logo-993x1024.webp 993w, https://calendariovip.es/wp-content/uploads/2025/08/logo-1489x1536.webp 1489w" sizes="(max-width:431px) 65px, 80px">';
+                    // echo '<img src="https://calendariovip.es/wp-content/uploads/2025/08/logo-768x792.webp" alt="logo" width="80" height="83" srcset=" https://calendariovip.es/wp-content/uploads/2025/08/logo-150x150.webp 150w, https://calendariovip.es/wp-content/uploads/2025/08/logo-291x300.webp 291w, https://calendariovip.es/wp-content/uploads/2025/08/logo-768x792.webp 768w, https://calendariovip.es/wp-content/uploads/2025/08/logo-993x1024.webp 993w, https://calendariovip.es/wp-content/uploads/2025/08/logo-1489x1536.webp 1489w" sizes="(max-width:431px) 65px, 291px">';
 
-                // } else {
-                //     echo '<a href="' . esc_url(home_url('/')) . '" class="site-title">' . esc_html(get_bloginfo('name')) . '</a>';
-                // }
+                } else {
+                    echo '<a href="' . esc_url(home_url('/')) . '" class="site-title">' . esc_html(get_bloginfo('name')) . '</a>';
+                }
                 ?>
             </a>
         </div>
@@ -136,26 +136,26 @@
         });
 
         // Добавляем эффект уменьшения логотипа при прокрутке страницы
-        // document.addEventListener('scroll', function() {
-        //     const header = document.querySelector('.saintsmedia-theme-header');
-        //     const logo = document.querySelector('.saintsmedia-theme-logo img');
+        document.addEventListener('scroll', function() {
+            const header = document.querySelector('.saintsmedia-theme-header');
+            const logo = document.querySelector('.saintsmedia-theme-logo img');
 
-        //     if (window.scrollY > 100) {
-        //         if (logo) {
-        //             logo.style.transition = 'height 0.9s ease';
-        //             logo.style.width = '50px';
-        //         }
-        //     } else {
-        //         if (logo) {
-        //             logo.style.transition = 'height 0.3s ease';
-        //             if (window.innerWidth < 431) {
-        //                 logo.style.width = '65px';
-        //             } else {
-        //                 logo.style.width = '80px';
-        //             }
-        //         }
-        //     }
-        // });
+            if (window.scrollY > 100) {
+                if (logo) {
+                    logo.style.transition = 'height 0.9s ease';
+                    logo.style.width = '50px';
+                }
+            } else {
+                if (logo) {
+                    logo.style.transition = 'height 0.3s ease';
+                    if (window.innerWidth < 431) {
+                        logo.style.width = '65px';
+                    } else {
+                        logo.style.width = '80px';
+                    }
+                }
+            }
+        });
 
         let burger = document.querySelector('button.burger');
         let buttonsPosition = document.querySelector('.saintsmedia-theme-cta.menu-nav-buttons--desktop');

@@ -298,60 +298,39 @@ require_once get_template_directory() . '/inc/schema.php';
 
 
 
-// Регистрация (опционально, чтобы WP генерил размеры при будущей загрузке логотипа)
+
+
+
+
+// 1) Маленькие размеры для лого (1x и 2x)
 add_action('after_setup_theme', function () {
-    add_image_size('logo-150', 150);
-    add_image_size('logo-291', 291);
-    add_image_size('logo-768', 768);
-    add_image_size('logo-993', 993);
-    add_image_size('logo-1489', 1489);
+    add_image_size('logo-80', 80, 0, false);
+    add_image_size('logo-160', 160, 0, false);
 });
 
-// Вариант 1: автоматический (использует то, что WP собрал)
-function saintsmedia_logo_responsive( $sizes = '(max-width:430px) 150px, (max-width:600px) 291px, (max-width:900px) 768px, (max-width:1200px) 993px, 1489px' ) {
-    $id = get_theme_mod('custom_logo');
-    if(!$id){
-        echo '<a class="site-title" href="'.esc_url(home_url('/')).'">'.esc_html(get_bloginfo('name')).'</a>';
-        return;
+// 2) Жёстко задаём sizes только для логотипа
+add_filter('wp_calculate_image_sizes', function ($sizes, $size, $image_src, $meta, $attachment_id) {
+    $logo_id = (int) get_theme_mod('custom_logo');
+    if ($attachment_id === $logo_id) {
+        // играешься тут: меняешь 65px / 80px — влияет на выбор кандидатов
+        return '(max-width:431px) 65px, 80px';
     }
-    $full   = wp_get_attachment_image_src($id,'full');
-    $src    = $full[0];
-    $srcset = wp_get_attachment_image_srcset($id,'full');
-    $alt    = esc_attr(get_bloginfo('name'));
-    echo '<a class="site-logo" href="'.esc_url(home_url('/')).'" rel="home">'
-        . '<img src="'.esc_url($src).'" srcset="'.esc_attr($srcset).'" sizes="'.esc_attr($sizes).'" alt="'.$alt.'" decoding="async" fetchpriority="high" />'
-        . '</a>';
-}
+    return $sizes;
+}, 10, 5);
 
-// Вариант 2: жёсткий srcset по вашим webp файлам
-function saintsmedia_logo_hardcoded() {
-    $id = get_theme_mod('custom_logo');
-    if(!$id){
-        echo '<a class="site-title" href="'.esc_url(home_url('/')).'">'.esc_html(get_bloginfo('name')).'</a>';
-        return;
+// 3) Очищаем srcset для логотипа от слишком больших кандидатов (опционально)
+add_filter('wp_calculate_image_srcset', function ($sources, $size_array, $image_src, $image_meta, $attachment_id) {
+    $logo_id = (int) get_theme_mod('custom_logo');
+    if ($attachment_id === $logo_id) {
+        // оставим только кандидатов не больше ~300w (меняй порог под себя)
+        foreach ($sources as $w => $source) {
+            if ($w > 300) {
+                unset($sources[$w]);
+            }
+        }
     }
-    $full = wp_get_attachment_image_src($id,'full');
-    $base = trailingslashit(dirname($full[0]));
-    $srcset = implode(', ', [
-        $base.'logo-150x150.webp 150w',
-        $base.'logo-291x300.webp 291w',
-        $base.'logo-768x792.webp 768w',
-        $base.'logo-993x1024.webp 993w',
-        $base.'logo-1489x1536.webp 1489w',
-        $base.'logo.webp 2000w'
-    ]);
-    $sizes = '(max-width:430px) 150px, (max-width:600px) 291px, (max-width:900px) 768px, (max-width:1200px) 993px, 1489px';
-    $alt = esc_attr(get_bloginfo('name'));
-    echo '<a class="site-logo" href="'.esc_url(home_url('/')).'" rel="home">'
-        . '<img src="'.esc_url($base.'logo-291x300.webp').'" srcset="'.esc_attr($srcset).'" sizes="'.esc_attr($sizes).'" alt="'.$alt.'" decoding="async" fetchpriority="high" />'
-        . '</a>';
-}
-
-
-
-
-
-
+    return $sources;
+}, 10, 5);
 
 
 
