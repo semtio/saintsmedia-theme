@@ -339,46 +339,49 @@ add_filter('get_custom_logo', function ($html, $blog_id) {
 	if (!$logo_id || empty($html)) {
 		return $html;
 	}
-
 	$desired_widths = [150, 291, 768, 993, 1489];
 	$all_srcset = wp_get_attachment_image_srcset($logo_id, 'full');
-	if (!$all_srcset) {
-		return $html; // нечего фильтровать
-	}
+	if (!$all_srcset) { return $html; }
 
-	// Разбиваем srcset и фильтруем по нужным ширинам
-	$parts = array_map('trim', explode(',', $all_srcset));
-	$kept = [];
-	$width_url_map = [];
+	$parts = array_filter(array_map('trim', explode(',', $all_srcset)));
+	$kept = [];$width_url_map = [];
 	foreach ($parts as $p) {
-		if (preg_match('~^(\S+)\s+(\d+)w$~', $p, $m)) {
-			$w = (int)$m[2];
-			if (in_array($w, $desired_widths, true)) {
-				$kept[] = $m[1] . ' ' . $w . 'w';
-				$width_url_map[$w] = $m[1];
-			}
-		}
+		if (!preg_match('~^(\S+)\s+(\d+)w$~', $p, $m)) continue;
+		$w = (int)$m[2];
+		if (!in_array($w, $desired_widths, true)) continue;
+		$url = $m[1];
+		$kept[$w] = $url . ' ' . $w . 'w';
+		$width_url_map[$w] = $url;
 	}
-	if (!$kept) {
-		return $html; // если ничего не осталось — возвращаем исходное
-	}
-	// Выбираем src: предпочтительно 291, иначе минимально большее
-	$preferred_order = [291, 150, 768, 993, 1489];
+	if (!$kept) { return $html; }
+	ksort($kept, SORT_NUMERIC);
+
+	// src приоритет 291 -> 150 -> 768 -> 993 -> 1489
+	$preferred_order = [291,150,768,993,1489];
 	$src = '';
-	foreach ($preferred_order as $pw) {
-		if (!empty($width_url_map[$pw])) { $src = $width_url_map[$pw]; break; }
-	}
-	if ($src === '') {
-		$src = reset($width_url_map);
-	}
+	foreach ($preferred_order as $pw) { if (!empty($width_url_map[$pw])) { $src = $width_url_map[$pw]; break; } }
+	if ($src === '') { $src = reset($width_url_map); }
 
 	$alt = esc_attr(get_bloginfo('name'));
-	$new_img = '<img src="' . esc_url($src) . '" alt="' . $alt . '" width="80" height="83" srcset="' . esc_attr(implode(', ', $kept)) . '" sizes="(max-width:431px) 65px, 80px" decoding="async" fetchpriority="high" class="custom-logo" />';
+	$srcset_final = implode(', ', $kept); // строго отсортировано
+	$new_img = '<img src="'.esc_url($src).'" alt="'.$alt.'" width="80" height="83" srcset="'.esc_attr($srcset_final).'" sizes="(max-width:431px) 65px, 80px" fetchpriority="high" decoding="async" class="custom-logo" loading="eager" />';
 
-	// Заменяем существующий тег <img ...>
+	// Заменяем только первый img
 	$html = preg_replace('/<img[^>]*>/', $new_img, $html, 1);
+
+	// Сохраняем src в глобальный стор для прелоада
+	$GLOBALS['saintsmedia_logo_primary_src'] = $src;
+	$GLOBALS['saintsmedia_logo_srcset'] = $srcset_final;
 	return $html;
 }, 10, 2);
+
+// Preload логотипа для ускорения LCP (если нужен — можно отключить фильтром)
+add_action('wp_head', function(){
+	if (empty($GLOBALS['saintsmedia_logo_primary_src'])) return;
+	$src    = esc_url($GLOBALS['saintsmedia_logo_primary_src']);
+	$srcset = isset($GLOBALS['saintsmedia_logo_srcset']) ? esc_attr($GLOBALS['saintsmedia_logo_srcset']) : '';
+	echo '<link rel="preload" as="image" href="'.$src.'"'.($srcset?' imagesrcset="'.$srcset.'" imagesizes="(max-width:431px) 65px, 80px"':'').' fetchpriority="high" />' . "\n";
+}, 5);
 
 
 
