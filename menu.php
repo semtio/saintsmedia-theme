@@ -11,9 +11,9 @@
             <a href="/">
                 <?php
                 if (has_custom_logo()) {
-                    // echo get_custom_logo(); // уже со srcset
+                    echo get_custom_logo(); // уже со srcset
                 } else {
-                    // echo '<a href="' . esc_url(home_url('/')) . '" class="site-title">' . esc_html(get_bloginfo('name')) . '</a>';
+                    echo '<a href="' . esc_url(home_url('/')) . '" class="site-title">' . esc_html(get_bloginfo('name')) . '</a>';
                 }
                 ?>
             </a>
