@@ -9,21 +9,15 @@
             <meta itemprop="url" content="<?php echo esc_url(get_home_url()); ?>">
 
 
+            <?php
+            if (has_custom_logo()) {
+                the_custom_logo(); // сам выведет <a><img …></a>
+            } else {
+                echo '<a href="' . esc_url(home_url('/')) . '" class="site-title">' . esc_html(get_bloginfo('name')) . '</a>';
+            }
+            ?>
 
-            <a href="/">
-                <?php
-                if (has_custom_logo()) {
-                    echo get_custom_logo(); // уже со srcset
-                    // echo saintsmedia_logo_hardcoded();
-                    // echo saintsmedia_logo_responsive();
 
-                    // echo '<img src="https://calendariovip.es/wp-content/uploads/2025/08/logo-768x792.webp" alt="logo" width="80" height="83" srcset=" https://calendariovip.es/wp-content/uploads/2025/08/logo-150x150.webp 150w, https://calendariovip.es/wp-content/uploads/2025/08/logo-291x300.webp 291w, https://calendariovip.es/wp-content/uploads/2025/08/logo-768x792.webp 768w, https://calendariovip.es/wp-content/uploads/2025/08/logo-993x1024.webp 993w, https://calendariovip.es/wp-content/uploads/2025/08/logo-1489x1536.webp 1489w" sizes="(max-width:431px) 65px, 291px">';
-
-                } else {
-                    echo '<a href="' . esc_url(home_url('/')) . '" class="site-title">' . esc_html(get_bloginfo('name')) . '</a>';
-                }
-                ?>
-            </a>
         </div>
 
         <?php

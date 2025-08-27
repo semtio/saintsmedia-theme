@@ -302,35 +302,44 @@ require_once get_template_directory() . '/inc/schema.php';
 
 
 
-// 1) Маленькие размеры для лого (1x и 2x)
+// 0) маленькие размеры для лого (оставь как есть)
 add_action('after_setup_theme', function () {
-    add_image_size('logo-80', 80, 0, false);
-    add_image_size('logo-160', 160, 0, false);
-});
+	add_image_size('logo-80', 80, 0, false);
+	add_image_size('logo-160', 160, 0, false);
+}, 0);
 
-// 2) Жёстко задаём sizes только для логотипа
-add_filter('wp_calculate_image_sizes', function ($sizes, $size, $image_src, $meta, $attachment_id) {
-    $logo_id = (int) get_theme_mod('custom_logo');
-    if ($attachment_id === $logo_id) {
-        // играешься тут: меняешь 65px / 80px — влияет на выбор кандидатов
-        return '(max-width:431px) 65px, 80px';
-    }
-    return $sizes;
-}, 10, 5);
+/**
+ * Жёстко правим атрибуты <img> именно у ЛОГОТИПА:
+ * - sizes: реальный рендер-размер (65px моб, 80px десктоп)
+ * - width/height: совпадают с рендер-размером (CLS=0)
+ * - srcset: отсекаем всё, что >300w (чтобы не тянуло 768/993/1489)
+ */
+add_filter('wp_get_attachment_image_attributes', function ($attr, $attachment, $size) {
+	$logo_id = (int) get_theme_mod('custom_logo');
+	if ($attachment && (int)$attachment->ID === $logo_id) {
+		// РЕАЛЬНЫЕ размеры под макет
+		$attr['sizes']  = '(max-width:431px) 65px, 80px';
+		$attr['width']  = '80';
+		$attr['height'] = '83';
 
-// 3) Очищаем srcset для логотипа от слишком больших кандидатов (опционально)
-add_filter('wp_calculate_image_srcset', function ($sources, $size_array, $image_src, $image_meta, $attachment_id) {
-    $logo_id = (int) get_theme_mod('custom_logo');
-    if ($attachment_id === $logo_id) {
-        // оставим только кандидатов не больше ~300w (меняй порог под себя)
-        foreach ($sources as $w => $source) {
-            if ($w > 300) {
-                unset($sources[$w]);
-            }
-        }
-    }
-    return $sources;
-}, 10, 5);
+		if (!empty($attr['srcset'])) {
+			$parts = array_map('trim', explode(',', $attr['srcset']));
+			$keep  = [];
+			foreach ($parts as $p) {
+				if (preg_match('/\\s(\\d+)w$/', $p, $m)) {
+					if ((int)$m[1] <= 300) { // порог можно менять (например, 200/400)
+						$keep[] = $p;
+					}
+				}
+			}
+			if ($keep) {
+				$attr['srcset'] = implode(', ', $keep);
+			}
+		}
+	}
+	return $attr;
+}, 9999, 3);
+
 
 
 
