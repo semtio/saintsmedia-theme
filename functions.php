@@ -294,21 +294,78 @@ require_once get_template_directory() . '/inc/schema.php';
 
 
 
-// 1. Заводим Retina‑дружественные размеры для логотипа
+
+
+
+
+// Регистрация (опционально, чтобы WP генерил размеры при будущей загрузке логотипа)
 add_action('after_setup_theme', function () {
-	// Базовый максимум, который реально рендерится в шапке (65px)
-	add_image_size('logo-65', 65, 0, false); // 1x
-	add_image_size('logo-130', 130, 0, false); // 2x (для Retina)
-
-
-	// 2. Поддержка кастом-логотипа (задайте ориентиры под вашу тему)
-	add_theme_support('custom-logo', [
-		'height' => 65,
-		'width' => 65,
-		'flex-height' => true,
-		'flex-width' => true,
-	]);
+    add_image_size('logo-150', 150);
+    add_image_size('logo-291', 291);
+    add_image_size('logo-768', 768);
+    add_image_size('logo-993', 993);
+    add_image_size('logo-1489', 1489);
 });
+
+// Вариант 1: автоматический (использует то, что WP собрал)
+function saintsmedia_logo_responsive( $sizes = '(max-width:430px) 150px, (max-width:600px) 291px, (max-width:900px) 768px, (max-width:1200px) 993px, 1489px' ) {
+    $id = get_theme_mod('custom_logo');
+    if(!$id){
+        echo '<a class="site-title" href="'.esc_url(home_url('/')).'">'.esc_html(get_bloginfo('name')).'</a>';
+        return;
+    }
+    $full   = wp_get_attachment_image_src($id,'full');
+    $src    = $full[0];
+    $srcset = wp_get_attachment_image_srcset($id,'full');
+    $alt    = esc_attr(get_bloginfo('name'));
+    echo '<a class="site-logo" href="'.esc_url(home_url('/')).'" rel="home">'
+        . '<img src="'.esc_url($src).'" srcset="'.esc_attr($srcset).'" sizes="'.esc_attr($sizes).'" alt="'.$alt.'" decoding="async" fetchpriority="high" />'
+        . '</a>';
+}
+
+// Вариант 2: жёсткий srcset по вашим webp файлам
+function saintsmedia_logo_hardcoded() {
+    $id = get_theme_mod('custom_logo');
+    if(!$id){
+        echo '<a class="site-title" href="'.esc_url(home_url('/')).'">'.esc_html(get_bloginfo('name')).'</a>';
+        return;
+    }
+    $full = wp_get_attachment_image_src($id,'full');
+    $base = trailingslashit(dirname($full[0]));
+    $srcset = implode(', ', [
+        $base.'logo-150x150.webp 150w',
+        $base.'logo-291x300.webp 291w',
+        $base.'logo-768x792.webp 768w',
+        $base.'logo-993x1024.webp 993w',
+        $base.'logo-1489x1536.webp 1489w',
+        $base.'logo.webp 2000w'
+    ]);
+    $sizes = '(max-width:430px) 150px, (max-width:600px) 291px, (max-width:900px) 768px, (max-width:1200px) 993px, 1489px';
+    $alt = esc_attr(get_bloginfo('name'));
+    echo '<a class="site-logo" href="'.esc_url(home_url('/')).'" rel="home">'
+        . '<img src="'.esc_url($base.'logo-291x300.webp').'" srcset="'.esc_attr($srcset).'" sizes="'.esc_attr($sizes).'" alt="'.$alt.'" decoding="async" fetchpriority="high" />'
+        . '</a>';
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
