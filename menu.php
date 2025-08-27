@@ -128,26 +128,26 @@
         });
 
         // Добавляем эффект уменьшения логотипа при прокрутке страницы
-        document.addEventListener('scroll', function() {
-            const header = document.querySelector('.saintsmedia-theme-header');
-            const logo = document.querySelector('.saintsmedia-theme-logo img');
+        // document.addEventListener('scroll', function() {
+        //     const header = document.querySelector('.saintsmedia-theme-header');
+        //     const logo = document.querySelector('.saintsmedia-theme-logo img');
 
-            if (window.scrollY > 100) {
-                if (logo) {
-                    logo.style.transition = 'height 0.9s ease';
-                    logo.style.width = '50px';
-                }
-            } else {
-                if (logo) {
-                    logo.style.transition = 'height 0.3s ease';
-                    if (window.innerWidth < 431) {
-                        logo.style.width = '65px';
-                    } else {
-                        logo.style.width = '80px';
-                    }
-                }
-            }
-        });
+        //     if (window.scrollY > 100) {
+        //         if (logo) {
+        //             logo.style.transition = 'height 0.9s ease';
+        //             logo.style.width = '50px';
+        //         }
+        //     } else {
+        //         if (logo) {
+        //             logo.style.transition = 'height 0.3s ease';
+        //             if (window.innerWidth < 431) {
+        //                 logo.style.width = '65px';
+        //             } else {
+        //                 logo.style.width = '80px';
+        //             }
+        //         }
+        //     }
+        // });
 
         let burger = document.querySelector('button.burger');
         let buttonsPosition = document.querySelector('.saintsmedia-theme-cta.menu-nav-buttons--desktop');
