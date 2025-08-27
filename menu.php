@@ -17,7 +17,7 @@
                     // echo saintsmedia_logo_hardcoded();
                     // echo saintsmedia_logo_responsive();
 
-                    echo '<img src="https://calendariovip.es/wp-content/uploads/2025/08/logo.webp" alt="logo" width="1489" height="1536" srcset="https://calendariovip.es/wp-content/uploads/2025/08/logo-150x150.webp 150w, https://calendariovip.es/wp-content/uploads/2025/08/logo-291x300.webp 291w, https://calendariovip.es/wp-content/uploads/2025/08/logo-768x792.webp 768w, https://calendariovip.es/wp-content/uploads/2025/08/logo-993x1024.webp 993w, https://calendariovip.es/wp-content/uploads/2025/08/logo-1489x1536.webp 1489w" sizes="(max-width: 768px) 100vw, 1489px">';
+                    echo '<img src="https://calendariovip.es/wp-content/uploads/2025/08/logo.webp" alt="asdasd">';
                 // } else {
                 //     echo '<a href="' . esc_url(home_url('/')) . '" class="site-title">' . esc_html(get_bloginfo('name')) . '</a>';
                 // }
