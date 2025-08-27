@@ -302,43 +302,95 @@ require_once get_template_directory() . '/inc/schema.php';
 
 
 
-// 0) маленькие размеры для лого (оставь как есть)
-add_action('after_setup_theme', function () {
-	add_image_size('logo-80', 80, 0, false);
-	add_image_size('logo-160', 160, 0, false);
-}, 0);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /**
- * Жёстко правим атрибуты <img> именно у ЛОГОТИПА:
- * - sizes: реальный рендер-размер (65px моб, 80px десктоп)
- * - width/height: совпадают с рендер-размером (CLS=0)
- * - srcset: отсекаем всё, что >300w (чтобы не тянуло 768/993/1489)
+ * Кастомизация HTML <img> кастомного логотипа.
+ * Требования:
+ *  - width="80" height="83"
+ *  - sizes="(max-width:431px) 65px, 80px"
+ *  - srcset оставить только 150w,291w,768w,993w,1489w (если существуют)
  */
-add_filter('wp_get_attachment_image_attributes', function ($attr, $attachment, $size) {
-	$logo_id = (int) get_theme_mod('custom_logo');
-	if ($attachment && (int)$attachment->ID === $logo_id) {
-		// РЕАЛЬНЫЕ размеры под макет
-		$attr['sizes']  = '(max-width:431px) 65px, 80px';
-		$attr['width']  = '80';
-		$attr['height'] = '83';
+add_filter('get_custom_logo', function ($html, $blog_id) {
+	$logo_id = get_theme_mod('custom_logo');
+	if (!$logo_id || empty($html)) {
+		return $html;
+	}
 
-		if (!empty($attr['srcset'])) {
-			$parts = array_map('trim', explode(',', $attr['srcset']));
-			$keep  = [];
-			foreach ($parts as $p) {
-				if (preg_match('/\\s(\\d+)w$/', $p, $m)) {
-					if ((int)$m[1] <= 300) { // порог можно менять (например, 200/400)
-						$keep[] = $p;
-					}
-				}
-			}
-			if ($keep) {
-				$attr['srcset'] = implode(', ', $keep);
+	$desired_widths = [150, 291, 768, 993, 1489];
+	$all_srcset = wp_get_attachment_image_srcset($logo_id, 'full');
+	if (!$all_srcset) {
+		return $html; // нечего фильтровать
+	}
+
+	// Разбиваем srcset и фильтруем по нужным ширинам
+	$parts = array_map('trim', explode(',', $all_srcset));
+	$kept = [];
+	$width_url_map = [];
+	foreach ($parts as $p) {
+		if (preg_match('~^(\S+)\s+(\d+)w$~', $p, $m)) {
+			$w = (int)$m[2];
+			if (in_array($w, $desired_widths, true)) {
+				$kept[] = $m[1] . ' ' . $w . 'w';
+				$width_url_map[$w] = $m[1];
 			}
 		}
 	}
-	return $attr;
-}, 9999, 3);
+	if (!$kept) {
+		return $html; // если ничего не осталось — возвращаем исходное
+	}
+	// Выбираем src: предпочтительно 291, иначе минимально большее
+	$preferred_order = [291, 150, 768, 993, 1489];
+	$src = '';
+	foreach ($preferred_order as $pw) {
+		if (!empty($width_url_map[$pw])) { $src = $width_url_map[$pw]; break; }
+	}
+	if ($src === '') {
+		$src = reset($width_url_map);
+	}
+
+	$alt = esc_attr(get_bloginfo('name'));
+	$new_img = '<img src="' . esc_url($src) . '" alt="' . $alt . '" width="80" height="83" srcset="' . esc_attr(implode(', ', $kept)) . '" sizes="(max-width:431px) 65px, 80px" decoding="async" fetchpriority="high" class="custom-logo" />';
+
+	// Заменяем существующий тег <img ...>
+	$html = preg_replace('/<img[^>]*>/', $new_img, $html, 1);
+	return $html;
+}, 10, 2);
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
