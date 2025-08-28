@@ -305,7 +305,6 @@ require_once get_template_directory() . '/inc/schema.php';
 
 
 
-
 // 1. Функция для генерации короткой ссылки
 function tfc_go_link($real_url)
 {

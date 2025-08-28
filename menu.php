@@ -6,7 +6,7 @@
     <header class="saintsmedia-theme-header">
         <div itemscope itemtype="https://schema.org/ImageObject" class="saintsmedia-theme-logo" tabindex="0"
             aria-label="saintsmedia-theme">
-            <meta itemprop="url" content="<?php echo esc_url(get_home_url()); ?>">
+            <meta itemprop="url" content="<?php echo esc_url(get_the_post_thumbnail_url()); ?>">
 
 
             <?php
@@ -75,27 +75,92 @@
                 </button>
             </a>
 
-            <a rel="noreferrer nofollow noopener" target="_blank" href="<?php echo esc_url(tfc_go_link($link_btn_menu_2)); ?>">
+            <a rel="noreferrer nofollow noopener" target="_blank"
+                href="<?php echo esc_url(tfc_go_link($link_btn_menu_2)); ?>">
                 <button class="saintsmedia-theme-btn download" tabindex="0">
                     <?php echo esc_html($btn_menu_2); ?>
                 </button>
             </a>
-
         </div>
     </header><!-- #masthead -->
 
-    <!-- Хлебные крошки только для домашней стр. -->
+    <!-- Schema - Article -->
     <?php if (is_front_page()) { ?>
-        <div id="breadСrumbs" style="display: none;" itemscope itemtype="https://schema.org/BreadcrumbList"
-            aria-label="Breadcrumb">
-            <ul>
-                <li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                    <a class="breadcrumbs__link" itemprop="item" href="/"><span itemprop="name">
-                            <?php echo esc_html(get_the_title()); ?>
-                        </span></a>
-                    <meta itemprop="position" content="1" />
-                </li>
-            </ul>
+        <div style="display:none;" class="hiden-schema">
+            <!-- Article -->
+            <div itemprop="mainEntity" itemscope itemtype="https://schema.org/Article">
+                <!-- Заголовок/описание/URL -->
+                <meta itemprop="headline" content="<?php echo esc_attr(get_bloginfo('name')); ?>">
+                <meta itemprop="description" content="<?php echo esc_attr(get_bloginfo('description')); ?>">
+                <meta itemprop="mainEntityOfPage" content="<?php echo esc_url(home_url('/')); ?>">
+                <meta itemprop="url" content="<?php echo esc_url(home_url('/')); ?>">
+
+                <!-- Даты (ISO 8601) -->
+                <meta itemprop="datePublished" content="<?php echo esc_attr(get_the_date(DATE_W3C)); ?>">
+                <meta itemprop="dateModified" content="<?php echo esc_attr(get_post_modified_time(DATE_W3C, true)); ?>">
+
+                <!-- Паблишер (Organization + logo) -->
+                <span itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+                    <meta itemprop="name" content="<?php echo esc_attr(get_bloginfo('name')); ?>">
+                    <span itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+                        <meta itemprop="url" content="<?php echo esc_url(get_site_icon_url(512)); ?>">
+                        <meta itemprop="width" content="512">
+                        <meta itemprop="height" content="512">
+                    </span>
+                </span>
+
+                <!-- Картинка статьи (ImageObject) -->
+                <?php
+                $img_id  = get_post_thumbnail_id();
+                if ($img_id) {
+                    $src  = wp_get_attachment_image_src($img_id, 'full');
+                    $alt  = get_post_meta($img_id, '_wp_attachment_image_alt', true);
+                    $meta = wp_get_attachment_metadata($img_id);
+                    if ($src) :
+                ?>
+                        <span itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
+                            <meta itemprop="url" content="<?php echo esc_url($src[0]); ?>">
+                            <meta itemprop="contentUrl" content="<?php echo esc_url($src[0]); ?>">
+                            <?php if (!empty($meta['width']) && !empty($meta['height'])) : ?>
+                                <meta itemprop="width" content="<?php echo esc_attr($meta['width']); ?>">
+                                <meta itemprop="height" content="<?php echo esc_attr($meta['height']); ?>">
+                            <?php endif; ?>
+                            <?php if ($alt) : ?>
+                                <meta itemprop="caption" content="<?php echo esc_attr($alt); ?>">
+                            <?php endif; ?>
+                        </span>
+                <?php
+                    endif;
+                }
+                ?>
+            </div>
+            <!-- Article END -->
+            <!-- WebPage -->
+            <div itemscope itemtype="https://schema.org/WebPage">
+                <meta itemprop="name" content="<?php echo esc_attr(get_bloginfo('name')); ?>">
+                <meta itemprop="description" content="<?php echo esc_attr(get_bloginfo('description')); ?>">
+                <meta itemprop="url" content="<?php echo esc_url(home_url('/')); ?>">
+                <?php
+                $front_id = (int) get_option('page_on_front');
+                if ($front_id) {
+                    $published = get_post_time('c', true, $front_id);
+                    $modified  = get_post_modified_time('c', true, $front_id);
+                } else {
+                    $published = get_the_date('c');
+                    $modified  = get_the_modified_date('c');
+                }
+                ?>
+                <?php if (has_custom_logo()) :
+                    $logo_id = get_theme_mod('custom_logo');
+                    $logo    = wp_get_attachment_image_src($logo_id, 'full');
+                    if ($logo) : ?>
+                        <div itemprop="primaryImageOfPage" itemscope itemtype="https://schema.org/ImageObject">
+                            <meta itemprop="url" content="<?php echo esc_url($logo[0]); ?>">
+                        </div>
+                <?php endif;
+                endif; ?>
+            </div>
+            <!-- WebPage END -->
         </div>
     <?php } ?>
 
