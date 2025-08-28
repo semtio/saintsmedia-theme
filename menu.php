@@ -68,14 +68,14 @@
         </nav>
 
         <div class="saintsmedia-theme-cta menu-nav-buttons--mobile">
-            <a rel="sponsored nofollow noopener" target="_blank"
+            <a rel="noreferrer nofollow noopener" target="_blank"
                 href="<?php echo esc_url(tfc_go_link($link_btn_menu_1)); ?>">
                 <button class="saintsmedia-theme-btn play" tabindex="0">
                     <?php echo esc_html($btn_menu_1); ?>
                 </button>
             </a>
 
-            <a target="_blank" href="<?php echo esc_url(tfc_go_link($link_btn_menu_2)); ?>">
+            <a rel="noreferrer nofollow noopener" target="_blank" href="<?php echo esc_url(tfc_go_link($link_btn_menu_2)); ?>">
                 <button class="saintsmedia-theme-btn download" tabindex="0">
                     <?php echo esc_html($btn_menu_2); ?>
                 </button>
