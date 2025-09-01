@@ -255,7 +255,7 @@ function saintsmedia_get_customizer_fields(): array
 			'default'   => '',
 			'section'   => 'custom_homepage_settings',
 			'type'      => 'number',
-			'css_var'   => '--sm-gut-bord-radius'.'px',
+			'css_var'   => '--sm-gut-bord-radius',
 			'sanitize'  => 'sanitize_text_field',
 			'transport' => 'refresh',
 		],
