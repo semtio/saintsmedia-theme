@@ -248,6 +248,17 @@ function saintsmedia_get_customizer_fields(): array
 			'sanitize'  => 'sanitize_text_field',
 			'transport' => 'refresh',
 		],
+		[
+			'id'        => 'border_radius_for_img_gutenberg',
+			'css_var'   => '--sm-gut-bord-radius',
+			'label'     => __('Закругление img в Gutenberg', 'saintsmedia'),
+			'default'   => '',
+			'section'   => 'custom_homepage_settings',
+			'type'      => 'number',
+			'css_var'   => '',
+			'sanitize'  => 'sanitize_text_field',
+			'transport' => 'refresh',
+		],
 	];
 	return apply_filters('saintsmedia_customizer_fields', $fields);
 }

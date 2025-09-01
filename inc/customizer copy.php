@@ -236,30 +236,18 @@ function saintsmedia_get_customizer_fields(): array
 			'transport' => 'refresh',
 		],
 		[
-			'id'        => 'saintsmedia_font_family',
-			'label'     => __('Семейство шрифта (из /assets/fonts)', 'saintsmedia'),
-			'default'   => '',
+			'id'        => 'saintsmedia_font_file',
+			'label'     => __('Шрифт', 'saintsmedia'),
+			'default'   => 'system',
 			'section'   => 'custom_homepage_settings',
 			'type'      => 'select',
-			'choices'   => saintsmedia_scan_font_families(),
-			'css_var'   => '--sm-font-family',
+			'choices'   => array_merge([
+				'system' => 'System (-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif)'
+			], saintsmedia_scan_font_files()),
+			'css_var'   => '',
 			'sanitize'  => 'sanitize_text_field',
 			'transport' => 'refresh',
 		],
-		[
-			'id'        => 'saintsmedia_homepage_layout',
-			'label'     => __('Шаблон главной страницы', 'saintsmedia'),
-			'default'   => 'default',
-			'section'   => 'custom_homepage_settings',
-			'type'      => 'select',
-			   'choices'   => [
-				   'key1' => __('По умолчанию', 'saintsmedia'),
-				   'key2' => __('С героем', 'saintsmedia'),
-				   'key3' => __('Карточный', 'saintsmedia'),
-			   ],
-		   'sanitize'  => 'sanitize_text_field',
-		   'transport' => 'refresh',
-	   ],
 	];
 	return apply_filters('saintsmedia_customizer_fields', $fields);
 }
@@ -369,17 +357,35 @@ function saintsmedia_customizer_output_css()
 		if (!empty($field['css_var'])) {
 			$value = get_theme_mod($field['id'], $field['default']);
 			if ($value !== '') {
-				// Для font-family добавляем кавычки, чтобы значения с пробелами были валидными
-			if (!empty($field['css_var']) && $field['css_var'] === '--sm-font-family') {
-				$value = chr(34) . $value . chr(34);
-			}
-			$vars[] = $field['css_var'] . ':' . $value;
+				$vars[] = $field['css_var'] . ':' . $value;
 			}
 		}
 	}
+
+	// Выбранный файл шрифта или system
+	$font_file = get_theme_mod('saintsmedia_font_file', 'system');
+	$faces_css = '';
+	if ($font_file === 'system' || $font_file === '') {
+		// Системный стек (без внешних кавычек вокруг всего списка)
+		$vars[] = '--sm-font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif';
+	} else {
+		$family = saintsmedia_pretty_family_label_from_filename($font_file);
+		if ($family !== '') {
+			$family_quoted = '"' . str_replace('"', '\"', $family) . '"';
+			$vars[] = '--sm-font-family:' . $family_quoted;
+		}
+		$faces_css = saintsmedia_generate_font_face_css_from_file($font_file);
+	}
+
+	$css_parts = [];
 	if ($vars) {
-		$css = ':root{' . implode(';', $vars) . ';}';
-		// Подключаем к базовой таблице стилей темы
+		$css_parts[] = ':root{' . implode(';', $vars) . ';}';
+	}
+	if (!empty($faces_css)) {
+		$css_parts[] = $faces_css;
+	}
+	if (!empty($css_parts)) {
+		$css = implode("", $css_parts);
 		wp_add_inline_style('saintsmedia-style', $css);
 	}
 }
@@ -477,4 +483,119 @@ function saintsmedia_scan_font_families(): array {
 	}
 
 	return apply_filters('saintsmedia_font_family_choices', $families);
+}
+
+
+/**
+ * Возвращает список файлов шрифтов из корня папки assets/fonts.
+ * Ключ и значение — полное имя файла (с расширением), чтобы в select показывать именно файл.
+ */
+function saintsmedia_scan_font_files(): array {
+	$dir = saintsmedia_get_fonts_dir();
+	$out = [];
+	if (is_dir($dir) && is_readable($dir)) {
+		$allowed = ['woff2','woff','ttf','otf'];
+		$it = new DirectoryIterator($dir);
+		foreach ($it as $fi) {
+			if ($fi->isDot() || !$fi->isFile()) continue;
+			$ext = strtolower(pathinfo($fi->getFilename(), PATHINFO_EXTENSION));
+			if (!in_array($ext, $allowed, true)) continue;
+			$fn = $fi->getFilename();
+			$out[$fn] = $fn;
+		}
+	}
+	if (!empty($out)) {
+		natcasesort($out);
+		$out = array_combine(array_values($out), array_values($out));
+	}
+	return $out;
+}
+
+/**
+ * Получает читаемое имя семейства из имени файла.
+ * Правило: берём часть имени до первой «-», подчёркивания остаются как разделитель.
+ */
+function saintsmedia_pretty_family_label_from_filename(string $filename): string {
+	$base = pathinfo($filename, PATHINFO_FILENAME);
+	$dashPos = strpos($base, '-');
+	if ($dashPos !== false) {
+		$base = substr($base, 0, $dashPos);
+	}
+	$base = str_replace(array('_','-'), ' ', $base);
+	while (strpos($base, '  ') !== false) { $base = str_replace('  ', ' ', $base); }
+	$base = trim($base);
+	return ucwords($base);
+}
+
+/**
+ * Определение веса шрифта по имени файла.
+ */
+function saintsmedia_map_weight_from_string(string $s): int {
+	$s = strtolower($s);
+	for ($w = 100; $w <= 900; $w += 100) {
+		if (strpos($s, (string)$w) !== false) return $w;
+	}
+	$map = array(
+		'thin' => 100,
+		'hairline' => 100,
+		'extra light' => 200,
+		'ultra light' => 200,
+		'extralight' => 200,
+		'ultralight' => 200,
+		'light' => 300,
+		'book' => 400,
+		'normal' => 400,
+		'regular' => 400,
+		'medium' => 500,
+		'semibold' => 600,
+		'semi bold' => 600,
+		'demibold' => 600,
+		'demi bold' => 600,
+		'bold' => 700,
+		'extra bold' => 800,
+		'extrabold' => 800,
+		'ultra bold' => 800,
+		'ultrabold' => 800,
+		'heavy' => 800,
+		'black' => 900,
+		'extra black' => 900,
+		'ultra black' => 900
+	);
+	foreach ($map as $k => $v) {
+		if (strpos($s, $k) !== false) return $v;
+	}
+	return 400;
+}
+
+/**
+ * Определение стиля по имени файла.
+ */
+function saintsmedia_map_style_from_string(string $s): string {
+	$s = strtolower($s);
+	if (strpos($s, 'italic') !== false || strpos($s, 'ital') !== false) return 'italic';
+	if (strpos($s, 'oblique') !== false) return 'oblique';
+	return 'normal';
+}
+
+/**
+ * Генерация @font-face для одного выбранного файла из корня assets/fonts.
+ */
+function saintsmedia_generate_font_face_css_from_file(string $filename): string {
+	$dir = saintsmedia_get_fonts_dir();
+	// Убираем завершающие слэши (и прямой, и обратный)
+	$path = rtrim($dir, "/\\") . DIRECTORY_SEPARATOR . $filename;
+	if (!is_file($path) || !is_readable($path)) return '';
+
+	$ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+	$format = ($ext === 'ttf') ? 'truetype' : (($ext === 'otf') ? 'opentype' : $ext);
+	$family = saintsmedia_pretty_family_label_from_filename($filename);
+	$weight = saintsmedia_map_weight_from_string($filename);
+	$style  = saintsmedia_map_style_from_string($filename);
+
+	$url = rtrim(saintsmedia_get_fonts_url(), '/');
+	$src = $url . '/' . rawurlencode($filename);
+
+	$styleVal = ($style === 'oblique') ? 'oblique' : (($style === 'italic') ? 'italic' : 'normal');
+	$css = "@font-face{font-family:'" . str_replace("'", "\'", $family) . "';font-style:" . $styleVal . ";font-weight:" . $weight . ";font-display:swap;src:url('" . $src . "') format('" . $format . "');}";
+	return $css;
 }

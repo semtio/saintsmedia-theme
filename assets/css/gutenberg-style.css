@@ -9,6 +9,10 @@
     width: 100% !important;
 }
 
+.parent-gutenberg-group img {
+    border-radius: var(--sm-gut-bord-radius);
+}
+
 /* Устанавливаем размеры кнопок для моб.вер. */
 @media (max-width: 561px) {
     .gutenberg-button-mobile {
