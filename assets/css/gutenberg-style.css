@@ -9,7 +9,7 @@
     width: 100% !important;
 }
 
-.parent-gutenberg-group img {
+.parent-gutenberg-group .wp-block-image.alignwide img {
     border-radius: var(--sm-gut-bord-radius);
 }
 
