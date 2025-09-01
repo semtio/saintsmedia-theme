@@ -11,7 +11,7 @@
 
 .parent-gutenberg-group .wp-block-image.alignwide img {
     border-radius: var(--sm-gut-bord-radius);
-    border: solid red 10px;
+    /* border: solid red 10px; */
 }
 
 /* Устанавливаем размеры кнопок для моб.вер. */

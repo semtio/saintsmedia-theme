@@ -250,12 +250,12 @@ function saintsmedia_get_customizer_fields(): array
 		],
 		[
 			'id'        => 'border_radius_for_img_gutenberg',
-			'css_var'   => '--sm-gut-bord-radius',
+
 			'label'     => __('Закругление img в Gutenberg', 'saintsmedia'),
 			'default'   => '',
 			'section'   => 'custom_homepage_settings',
 			'type'      => 'number',
-			'css_var'   => '',
+			'css_var'   => '--sm-gut-bord-radius'.'px',
 			'sanitize'  => 'sanitize_text_field',
 			'transport' => 'refresh',
 		],
@@ -433,12 +433,14 @@ add_action('customize_preview_init', 'saintsmedia_customize_preview_js');
  * ===== Fonts helpers =====
  * Папка по умолчанию: /assets/fonts внутри активной темы (можно переопределить фильтрами).
  */
-function saintsmedia_get_fonts_dir(): string {
+function saintsmedia_get_fonts_dir(): string
+{
 	$dir = get_stylesheet_directory() . '/assets/fonts';
 	return apply_filters('saintsmedia_fonts_dir', $dir);
 }
 
-function saintsmedia_get_fonts_url(): string {
+function saintsmedia_get_fonts_url(): string
+{
 	$url = get_stylesheet_directory_uri() . '/assets/fonts';
 	return apply_filters('saintsmedia_fonts_url', $url);
 }
@@ -447,12 +449,13 @@ function saintsmedia_get_fonts_url(): string {
  * Сканирует папку шрифтов и возвращает список семейств вида ['Inter' => 'Inter'].
  * Предпочитает имена подпапок как название семейства; при их отсутствии пробует вывести семейство из имён файлов.
  */
-function saintsmedia_scan_font_families(): array {
+function saintsmedia_scan_font_families(): array
+{
 	$dir = saintsmedia_get_fonts_dir();
 	$families = [];
 
 	if (is_dir($dir) && is_readable($dir)) {
-		$allowed = ['woff2','woff','ttf','otf'];
+		$allowed = ['woff2', 'woff', 'ttf', 'otf'];
 
 		// 1) Сканируем ТОЛЬКО корень папки (файлы шрифтов в assets/fonts)
 		$it = new DirectoryIterator($dir);
@@ -501,11 +504,12 @@ function saintsmedia_scan_font_families(): array {
  * Возвращает список файлов шрифтов из корня папки assets/fonts.
  * Ключ и значение — полное имя файла (с расширением), чтобы в select показывать именно файл.
  */
-function saintsmedia_scan_font_files(): array {
+function saintsmedia_scan_font_files(): array
+{
 	$dir = saintsmedia_get_fonts_dir();
 	$out = [];
 	if (is_dir($dir) && is_readable($dir)) {
-		$allowed = ['woff2','woff','ttf','otf'];
+		$allowed = ['woff2', 'woff', 'ttf', 'otf'];
 		$it = new DirectoryIterator($dir);
 		foreach ($it as $fi) {
 			if ($fi->isDot() || !$fi->isFile()) continue;
@@ -526,14 +530,17 @@ function saintsmedia_scan_font_files(): array {
  * Получает читаемое имя семейства из имени файла.
  * Правило: берём часть имени до первой «-», подчёркивания остаются как разделитель.
  */
-function saintsmedia_pretty_family_label_from_filename(string $filename): string {
+function saintsmedia_pretty_family_label_from_filename(string $filename): string
+{
 	$base = pathinfo($filename, PATHINFO_FILENAME);
 	$dashPos = strpos($base, '-');
 	if ($dashPos !== false) {
 		$base = substr($base, 0, $dashPos);
 	}
-	$base = str_replace(array('_','-'), ' ', $base);
-	while (strpos($base, '  ') !== false) { $base = str_replace('  ', ' ', $base); }
+	$base = str_replace(array('_', '-'), ' ', $base);
+	while (strpos($base, '  ') !== false) {
+		$base = str_replace('  ', ' ', $base);
+	}
 	$base = trim($base);
 	return ucwords($base);
 }
@@ -541,7 +548,8 @@ function saintsmedia_pretty_family_label_from_filename(string $filename): string
 /**
  * Определение веса шрифта по имени файла.
  */
-function saintsmedia_map_weight_from_string(string $s): int {
+function saintsmedia_map_weight_from_string(string $s): int
+{
 	$s = strtolower($s);
 	for ($w = 100; $w <= 900; $w += 100) {
 		if (strpos($s, (string)$w) !== false) return $w;
@@ -581,7 +589,8 @@ function saintsmedia_map_weight_from_string(string $s): int {
 /**
  * Определение стиля по имени файла.
  */
-function saintsmedia_map_style_from_string(string $s): string {
+function saintsmedia_map_style_from_string(string $s): string
+{
 	$s = strtolower($s);
 	if (strpos($s, 'italic') !== false || strpos($s, 'ital') !== false) return 'italic';
 	if (strpos($s, 'oblique') !== false) return 'oblique';
@@ -591,7 +600,8 @@ function saintsmedia_map_style_from_string(string $s): string {
 /**
  * Генерация @font-face для одного выбранного файла из корня assets/fonts.
  */
-function saintsmedia_generate_font_face_css_from_file(string $filename): string {
+function saintsmedia_generate_font_face_css_from_file(string $filename): string
+{
 	$dir = saintsmedia_get_fonts_dir();
 	// Убираем завершающие слэши (и прямой, и обратный)
 	$path = rtrim($dir, "/\\") . DIRECTORY_SEPARATOR . $filename;
