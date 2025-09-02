@@ -176,6 +176,16 @@ function saintsmedia_get_customizer_fields(): array
 			'transport' => 'refresh',
 		],
 		[
+			'id'        => 'saintsmedia_enable_footer_pay_method',
+			'label'     => __('Метод оплаты и 18+', 'saintsmedia'),
+			'default'   => false,
+			'section'   => 'custom_homepage_settings',
+			'type'      => 'checkbox',
+			'css_var'   => '',
+			'sanitize'  => 'wp_validate_boolean',
+			'transport' => 'refresh',
+		],
+		[
 			'id'        => 'saintsmedia_text_botton_1',
 			'label'     => __('Текст кнопки #1', 'saintsmedia'),
 			'default'   => '',

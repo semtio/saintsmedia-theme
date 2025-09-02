@@ -63,29 +63,38 @@
 			<a href="mailto:<?php echo esc_html(get_theme_mod('footer_mail_link')); ?>" class="footer-contact-link"><?php echo esc_html(get_theme_mod('footer_contact_us')); ?>: <?php echo esc_html(get_theme_mod('footer_mail_link')); ?></a>
 		</div>
 
-		<!-- STATIC LOGO SECTIONS START -->
-		<div class="footer-logos-wrapper" aria-label="Supported payment methods and compliance badges">
-			<?php
-			// Базовый путь к папке загрузок за конкретный месяц (избавляемся от жёсткого домена)
-			$upload_dir  = wp_get_upload_dir();
-			$logos_base  = trailingslashit($upload_dir['baseurl']) . '2025/09/'; // при переносе месяца — обновить только этот суффикс
-			?>
+		<!-- Payment method and 18+ -->
 
-			<!-- Первая секция (платёжные методы) -->
-			<div class="saintsmedia-theme-logos-block saintsmedia-theme-logos-block--payments" aria-label="Payment methods">
-				<img src="<?php echo esc_url($logos_base . 'ApplePay.svg'); ?>" alt="Apple Pay">
-				<img src="<?php echo esc_url($logos_base . 'Blik.svg'); ?>" alt="Blik">
-				<img src="<?php echo esc_url($logos_base . 'Crypto.svg'); ?>" alt="Crypto">
-				<img src="<?php echo esc_url($logos_base . 'GooglePay.svg'); ?>" alt="Google Pay">
-				<img src="<?php echo esc_url($logos_base . 'MasterCard.svg'); ?>" alt="MasterCard">
+		<?php
+		$payment_and_adult = $is_enabled = get_theme_mod('saintsmedia_enable_footer_pay_method', false);
+
+
+		if ($payment_and_adult) { ?>
+			<div class="footer-logos-wrapper" aria-label="Supported payment methods and compliance badges">
+				<?php
+				// Базовый путь к папке загрузок за конкретный месяц (избавляемся от жёсткого домена)
+				$upload_dir  = wp_get_upload_dir();
+				$logos_base  = trailingslashit($upload_dir['baseurl']) . '2025/09/'; // при переносе месяца — обновить только этот суффикс
+				?>
+
+				<!-- Первая секция (платёжные методы) -->
+
+				<div class="saintsmedia-theme-logos-block saintsmedia-theme-logos-block--payments" aria-label="Payment methods">
+					<img src="<?php echo esc_url($logos_base . 'ApplePay.svg'); ?>" alt="Apple Pay">
+					<img src="<?php echo esc_url($logos_base . 'Blik.svg'); ?>" alt="Blik">
+					<img src="<?php echo esc_url($logos_base . 'Crypto.svg'); ?>" alt="Crypto">
+					<img src="<?php echo esc_url($logos_base . 'GooglePay.svg'); ?>" alt="Google Pay">
+					<img src="<?php echo esc_url($logos_base . 'MasterCard.svg'); ?>" alt="MasterCard">
+				</div>
+				<!-- Вторая секция (соответствие / возраст / безопасность) -->
+				<div class="saintsmedia-theme-logos-block saintsmedia-theme-logos-block--compliance" aria-label="Compliance and safety">
+					<img src="<?php echo esc_url($logos_base . '18.svg'); ?>" alt="18+">
+					<img src="<?php echo esc_url($logos_base . 'ssl.svg'); ?>" alt="SSL Secure">
+				</div>
 			</div>
-			<!-- Вторая секция (соответствие / возраст / безопасность) -->
-			<div class="saintsmedia-theme-logos-block saintsmedia-theme-logos-block--compliance" aria-label="Compliance and safety">
-				<img src="<?php echo esc_url($logos_base . '18.svg'); ?>" alt="18+">
-				<img src="<?php echo esc_url($logos_base . 'ssl.svg'); ?>" alt="SSL Secure">
-			</div>
-		</div>
-		<!-- STATIC LOGO SECTIONS END -->
+
+		<?php } ?>
+		<!-- Payment method and 18+ END -->
 	</div>
 </footer>
 </div><!-- #page -->
