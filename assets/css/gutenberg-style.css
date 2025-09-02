@@ -6,7 +6,7 @@
 
 .parent-gutenberg-group figure,
 .parent-gutenberg-group figure img {
-    width: 100% !important;
+    /* width: 100% !important; */
 }
 
 .parent-gutenberg-group .wp-block-image.alignwide img {
