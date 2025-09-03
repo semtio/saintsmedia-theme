@@ -177,7 +177,7 @@ function saintsmedia_get_customizer_fields(): array
 		],
 		[
 			'id'        => 'saintsmedia_enable_footer_pay_method',
-			'label'     => __('Метод оплаты и 18+', 'saintsmedia'),
+			'label'     => __('Метод оплаты и 118+', 'saintsmedia'),
 			'default'   => false,
 			'section'   => 'custom_homepage_settings',
 			'type'      => 'checkbox',
