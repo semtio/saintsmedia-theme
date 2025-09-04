@@ -19,7 +19,6 @@ body {
     background: var(--sm-menu-bg);
 }
 
-
 .sm-page .saintsmedia-theme-footer .footer-inner {
     display: flex;
     flex-direction: column;
