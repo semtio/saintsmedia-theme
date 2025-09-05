@@ -64,6 +64,10 @@ body {
     min-height: 64px;
     color: var(--sm-menu-text, #B8BDC5);
 }
+/* Временная страница */
+.site-custom-logo-plug{
+    background: var(--sm-menu-bg, #111315);
+}
 
 .saintsmedia-theme-nav ul li a {
     color: var(--sm-menu-link);
