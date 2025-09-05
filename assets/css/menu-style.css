@@ -65,7 +65,8 @@ body {
     color: var(--sm-menu-text, #B8BDC5);
 }
 /* Временная страница */
-.site-custom-logo-plug{
+.site-custom-logo-plug,
+.site-title-fallback{
     background: var(--sm-menu-bg, #111315);
 }
 

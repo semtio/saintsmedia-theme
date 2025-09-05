@@ -23,12 +23,16 @@ if (is_page('home-page')) : ?>
             justify-content: center;
         }
 
-        .site-custom-logo-plug img{
+        .site-custom-logo-plug img {
             margin: 20px 0;
             width: 250px;
         }
 
-        .site-custom-logo-plug{
+        .site-title-fallback a{
+            margin: 20px 0;
+        }
+
+        .site-custom-logo-plug {
             display: flex;
             justify-content: center;
         }
