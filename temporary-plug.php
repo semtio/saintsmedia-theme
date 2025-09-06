@@ -10,7 +10,6 @@ defined('ABSPATH') || exit;
 get_header();
 ?>
 
-
 <?php
 if (is_page('home-page')) : ?>
     <style>
@@ -36,7 +35,6 @@ if (is_page('home-page')) : ?>
             display: flex;
             justify-content: center;
         }
-
     </style>
 <?php endif; ?>
 
