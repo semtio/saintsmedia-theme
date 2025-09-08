@@ -32,7 +32,8 @@ function saintsmedia_setup()
 	load_theme_textdomain('saintsmedia', get_template_directory() . '/languages');
 
 	// Add default posts and comments RSS feed links to head.
-	add_theme_support('automatic-feed-links');
+	// Отключил RSS
+	// add_theme_support('automatic-feed-links');
 
 	/*
 		* Let WordPress manage the document title.
@@ -40,7 +41,7 @@ function saintsmedia_setup()
 		* hard-coded <title> tag in the document head, and expect WordPress to
 		* provide it for us.
 		*/
-	// Убрал лишний тайтл.
+	// Отключил Убрал лишний тайтл.
 	// add_theme_support('title-tag');
 
 	/*

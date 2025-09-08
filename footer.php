@@ -60,7 +60,13 @@
 			<?php
 			$email = get_option('admin_email');
 			?>
-			<a href="mailto:<?php echo esc_html(get_theme_mod('footer_mail_link')); ?>" class="footer-contact-link"><?php echo esc_html(get_theme_mod('footer_contact_us')); ?>: <?php echo esc_html(get_theme_mod('footer_mail_link')); ?></a>
+			<a href="mailto:<?php echo esc_html(get_theme_mod('footer_mail_link')); ?>" class="footer-contact-link"><?php echo esc_html(get_theme_mod('footer_contact_us')); ?>:
+				<?php
+				$domain = wp_parse_url(home_url(), PHP_URL_HOST);
+				$email  = get_theme_mod('footer_mail_link');
+				echo esc_html($email ? $email : 'info@' . $domain);
+				?>
+			</a>
 		</div>
 
 		<!-- Payment method and 18+ -->
