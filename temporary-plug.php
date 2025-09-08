@@ -27,7 +27,7 @@ if (is_page('home-page')) : ?>
             width: 250px;
         }
 
-        .site-title-fallback a{
+        .site-title-fallback a {
             margin: 20px 0;
         }
 

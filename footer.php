@@ -69,6 +69,13 @@
 			</a>
 		</div>
 
+		<?php if (is_page('home-page')) : ?>
+			<div style="display: flex; justify-content: center; margin-top: 4px; width: 48px;" class="dmca">
+				<a href="https://www.dmca.com/r/mqwgq92" title="DMCA.com Protection Status" class="dmca-badge"> <img src="https://images.dmca.com/Badges/dmca_protected_sml_120z.png?ID=7477a70a-9737-408e-9128-8176de96037f" alt="DMCA.com Protection Status" /></a>
+				<script src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js"> </script>
+			</div>
+		<?php endif; ?>
+
 		<!-- Payment method and 18+ -->
 
 		<?php
