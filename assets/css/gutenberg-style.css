@@ -23,6 +23,7 @@
 @media (min-width: 1024px) {
     .parent-gutenberg-group {
         width: 80% !important;
+        padding: 0 3rem;
         border: solid rgba(255, 0, 0, 0);
         margin: auto;
     }
