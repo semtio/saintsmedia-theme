@@ -30,6 +30,7 @@
 
 @media (max-width: 1024px) {
     .parent-gutenberg-group {
-        padding: 0 3rem !important;
+        padding: 0 1.3rem !important;
+
     }
 }
