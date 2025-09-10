@@ -10,7 +10,7 @@
 }
 
 .parent-gutenberg-group .wp-block-image.alignwide img {
-    border-radius: calc(var(--sm-gut-bord-radius) * 1px);
+    border-radius: calc(var(--sm-gut-bord-radius, 10px) * 1px);
 }
 
 /* Устанавливаем размеры кнопок для моб.вер. */
