@@ -100,8 +100,6 @@ if (function_exists('the_custom_logo') && has_custom_logo()) {
 	<a href="/">BACK TO HOME</a>
 </div>
 
-
-
 <script>
 	// Обновляем высоту верхнего отступа под фиксированную шапку
 	(function() {
