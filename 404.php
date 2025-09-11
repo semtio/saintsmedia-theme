@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The template for displaying 404 pages (not found)
  *
@@ -10,51 +11,113 @@
 get_header();
 ?>
 
-	<main id="primary" class="site-main">
+<?php
+if (is_404()) : ?>
+	<style>
+		.saintsmedia-theme-header {
+			display: none !important;
+		}
 
-		<section class="error-404 not-found">
-			<header class="page-header">
-				<h1 class="page-title"><?php esc_html_e( 'Oops! That page can&rsquo;t be found.', 'saintsmedia' ); ?></h1>
-			</header><!-- .page-header -->
+		.site-title-fallback {
+			display: flex;
+			justify-content: center;
+		}
 
-			<div class="page-content">
-				<p><?php esc_html_e( 'It looks like nothing was found at this location. Maybe try one of the links below or a search?', 'saintsmedia' ); ?></p>
+		.site-custom-logo-plug img {
+			margin: 20px 0;
+			width: 250px;
+		}
 
-					<?php
-					get_search_form();
+		.site-title-fallback a {
+			margin: 20px 0;
+		}
 
-					the_widget( 'WP_Widget_Recent_Posts' );
-					?>
+		.site-custom-logo-plug {
+			display: flex;
+			justify-content: center;
+		}
+	</style>
+<?php endif; ?>
 
-					<div class="widget widget_categories">
-						<h2 class="widget-title"><?php esc_html_e( 'Most Used Categories', 'saintsmedia' ); ?></h2>
-						<ul>
-							<?php
-							wp_list_categories(
-								array(
-									'orderby'    => 'count',
-									'order'      => 'DESC',
-									'show_count' => 1,
-									'title_li'   => '',
-									'number'     => 10,
-								)
-							);
-							?>
-						</ul>
-					</div><!-- .widget -->
+<?php
+if (function_exists('the_custom_logo') && has_custom_logo()) {
+	echo '<div class="site-custom-logo-plug">';
+	the_custom_logo();
+	echo '</div>';
+} else {
+	echo '<div class="site-title-fallback"><a href="' . esc_url(home_url('/')) . '">' . esc_html(get_bloginfo('name')) . '</a></div>';
+}
+?>
 
-					<?php
-					/* translators: %1$s: smiley */
-					$saintsmedia_archive_content = '<p>' . sprintf( esc_html__( 'Try looking in the monthly archives. %1$s', 'saintsmedia' ), convert_smilies( ':)' ) ) . '</p>';
-					the_widget( 'WP_Widget_Archives', 'dropdown=1', "after_title=</h2>$saintsmedia_archive_content" );
+<style>
+	.main {
+		margin-top: 5%;
 
-					the_widget( 'WP_Widget_Tag_Cloud' );
-					?>
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+	}
 
-			</div><!-- .page-content -->
-		</section><!-- .error-404 -->
+	h1 {
+		font-size: 8rem;
+		line-height: 1;
+	}
 
-	</main><!-- #main -->
+	h1,
+	h2 {
+		margin: 0;
+	}
+
+	a {
+		text-decoration: none;
+		color: inherit;
+
+		margin-top: 12px;
+	}
+
+	a:hover {
+		transition: .3s;
+		opacity: .8;
+
+		text-shadow: -1px 1px 0 #000;
+	}
+
+	a:visited {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	a:focus,
+	a:active {
+		outline: none;
+	}
+</style>
+
+<div class="spacer-on-top"></div>
+<div class="main">
+	<h1>404</h1>
+	<h2>NOT FOUND</h2>
+	<a href="/">BACK TO HOME</a>
+</div>
+
+
+
+<script>
+	// Обновляем высоту верхнего отступа под фиксированную шапку
+	(function() {
+		const header = document.querySelector('.saintsmedia-theme-header');
+		const spacer = document.querySelector('.spacer-on-top');
+
+		function updateSpacer() {
+			if (header && spacer) {
+				spacer.style.height = Math.max(0, header.clientHeight - 2) + 'px';
+			}
+		}
+
+		window.addEventListener('DOMContentLoaded', updateSpacer);
+		window.addEventListener('resize', updateSpacer);
+	})();
+</script>
 
 <?php
 get_footer();
