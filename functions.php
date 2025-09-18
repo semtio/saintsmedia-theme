@@ -291,3 +291,6 @@ add_filter('nav_menu_css_class', function ($classes, $item, $args, $depth) {
 // Разгружаем файл: подключаем отдельные модули
 require_once get_template_directory() . '/inc/breadcrumbs.php';
 require_once get_template_directory() . '/inc/schema.php';
+
+
+
