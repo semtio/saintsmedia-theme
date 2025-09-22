@@ -70,7 +70,14 @@
 		</div>
 
 		<!-- DMCA -->
-		<?php echo do_shortcode('[hfcm id="2"]'); ?>
+		<?php
+		if ( shortcode_exists('hfcm') ) {
+			$hfcm_output = do_shortcode('[hfcm id="2"]');
+			if ( ! empty( trim( wp_strip_all_tags( $hfcm_output ) ) ) ) {
+				echo $hfcm_output;
+			}
+		}
+		?>
 		<!-- DMCA END-->
 
 		<!-- Payment method and 18+ -->
