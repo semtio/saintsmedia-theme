@@ -80,7 +80,8 @@ body {
 
 .saintsmedia-theme-logo img {
     transition: .3s !important;
-    width: 80px;
+    /* width: 180px; */
+    width: calc(var(--logo-size-heder-menu) * 1px);
 }
 
 .saintsmedia-theme-nav {

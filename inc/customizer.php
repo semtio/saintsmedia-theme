@@ -226,6 +226,16 @@ function saintsmedia_get_customizer_fields(): array
 			'transport' => 'refresh',
 		],
 		[
+			'id'        => 'logo_size_heder_menu',
+			'label'     => __('Размер логотипа', 'saintsmedia'),
+			'default'   => '200',
+			'section'   => 'custom_homepage_settings',
+			'type'      => 'number',
+			'css_var'   => '--logo-size-heder-menu',
+			'sanitize'  => 'sanitize_text_field',
+			'transport' => 'refresh',
+		],
+		[
 			'id'        => 'footer_mail_link',
 			'label'     => __('Почта в подвале', 'saintsmedia'),
 			'default'   => '',
@@ -260,7 +270,6 @@ function saintsmedia_get_customizer_fields(): array
 		],
 		[
 			'id'        => 'border_radius_for_img_gutenberg',
-
 			'label'     => __('Закругление img в Gutenberg', 'saintsmedia'),
 			'default'   => '',
 			'section'   => 'custom_homepage_settings',

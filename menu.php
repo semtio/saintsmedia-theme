@@ -164,7 +164,13 @@
         </div>
     <?php } ?>
 
+
+
     <script>
+        const logoSize = getComputedStyle(document.documentElement)
+            .getPropertyValue('--logo-size-heder-menu');
+        console.log(logoSize);
+
         // меню (ховер/уход курсора для подпунктов)
         document.querySelectorAll('.has-submenu, .menu-item-has-children').forEach(function(item) {
             let timer;
@@ -202,7 +208,7 @@
             if (window.scrollY > 100) {
                 if (logo) {
                     logo.style.transition = 'height 0.9s ease';
-                    logo.style.width = '50px';
+                    logo.style.width = logoSize / 1.5 + 'px';
                 }
             } else {
                 if (logo) {
@@ -210,7 +216,7 @@
                     if (window.innerWidth < 431) {
                         logo.style.width = '65px';
                     } else {
-                        logo.style.width = '80px';
+                        logo.style.width = logoSize + 'px';
                     }
                 }
             }
