@@ -214,7 +214,7 @@
                 if (logo) {
                     logo.style.transition = 'height 0.3s ease';
                     if (window.innerWidth < 431) {
-                        logo.style.width = '65px';
+                        logo.style.width = logoSize + 'px';
                     } else {
                         logo.style.width = logoSize + 'px';
                     }
