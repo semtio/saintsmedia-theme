@@ -377,7 +377,6 @@ body {
     }
 
     .saintsmedia-theme-logo img {
-        /* width: 65px; */
         width: calc((var(--logo-size-heder-menu) * 1px) / 1.2) !important;
     }
 
