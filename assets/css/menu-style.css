@@ -64,9 +64,10 @@ body {
     min-height: 64px;
     color: var(--sm-menu-text, #B8BDC5);
 }
+
 /* Временная страница */
 .site-custom-logo-plug,
-.site-title-fallback{
+.site-title-fallback {
     background: var(--sm-menu-bg, #111315);
 }
 
@@ -100,7 +101,7 @@ body {
     padding: 0;
     align-items: center;
     /* Резервируем место под бордер, чтобы JS изменение цвета не вызывало CLS */
-    border:10px solid transparent;
+    border: 10px solid transparent;
 }
 
 .saintsmedia-theme-menu li a {
@@ -188,7 +189,7 @@ body {
 }
 
 .open.saintsmedia-theme-menu {
-    border-color:#6DA2FE;
+    border-color: #6DA2FE;
 }
 
 .submenu li a,
@@ -360,8 +361,8 @@ body {
         width: 90vw;
     }
 
-    .gutenberg-hero-header{
-        line-height:1.25;
+    .gutenberg-hero-header {
+        line-height: 1.25;
     }
 }
 
@@ -376,7 +377,8 @@ body {
     }
 
     .saintsmedia-theme-logo img {
-        width: 65px;
+        /* width: 65px; */
+        width: calc((var(--logo-size-heder-menu) * 1px) / 1.2) !important;
     }
 
     .saintsmedia-theme-menu {

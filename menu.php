@@ -167,70 +167,73 @@
 
 
     <script>
-        const logoSize = getComputedStyle(document.documentElement)
-            .getPropertyValue('--logo-size-heder-menu');
-        console.log(logoSize);
-
-        // меню (ховер/уход курсора для подпунктов)
-        document.querySelectorAll('.has-submenu, .menu-item-has-children').forEach(function(item) {
-            let timer;
-            item.addEventListener('mouseenter', function() {
-                clearTimeout(timer);
-                item.classList.add('submenu-open');
-            });
-            item.addEventListener('mouseleave', function() {
-                timer = setTimeout(function() {
-                    item.classList.remove('submenu-open');
-                }, 250); // задержка 250 мс
-            });
-        });
-
-        // гамбургер
         document.addEventListener('DOMContentLoaded', function() {
-            let saintsmediaThemeMenu = document.querySelector('.saintsmedia-theme-menu');
-            const burger = document.querySelector('.burger');
+            const rootStyles = getComputedStyle(document.documentElement);
+            const rawLogoSize = rootStyles.getPropertyValue('--logo-size-heder-menu').trim();
+            const logoSizeMatch = rawLogoSize.match(/^([\d.]+)\s*([a-z%]*)$/i);
+            const logoSizeValue = logoSizeMatch ? parseFloat(logoSizeMatch[1]) : null;
+            const logoSizeUnit = (logoSizeMatch && logoSizeMatch[2]) ? logoSizeMatch[2] : 'px';
+
+            // меню (ховер/уход курсора для подпунктов)
+            document.querySelectorAll('.has-submenu, .menu-item-has-children').forEach(function(item) {
+                let timerId;
+                item.addEventListener('mouseenter', function() {
+                    if (timerId) {
+                        clearTimeout(timerId);
+                    }
+                    item.classList.add('submenu-open');
+                });
+                item.addEventListener('mouseleave', function() {
+                    timerId = window.setTimeout(function() {
+                        item.classList.remove('submenu-open');
+                        timerId = undefined;
+                    }, 250); // задержка 250 мс
+                });
+            });
+
+            // гамбургер
+            const burgerButton = document.querySelector('.burger');
             const nav = document.querySelector('.saintsmedia-theme-nav');
             const menu = document.getElementById('saintsmedia-theme-menu');
-            if (burger && nav && menu) {
-                burger.addEventListener('click', function() {
+            if (burgerButton && nav && menu) {
+                burgerButton.addEventListener('click', function() {
                     const isOpen = nav.classList.toggle('open');
-                    burger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-                    // Цвет бордера управляется классом .open (место зарезервировано в CSS)
+                    burgerButton.setAttribute('aria-expanded', String(isOpen));
                 });
             }
-        });
 
-        // Добавляем эффект уменьшения логотипа при прокрутке страницы
-        document.addEventListener('scroll', function() {
-            const header = document.querySelector('.saintsmedia-theme-header');
+            // Добавляем эффект уменьшения логотипа при прокрутке страницы
             const logo = document.querySelector('.saintsmedia-theme-logo img');
+            const applyLogoWidth = function(multiplier) {
+                if (!logo || logoSizeValue === null) {
+                    return;
+                }
+                const targetWidth = `${(logoSizeValue * multiplier).toFixed(2)}${logoSizeUnit}`;
+                logo.style.transition = 'width 0.5s ease';
+                logo.style.width = targetWidth;
+            };
 
-            if (window.scrollY > 100) {
-                if (logo) {
-                    logo.style.transition = 'height 0.9s ease';
-                    logo.style.width = logoSize / 1.5 + 'px';
+            const updateLogoSize = function() {
+                if (window.scrollY > 100) {
+                    applyLogoWidth(1 / 1.5);
+                } else {
+                    applyLogoWidth(1);
                 }
-            } else {
-                if (logo) {
-                    logo.style.transition = 'height 0.3s ease';
-                    if (window.innerWidth < 431) {
-                        logo.style.width = logoSize + 'px';
-                    } else {
-                        logo.style.width = logoSize + 'px';
-                    }
-                }
+            };
+
+            updateLogoSize();
+            window.addEventListener('scroll', updateLogoSize);
+            window.addEventListener('resize', updateLogoSize);
+
+            const desktopButtons = document.querySelector('.saintsmedia-theme-cta.menu-nav-buttons--desktop');
+            const ctaBlock = document.querySelector('.saintsmedia-theme-cta');
+
+            if (!burgerButton && desktopButtons && ctaBlock) {
+                desktopButtons.style.justifyContent = 'flex-end';
+                ctaBlock.style.position = 'fixed';
+                ctaBlock.style.right = '16px';
+            } else if (ctaBlock) {
+                ctaBlock.style.marginLeft = '15px';
             }
         });
-
-        let burger = document.querySelector('button.burger');
-        let buttonsPosition = document.querySelector('.saintsmedia-theme-cta.menu-nav-buttons--desktop');
-        let saintsmediaCtaButtons = document.querySelector('.saintsmedia-theme-cta');
-
-        if (burger === null) {
-            buttonsPosition.style.justifyContent = "flex-end";
-            saintsmediaCtaButtons.style.position = 'fixed';
-            saintsmediaCtaButtons.style.right = '16px';
-        } else {
-            saintsmediaCtaButtons.style.marginLeft = '15px';
-        }
     </script>
