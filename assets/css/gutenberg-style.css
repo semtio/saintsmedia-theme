@@ -1,6 +1,6 @@
 /* Own classes for gutenberg */
 
-.parent-gutenberg-group p {
+.parent-gutenberg-group p:not(.saintsmedia-casino-table) {
     text-align: justify !important;
 }
 
