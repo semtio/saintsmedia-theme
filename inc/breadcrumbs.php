@@ -17,9 +17,11 @@ if (!function_exists('saintsmedia_breadcrumbs')) {
         echo '<nav class="breadcrumbs" aria-label="Хлебные крошки" itemscope itemtype="https://schema.org/BreadcrumbList">';
         echo '<ul class="breadcrumbs__list">';
 
+
+
         // Home
         echo '<li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">'
-            . '<a class="breadcrumbs__link" itemprop="item" href="' . esc_url($home_url) . '"><span itemprop="name">' . esc_html__('Главная', 'saintsmedia') . '</span></a>'
+            . '<a class="breadcrumbs__link" itemprop="item" href="' . esc_url($home_url) . '"><span itemprop="name">' . $front_page_title = get_the_title(get_option('page_on_front')) . '</span></a>'
             . '<meta itemprop="position" content="' . intval($position) . '" />'
             . '</li>';
         $position++;
