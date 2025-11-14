@@ -29,16 +29,16 @@
 
 .parent-gutenberg-group h2,
 .parent-gutenberg-group h3{
-    margin-top:  0;
-    margin-bottom: 0;
+    margin-top:  0 !important;
+    margin-bottom: 0 !important;
 }
 
 .parent-gutenberg-group p{
-    margin-top:  0;
+    margin-top:  0 !important;
 }
 
 .parent-gutenberg-group .wp-block-button{
-  margin-bottom: 20px;
+  margin-bottom: 20px !important;
 }
 
 /* Конец */
