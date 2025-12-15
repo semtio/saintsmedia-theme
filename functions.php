@@ -288,6 +288,42 @@ add_filter('nav_menu_css_class', function ($classes, $item, $args, $depth) {
 }, 10, 4);
 
 
+/**
+ * Обработка языка на странице 404.
+ * Восстанавливает язык: 1) из реферера, 2) главной страницы, 3) стандартный язык сайта.
+ */
+add_filter('language_attributes', function ($out, $doctype) {
+	if (!is_404()) {
+		return $out;
+	}
+
+	$loc = null;
+
+	// Попытка 1: язык из реферера
+	$referer = wp_get_referer();
+	if ($referer) {
+		$referer_post = url_to_postid($referer);
+		if ($referer_post) {
+			$loc = get_post_meta($referer_post, '_html_lang_locale', true);
+		}
+	}
+
+	// Попытка 2: язык главной страницы
+	if (empty($loc)) {
+		$home_id = get_option('page_on_front');
+		if ($home_id) {
+			$loc = get_post_meta($home_id, '_html_lang_locale', true);
+		}
+	}
+
+	if (empty($loc) || !is_string($loc)) {
+		return $out;
+	}
+
+	$dir = (strpos($loc, 'ar') === 0 || strpos($loc, 'he') === 0 || strpos($loc, 'fa') === 0 || strpos($loc, 'ur') === 0) ? 'rtl' : 'ltr';
+	return sprintf('lang="%s" dir="%s"', esc_attr($loc), esc_attr($dir));
+}, 20, 2);
+
 // Разгружаем файл: подключаем отдельные модули
 require_once get_template_directory() . '/inc/breadcrumbs.php';
 require_once get_template_directory() . '/inc/schema.php';
