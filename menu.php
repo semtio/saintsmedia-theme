@@ -51,8 +51,11 @@
             $menu_location = saintsmedia_get_current_menu_location();
             $current_language = saintsmedia_get_current_language();
 
-            // Output the menu for current language
-            if (has_nav_menu($menu_location)) {
+            // Output the menu for current language only if it is explicitly assigned
+            $locations = get_nav_menu_locations();
+            $has_assigned_menu = ! empty($locations[$menu_location]);
+
+            if ($has_assigned_menu) {
                 wp_nav_menu([
                     'theme_location' => $menu_location,
                     'container'      => false,
@@ -61,11 +64,9 @@
                     'depth'          => 0,
                     'fallback_cb'    => false,
                 ]);
-            }
 
-            if (has_nav_menu($menu_location)) {
                 echo '<button class="burger" aria-label="Open menu" aria-controls="saintsmedia-theme-menu" aria-expanded="false"><i class="fa-solid fa-bars" aria-hidden="true"></i><span class="sr-only">Меню</span></button>';
-            };
+            }
             ?>
 
         </nav>
