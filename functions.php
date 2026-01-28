@@ -239,7 +239,7 @@ add_action('init', function () {
  */
 add_filter('walker_nav_menu_start_el', function ($item_output, $item, $depth, $args) {
 	// Применяем только к локациям меню нашей темы (все языковые варианты)
-	$menu_locations = array('primary-en', 'primary-es', 'primary-de', 'primary-fr', 'primary-ru');
+	$menu_locations = array_keys( saintsmedia_get_registered_menu_locations() );
 	if (!isset($args->theme_location) || !in_array($args->theme_location, $menu_locations)) {
 		return $item_output;
 	}
@@ -278,7 +278,7 @@ add_filter('walker_nav_menu_start_el', function ($item_output, $item, $depth, $a
  * Работает для всех языковых меню.
  */
 add_filter('nav_menu_css_class', function ($classes, $item, $args, $depth) {
-	$menu_locations = array('primary-en', 'primary-es', 'primary-de', 'primary-fr', 'primary-ru');
+	$menu_locations = array_keys( saintsmedia_get_registered_menu_locations() );
 	if (!isset($args->theme_location) || !in_array($args->theme_location, $menu_locations)) {
 		return $classes;
 	}
@@ -367,7 +367,7 @@ function saintsmedia_get_registered_menu_locations() {
 
 		$code = sanitize_text_field( $lang['code'] );
 		$name = sanitize_text_field( $lang['name'] );
-		$location_id = 'primary-' . $code;
+		$location_id = $code === '' ? 'primary' : 'primary-' . $code;
 		$locations[ $location_id ] = sprintf( __( 'Primary Menu (%s)', 'saintsmedia' ), $name );
 	}
 
@@ -407,7 +407,8 @@ function saintsmedia_get_current_language() {
  */
 function saintsmedia_get_current_menu_location() {
 	$language = saintsmedia_get_current_language();
-	return 'primary-' . sanitize_text_field( $language );
+	$language = sanitize_text_field( $language );
+	return $language === '' ? 'primary' : 'primary-' . $language;
 }
 
 

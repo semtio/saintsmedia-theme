@@ -63,7 +63,7 @@ add_action( 'customize_register', function( $wp_customize ) {
 	}
 	$wp_customize->add_section( 'saintsmedia_multilingual', array(
 		'title'       => __( 'Языки меню', 'saintsmedia' ),
-		'description' => __( 'Добавьте языки для меню. Код — ISO (en, de, zh). Название — отображаемое имя языка.', 'saintsmedia' ),
+		'description' => __( 'Добавьте языки для меню. Код — ISO (en, de, zh). Название — отображаемое имя языка. Для языка без префикса используйте код “/”.', 'saintsmedia' ),
 		'priority'    => 35,
 	) );
 
@@ -118,19 +118,24 @@ function saintsmedia_sanitize_languages_json( $value ) {
 		$name = isset( $lang['name'] ) ? sanitize_text_field( $lang['name'] ) : '';
 		$code = strtolower( $code );
 
-		if ( empty( $code ) || empty( $name ) ) {
+		if ( $code === '/' || $code === './' || $code === '.' ) {
+			$code = '';
+		}
+
+		if ( empty( $name ) ) {
 			continue;
 		}
 
-		if ( ! preg_match( '/^[a-z]{2,3}$/', $code ) ) {
+		if ( $code !== '' && ! preg_match( '/^[a-z]{2,3}$/', $code ) ) {
 			continue;
 		}
 
-		if ( isset( $seen[ $code ] ) ) {
+		$seen_key = $code === '' ? '__default__' : $code;
+		if ( isset( $seen[ $seen_key ] ) ) {
 			continue;
 		}
 
-		$seen[ $code ] = true;
+		$seen[ $seen_key ] = true;
 		$sanitized[]   = array(
 			'code' => $code,
 			'name' => $name,

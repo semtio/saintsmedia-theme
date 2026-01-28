@@ -25,23 +25,35 @@
 
 		$list.find('.sml-language-item').each(function() {
 			const $item = $(this);
-			let code = ($item.find('.sml-lang-code').val() || '').trim().toLowerCase();
+			let raw = ($item.find('.sml-lang-code').val() || '').trim();
 			let name = ($item.find('.sml-lang-name').val() || '').trim();
+			let code = raw.toLowerCase();
 
-			$item.find('.sml-lang-code').val(code);
+			if (code === '.' || code === './') {
+				code = '/';
+			}
+			if (code === '/') {
+				$item.find('.sml-lang-code').val('/');
+			} else {
+				$item.find('.sml-lang-code').val(code);
+			}
 
 			if (!code || !name) {
 				return;
 			}
-			if (!/^[a-z]{2,3}$/.test(code)) {
-				return;
-			}
-			if (seen[code]) {
+
+			let saveCode = code === '/' ? '' : code;
+			if (saveCode !== '' && !/^[a-z]{2,3}$/.test(saveCode)) {
 				return;
 			}
 
-			seen[code] = true;
-			languages.push({ code: code, name: name });
+			const seenKey = saveCode === '' ? '__default__' : saveCode;
+			if (seen[seenKey]) {
+				return;
+			}
+
+			seen[seenKey] = true;
+			languages.push({ code: saveCode, name: name });
 		});
 
 		$input.val(languages.length ? JSON.stringify(languages) : '');
