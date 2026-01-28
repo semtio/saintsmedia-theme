@@ -406,6 +406,17 @@ function saintsmedia_get_current_language() {
  * @return string Theme location ID: 'primary-en', 'primary-es', 'primary-de', etc.
  */
 function saintsmedia_get_current_menu_location() {
+	$uri = trim( $_SERVER['REQUEST_URI'], '/' );
+	$segments = explode( '/', $uri );
+	if ( ! empty( $segments[0] ) && preg_match( '/^[a-z]{2,3}$/', $segments[0] ) ) {
+		$requested = sanitize_text_field( $segments[0] );
+		$languages = saintsmedia_get_languages();
+		$lang_codes = wp_list_pluck( $languages, 'code' );
+		if ( ! in_array( $requested, $lang_codes, true ) ) {
+			return '__no-menu__';
+		}
+	}
+
 	$language = saintsmedia_get_current_language();
 	$language = sanitize_text_field( $language );
 	return $language === '' ? 'primary' : 'primary-' . $language;
