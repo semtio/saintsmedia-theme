@@ -286,20 +286,12 @@ body {
     .saintsmedia-theme-menu {
         display: none;
         /* скрыто по умолчанию */
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
         position: absolute;
         top: 56px;
-        /* left: 0; */
         background: var(--sm-menu-bg, #111315);
         width: 100%;
         padding: 24px 0;
         z-index: 100;
-    }
-
-    .saintsmedia-theme-nav.open .saintsmedia-theme-menu {
-        display: grid;
-        /* показываем в виде сетки при открытии */
     }
 
     .burger {
@@ -398,4 +390,54 @@ body {
         display: flex !important;
         justify-content: center;
     }
+}
+
+/* ========================================
+   Mobile Menu UX Settings (Customizer)
+   Один источник истины: все мобильные стили только в этой media query
+   ======================================== */
+
+@media (max-width: 1024px) {
+    /* Режим: Список (вертикально) - по умолчанию */
+    .saintsmedia-theme-nav.open.mobile-layout-list .saintsmedia-theme-menu {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 12px;
+        padding: 20px 16px;
+    }
+
+    .saintsmedia-theme-nav.open.mobile-layout-list .saintsmedia-theme-menu li {
+        width: auto;
+        max-width: 100%;
+    }
+
+    .saintsmedia-theme-nav.open.mobile-layout-list .saintsmedia-theme-menu li a {
+        width: 100%;
+        justify-content: flex-end;
+        text-align: right;
+        padding: 12px 16px;
+    }
+
+    /* Режим: Сетка */
+    .saintsmedia-theme-nav.open.mobile-layout-grid .saintsmedia-theme-menu {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        padding: 20px 16px;
+        justify-items: end;
+    }
+
+    .saintsmedia-theme-nav.open.mobile-layout-grid .saintsmedia-theme-menu li {
+        width: auto;
+        max-width: 100%;
+    }
+
+    .saintsmedia-theme-nav.open.mobile-layout-grid .saintsmedia-theme-menu li a {
+        width: 100%;
+        justify-content: flex-end;
+        text-align: right;
+        padding: 12px 16px;
+    }
+}
 }

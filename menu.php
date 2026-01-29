@@ -44,7 +44,13 @@
             </a>
         </div>
 
-        <nav class="saintsmedia-theme-nav semtio" aria-label="Main navigation">
+        <?php
+        // Get mobile menu UX settings
+        $mobile_layout = get_theme_mod( 'saintsmedia_mobile_menu_layout', 'list' );
+        $nav_class = 'saintsmedia-theme-nav semtio mobile-layout-' . esc_attr( $mobile_layout );
+        ?>
+
+        <nav class="<?php echo $nav_class; ?>" aria-label="Main navigation">
 
             <?php
             // Get the correct menu location for current language
@@ -195,42 +201,44 @@
                 });
             });
 
-            // гамбургер
+            // гамбургер - toggle мобильного меню
             const burgerButton = document.querySelector('.burger');
             const nav = document.querySelector('.saintsmedia-theme-nav');
             const menu = document.getElementById('saintsmedia-theme-menu');
+
             if (burgerButton && nav && menu) {
-                burgerButton.addEventListener('click', function() {
+                // Открыть/закрыть по клику на гамбургер
+                burgerButton.addEventListener('click', function(e) {
+                    e.stopPropagation();
                     const isOpen = nav.classList.toggle('open');
                     burgerButton.setAttribute('aria-expanded', String(isOpen));
                 });
+
+                // Закрыть при клике вне меню (только на мобильных)
+                document.addEventListener('click', function(e) {
+                    if (window.innerWidth <= 1024) {
+                        const isClickInsideNav = nav.contains(e.target);
+                        if (!isClickInsideNav && nav.classList.contains('open')) {
+                            nav.classList.remove('open');
+                            burgerButton.setAttribute('aria-expanded', 'false');
+                        }
+                    }
+                });
+
+                // Предотвращаем закрытие при клике внутри меню
+                menu.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+
+                // Закрыть по клавише Escape (доступность)
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && nav.classList.contains('open')) {
+                        nav.classList.remove('open');
+                        burgerButton.setAttribute('aria-expanded', 'false');
+                        burgerButton.focus();
+                    }
+                });
             }
-
-            // Добавляем эффект уменьшения логотипа при прокрутке страницы
-            const logo = document.querySelector('.saintsmedia-theme-logo img');
-            const applyLogoWidth = function(multiplier) {
-                if (!logo || logoSizeValue === null) {
-                    return;
-                }
-                const targetWidth = `${(logoSizeValue * multiplier).toFixed(2)}${logoSizeUnit}`;
-                logo.style.transition = 'width 0.5s ease';
-                logo.style.width = targetWidth;
-            };
-
-            const updateLogoSize = function() {
-                if (window.scrollY > 100) {
-                    applyLogoWidth(1 / 1.5);
-                } else {
-                    applyLogoWidth(1);
-                }
-            };
-
-            updateLogoSize();
-            window.addEventListener('scroll', updateLogoSize);
-            window.addEventListener('resize', updateLogoSize);
-
-            const desktopButtons = document.querySelector('.saintsmedia-theme-cta.menu-nav-buttons--desktop');
-            const ctaBlock = document.querySelector('.saintsmedia-theme-cta');
 
             if (!burgerButton && desktopButtons && ctaBlock) {
                 desktopButtons.style.justifyContent = 'flex-end';

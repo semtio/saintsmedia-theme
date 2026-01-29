@@ -66,8 +66,8 @@ add_action( 'customize_register', function( $wp_customize ) {
 		}
 	}
 	$wp_customize->add_section( 'saintsmedia_multilingual', array(
-		'title'       => __( 'Языки меню', 'saintsmedia' ),
-		'description' => __( 'Добавьте языки для меню. Код — ISO (en, de, zh). Название — отображаемое имя языка. Для языка без префикса используйте код “/”.', 'saintsmedia' ),
+		'title'       => __( 'Языки меню + UX мобильного', 'saintsmedia' ),
+		'description' => __( 'Настройки языков и отображения мобильного меню', 'saintsmedia' ),
 		'priority'    => 35,
 	) );
 
@@ -82,6 +82,27 @@ add_action( 'customize_register', function( $wp_customize ) {
 		'label'   => __( 'Языки', 'saintsmedia' ),
 		'section' => 'saintsmedia_multilingual',
 	) ) );
+
+	// Mobile Menu UX Settings
+	$wp_customize->add_setting( 'saintsmedia_mobile_menu_layout', array(
+		'default'           => 'list',
+		'type'              => 'theme_mod',
+		'sanitize_callback' => 'sanitize_text_field',
+		'transport'         => 'refresh',
+	) );
+
+	$wp_customize->add_control( 'saintsmedia_mobile_menu_layout', array(
+		'label'       => __( 'Режим отображения мобильного меню', 'saintsmedia' ),
+		'description' => __( 'Выберите как отображать меню на мобильных устройствах', 'saintsmedia' ),
+		'section'     => 'saintsmedia_multilingual',
+		'type'        => 'select',
+		'choices'     => array(
+			'list' => __( 'Список (вертикально)', 'saintsmedia' ),
+			'grid' => __( 'Сетка', 'saintsmedia' ),
+		),
+	) );
+
+
 } );
 
 /**
