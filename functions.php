@@ -395,8 +395,15 @@ function saintsmedia_get_current_language() {
 		}
 	}
 
-	// Default to first configured language (usually 'en')
+	// Default to language with empty code (main language without URL prefix)
 	$languages = saintsmedia_get_languages();
+	foreach ( $languages as $lang ) {
+		if ( isset( $lang['code'] ) && $lang['code'] === '' ) {
+			return '';
+		}
+	}
+
+	// Fallback to first configured language if no empty code found
 	return ! empty( $languages[0] ) ? $languages[0]['code'] : 'en';
 }
 

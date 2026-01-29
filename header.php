@@ -12,6 +12,4 @@
 <body <?php body_class(); ?>>
 	<?php wp_body_open(); ?>
 
-	<?php include( get_template_directory() . '/check-languages.php' ); ?>
-
 	<?php get_template_part('menu'); ?>
