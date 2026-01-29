@@ -39,10 +39,14 @@ add_action( 'customize_register', function( $wp_customize ) {
 				<div class="sml-languages-control">
 					<div class="sml-languages-list">
 						<?php foreach ( $languages as $lang ) : ?>
+							<?php
+							// Отображаем пустой код как "/" для пользователя
+							$display_code = ( isset( $lang['code'] ) && $lang['code'] === '' ) ? '/' : ( $lang['code'] ?? '' );
+							?>
 							<div class="sml-language-item">
 								<div class="sml-field">
 									<label><?php esc_html_e( 'Код', 'saintsmedia' ); ?></label>
-									<input type="text" class="sml-lang-code" value="<?php echo esc_attr( $lang['code'] ?? '' ); ?>" maxlength="3" placeholder="en" />
+									<input type="text" class="sml-lang-code" value="<?php echo esc_attr( $display_code ); ?>" maxlength="3" placeholder="en" />
 								</div>
 								<div class="sml-field">
 									<label><?php esc_html_e( 'Название', 'saintsmedia' ); ?></label>
