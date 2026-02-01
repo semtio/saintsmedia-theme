@@ -90,6 +90,7 @@ body {
     display: flex;
     flex: 1;
     margin-left: 15px;
+    justify-content: flex-end;
 }
 
 .saintsmedia-theme-menu {
@@ -398,6 +399,7 @@ body {
    ======================================== */
 
 @media (max-width: 1024px) {
+
     /* Режим: Список (вертикально) - по умолчанию */
     .saintsmedia-theme-nav.open.mobile-layout-list .saintsmedia-theme-menu {
         display: flex;
