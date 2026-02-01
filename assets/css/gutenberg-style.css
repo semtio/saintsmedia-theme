@@ -1,0 +1,48 @@
+/* Own classes for gutenberg */
+
+.parent-gutenberg-group p {
+    text-align: justify !important;
+}
+
+.parent-gutenberg-group .wp-block-image.alignwide img {
+    border-radius: calc(var(--sm-gut-bord-radius, 10) * 1px) !important;
+}
+
+/* -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_ */
+/* Место для корректировки конфликтов и пересечений с кодом не темы */
+/* -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_ */
+
+/* конкретно тут фиксим конфликт пересечения с плагином  "Таблица" */
+.parent-gutenberg-group .saintsmedia-info-descr p {
+    text-align: center !important;
+}
+
+/* Конец "Таблица" */
+
+/* -_-_-_-_-_-_-_-_-_-_ */
+/* Конец корректировке */
+/* -_-_-_-_-_-_-_-_-_-_ */
+
+
+
+/* Устанавливаем размеры кнопок для моб.вер. */
+@media (max-width: 561px) {
+    .gutenberg-button-mobile {
+        width: 80% !important;
+    }
+}
+
+@media (min-width: 1024px) {
+    .parent-gutenberg-group {
+        width: 80% !important;
+        border: solid rgba(255, 0, 0, 0);
+        margin: auto;
+    }
+}
+
+@media (max-width: 1024px) {
+    .parent-gutenberg-group {
+        padding: 0 1.3rem !important;
+
+    }
+}
