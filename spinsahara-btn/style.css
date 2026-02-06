@@ -410,9 +410,9 @@ button {
 }
 
 .sm-m-button {
-  width: 90px;
   height: 40px;
   font-size: 1em;
+  padding: 15px;
 }
 
 /* END SpinSahara */
