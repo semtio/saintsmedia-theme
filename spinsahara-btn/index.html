@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Buttons Framework Demo</title>
+  <link rel="stylesheet" href="buttons.css" />
+  <style>
+    body {
+      font-family: Montserrat, Verdana, sans-serif;
+      padding: 24px;
+      background: #0f1222;
+      color: #fff;
+      display: grid;
+      gap: 16px;
+    }
+
+    .row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+  <h1>Демо кнопок</h1>
+
+  <div class="row">
+    <button class="sm-m-button sm-m-gradient-border sm-m-button--outline sm-m-button--secondary sm-m-button--s sm-m-button--wow">
+      <div class="sm-m-button-content">Log in</div>
+    </button>
+    <button class="sm-m-button sm-m-gradient-border sm-m-button--primary sm-m-button--s sm-m-button--wow">
+      <div class="sm-m-button-content"><span>Sign up</span></div>
+    </button>
+  </div>
+
+  <h2>Классы для кнопок</h2>
+  <pre>
+<code>&lt;button class="sm-m-button sm-m-gradient-border sm-m-button--outline sm-m-button--secondary sm-m-button--s sm-m-button--wow"&gt;
+  &lt;div class="sm-m-button-content"&gt;Log in&lt;/div&gt;
+&lt;/button&gt;
+
+&lt;button class="sm-m-button sm-m-gradient-border sm-m-button--primary sm-m-button--s sm-m-button--wow"&gt;
+  &lt;div class="sm-m-button-content"&gt;&lt;span&gt;Sign up&lt;/span&gt;&lt;/div&gt;
+&lt;/button&gt;</code>
+  </pre>
+
+  <div class="row">
+    <button class="sm-m-wow-button sm-m-wow-button--theme-primary sm-m-wow-button--size-l">
+      <span class="sm-m-wow-button__text">Sign up</span>
+      <span class="sm-m-wow-button__background"></span>
+    </button>
+  </div>
+
+  <h2>Классы для WOW‑кнопки</h2>
+  <pre>
+<code>&lt;button class="sm-m-wow-button sm-m-wow-button--theme-primary sm-m-wow-button--size-l"&gt;
+  &lt;span class="sm-m-wow-button__text"&gt;Sign up&lt;/span&gt;
+  &lt;span class="sm-m-wow-button__background"&gt;&lt;/span&gt;
+&lt;/button&gt;</code>
+  </pre>
+</body>
+</html>

@@ -54,8 +54,8 @@ function saintsmedia_setup()
 	// This theme uses wp_nav_menu() in multiple locations (one for each language).
 	// Menu locations are dynamically registered based on Customizer settings
 	$menu_locations = saintsmedia_get_registered_menu_locations();
-	if ( ! empty( $menu_locations ) ) {
-		register_nav_menus( $menu_locations );
+	if (! empty($menu_locations)) {
+		register_nav_menus($menu_locations);
 	}
 
 	/*
@@ -144,7 +144,7 @@ add_action('widgets_init', 'saintsmedia_widgets_init');
  */
 function saintsmedia_scripts()
 {
-	 wp_enqueue_style('saintsmedia-style', get_stylesheet_uri(), array(), _S_VERSION);
+	wp_enqueue_style('saintsmedia-style', get_stylesheet_uri(), array(), _S_VERSION);
 	wp_style_add_data('saintsmedia-style', 'rtl', 'replace');
 
 	wp_enqueue_script('saintsmedia-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true);
@@ -162,6 +162,9 @@ function saintsmedia_scripts()
 
 	// Стили для хлебных крошек
 	wp_enqueue_style('breadcrumbs-style', get_template_directory_uri() . '/assets/css/breadcrumbs.css', array('saintsmedia-style'), _S_VERSION);
+
+	// Стили для кастомизированных кнопок spinsahara-btn
+	wp_enqueue_style('spinsahara-btn-style', get_template_directory_uri() . '/spinsahara-btn/style.css', array('saintsmedia-style'), _S_VERSION);
 
 	// Инлайн CSS с переменной для цвета фона хедера из кастомайзера
 	// (перенесено в unified customizer: saintsmedia_customizer_output_css())
@@ -240,7 +243,7 @@ add_action('init', function () {
  */
 add_filter('walker_nav_menu_start_el', function ($item_output, $item, $depth, $args) {
 	// Применяем только к локациям меню нашей темы (все языковые варианты)
-	$menu_locations = array_keys( saintsmedia_get_registered_menu_locations() );
+	$menu_locations = array_keys(saintsmedia_get_registered_menu_locations());
 	if (!isset($args->theme_location) || !in_array($args->theme_location, $menu_locations)) {
 		return $item_output;
 	}
@@ -279,7 +282,7 @@ add_filter('walker_nav_menu_start_el', function ($item_output, $item, $depth, $a
  * Работает для всех языковых меню.
  */
 add_filter('nav_menu_css_class', function ($classes, $item, $args, $depth) {
-	$menu_locations = array_keys( saintsmedia_get_registered_menu_locations() );
+	$menu_locations = array_keys(saintsmedia_get_registered_menu_locations());
 	if (!isset($args->theme_location) || !in_array($args->theme_location, $menu_locations)) {
 		return $classes;
 	}
@@ -329,23 +332,24 @@ require_once get_template_directory() . '/inc/schema.php';
  *
  * @return array Array of languages: [ ['code' => 'en', 'name' => 'English'], ... ]
  */
-function saintsmedia_get_languages() {
-	$languages_json = get_theme_mod( 'saintsmedia_languages', '' );
+function saintsmedia_get_languages()
+{
+	$languages_json = get_theme_mod('saintsmedia_languages', '');
 
 	// If no custom languages, use defaults
-	if ( empty( $languages_json ) ) {
+	if (empty($languages_json)) {
 		return array(
-			array( 'code' => 'en', 'name' => 'English' ),
-			array( 'code' => 'es', 'name' => 'Spanish' ),
-			array( 'code' => 'de', 'name' => 'German' ),
-			array( 'code' => 'fr', 'name' => 'French' ),
-			array( 'code' => 'ru', 'name' => 'Russian' ),
+			array('code' => 'en', 'name' => 'English'),
+			array('code' => 'es', 'name' => 'Spanish'),
+			array('code' => 'de', 'name' => 'German'),
+			array('code' => 'fr', 'name' => 'French'),
+			array('code' => 'ru', 'name' => 'Russian'),
 		);
 	}
 
 	// Decode JSON
-	$languages = json_decode( $languages_json, true );
-	if ( ! is_array( $languages ) ) {
+	$languages = json_decode($languages_json, true);
+	if (! is_array($languages)) {
 		return saintsmedia_get_languages(); // fallback to defaults
 	}
 
@@ -357,19 +361,20 @@ function saintsmedia_get_languages() {
  *
  * @return array Menu locations: [ 'primary-en' => 'Primary Menu (English)', ... ]
  */
-function saintsmedia_get_registered_menu_locations() {
+function saintsmedia_get_registered_menu_locations()
+{
 	$languages = saintsmedia_get_languages();
 	$locations = array();
 
-	foreach ( $languages as $lang ) {
-		if ( ! isset( $lang['code'] ) || ! isset( $lang['name'] ) ) {
+	foreach ($languages as $lang) {
+		if (! isset($lang['code']) || ! isset($lang['name'])) {
 			continue;
 		}
 
-		$code = sanitize_text_field( $lang['code'] );
-		$name = sanitize_text_field( $lang['name'] );
+		$code = sanitize_text_field($lang['code']);
+		$name = sanitize_text_field($lang['name']);
 		$location_id = $code === '' ? 'primary' : 'primary-' . $code;
-		$locations[ $location_id ] = sprintf( __( 'Primary Menu (%s)', 'saintsmedia' ), $name );
+		$locations[$location_id] = sprintf(__('Primary Menu (%s)', 'saintsmedia'), $name);
 	}
 
 	return $locations;
@@ -380,32 +385,33 @@ function saintsmedia_get_registered_menu_locations() {
  *
  * @return string Language code: 'en', 'es', 'de', 'fr', 'ru', etc.
  */
-function saintsmedia_get_current_language() {
+function saintsmedia_get_current_language()
+{
 	// Get the requested URI
-	$uri = trim( $_SERVER['REQUEST_URI'], '/' );
+	$uri = trim($_SERVER['REQUEST_URI'], '/');
 
 	// Check if first segment could be a language code
-	$segments = explode( '/', $uri );
-	if ( ! empty( $segments[0] ) && preg_match( '/^[a-z0-9_-]+$/', $segments[0] ) ) {
+	$segments = explode('/', $uri);
+	if (! empty($segments[0]) && preg_match('/^[a-z0-9_-]+$/', $segments[0])) {
 		// Check if this language code is configured
 		$languages = saintsmedia_get_languages();
-		$lang_codes = wp_list_pluck( $languages, 'code' );
+		$lang_codes = wp_list_pluck($languages, 'code');
 
-		if ( in_array( $segments[0], $lang_codes, true ) ) {
-			return sanitize_text_field( $segments[0] );
+		if (in_array($segments[0], $lang_codes, true)) {
+			return sanitize_text_field($segments[0]);
 		}
 	}
 
 	// Default to language with empty code (main language without URL prefix)
 	$languages = saintsmedia_get_languages();
-	foreach ( $languages as $lang ) {
-		if ( isset( $lang['code'] ) && $lang['code'] === '' ) {
+	foreach ($languages as $lang) {
+		if (isset($lang['code']) && $lang['code'] === '') {
 			return '';
 		}
 	}
 
 	// Fallback to first configured language if no empty code found
-	return ! empty( $languages[0] ) ? $languages[0]['code'] : 'en';
+	return ! empty($languages[0]) ? $languages[0]['code'] : 'en';
 }
 
 /**
@@ -413,11 +419,9 @@ function saintsmedia_get_current_language() {
  *
  * @return string Theme location ID: 'primary-en', 'primary-es', 'primary-de', etc.
  */
-function saintsmedia_get_current_menu_location() {
+function saintsmedia_get_current_menu_location()
+{
 	$language = saintsmedia_get_current_language();
-	$language = sanitize_text_field( $language );
+	$language = sanitize_text_field($language);
 	return $language === '' ? 'primary' : 'primary-' . $language;
 }
-
-
-
