@@ -347,7 +347,6 @@ button {
 }
 
 .sm-m-wow-button__text {
-  width: 150px;
   position: relative;
   z-index: 3;
 }
