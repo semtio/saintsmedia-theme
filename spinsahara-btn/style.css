@@ -362,7 +362,7 @@ button {
 
 .sm-m-wow-button--size-l .sm-m-wow-button__text {
   gap: var(--button-text-container-expand-l, 0 8px);
-  padding: var(--button-text-container-expand-l, 0 8px);
+  padding: var(--button-text-container-expand-l, 0 20px);
 }
 
 .sm-m-wow-button__background {
