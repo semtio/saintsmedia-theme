@@ -391,6 +391,11 @@ button {
 .spinsahara-hero p {
   margin: 0 !important;
   line-height: 1;
+  line-break: anywhere;
+}
+
+.spinsahara-hero h1 {
+  font-weight: 300;
 }
 
 .saintsmedia-theme-cta a {
@@ -443,12 +448,15 @@ button {
   }
 
   .spinsahara-hero h1 {
-    /* font-size: 1.7em !important; */
-    font-weight: 100;
     margin: 0;
   }
 
   .spinsahara-hero p {
-    font-size: 1.7em !important;
+    font-size: 1em !important;
+    /* letter-spacing: 1px; */
+  }
+
+  .spinsahara-hero {
+    padding: 0 30px !important;
   }
 }
