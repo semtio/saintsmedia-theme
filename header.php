@@ -13,4 +13,6 @@
 	<?php wp_body_open(); ?>
 
 	<?php get_template_part('menu/menu'); ?>
+
+	<!-- Включаем только для SpinSahara -->
 	<!-- get_template_part('menu/sahara-menu'); -->
