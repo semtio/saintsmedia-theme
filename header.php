@@ -12,5 +12,5 @@
 <body <?php body_class(); ?>>
 	<?php wp_body_open(); ?>
 
-	<!-- get_template_part('menu/menu');  -->
-	<?php get_template_part('menu/sahara-menu'); ?>
+	<?php get_template_part('menu/menu'); ?>
+	<!-- get_template_part('menu/sahara-menu'); -->
