@@ -385,9 +385,7 @@ button {
 }
 
 
-
 /* новые стили для SpinSahara */
-
 .spinsahara-hero p {
   margin: 0 !important;
   line-height: 1;
@@ -420,9 +418,6 @@ button {
   padding: 15px;
 }
 
-/* END SpinSahara */
-
-
 @media screen and (max-width: 769px) {
   .spinsahara-hero {
     text-align: center;
@@ -453,10 +448,10 @@ button {
 
   .spinsahara-hero p {
     font-size: 1em !important;
-    /* letter-spacing: 1px; */
   }
 
   .spinsahara-hero {
     padding: 0 30px !important;
   }
 }
+/* END SpinSahara */
